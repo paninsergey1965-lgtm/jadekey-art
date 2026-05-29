@@ -1,0 +1,1 @@
+export default{async fetch(req){const r=await fetch("https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/index.html");const h=await r.text();return new Response(h,{headers:{"Content-Type":"text/html;charset=UTF-8"}});}};
