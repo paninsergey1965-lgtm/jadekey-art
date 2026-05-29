@@ -10,47 +10,54 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',serif;min-height:100vh;}
 #login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;}
-.login-logo{font-size:14px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:64px;}
+.login-logo{font-size:14px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:48px;}
 .login-logo em{color:var(--red);font-style:normal;}
-.login-box{width:100%;max-width:400px;}
-.login-box h2{font-size:28px;font-weight:300;margin-bottom:8px;}
-.login-box p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);letter-spacing:0.1em;margin-bottom:40px;}
-.field{margin-bottom:20px;}
-.field label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--stone);display:block;margin-bottom:8px;}
-.field input{width:100%;background:rgba(244,239,230,0.05);border:1px solid rgba(184,154,110,0.2);padding:14px 16px;color:var(--paper);font-family:'Space Mono',monospace;font-size:13px;outline:none;-webkit-appearance:none;border-radius:0;}
+.login-box{width:100%;max-width:420px;}
+.login-box h2{font-size:28px;font-weight:300;margin-bottom:6px;}
+.login-box .sub{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);letter-spacing:0.1em;margin-bottom:36px;}
+.field{margin-bottom:16px;}
+.field label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--stone);display:block;margin-bottom:7px;}
+.field input{width:100%;background:rgba(244,239,230,0.05);border:1px solid rgba(184,154,110,0.2);padding:13px 14px;color:var(--paper);font-family:'Space Mono',monospace;font-size:12px;outline:none;-webkit-appearance:none;border-radius:0;}
 .field input:focus{border-color:var(--stone);}
-.btn-login{width:100%;padding:16px;background:var(--stone);color:var(--ink);border:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;-webkit-appearance:none;border-radius:0;}
-.err{font-family:'Space Mono',monospace;font-size:11px;color:var(--red);margin-top:12px;display:none;text-align:center;}
+.field .hint{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.25);margin-top:5px;line-height:1.4;}
+.btn-login{width:100%;padding:15px;background:var(--stone);color:var(--ink);border:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;-webkit-appearance:none;border-radius:0;}
+.err{font-family:'Space Mono',monospace;font-size:10px;color:var(--red);margin-top:10px;display:none;text-align:center;}
 #admin-panel{display:none;}
-.admin-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid rgba(184,154,110,0.1);background:rgba(10,10,8,0.8);}
+.admin-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid rgba(184,154,110,0.1);}
 .a-logo{font-size:13px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;}
 .a-logo em{color:var(--red);font-style:normal;}
-.btn-out{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);background:none;border:1px solid rgba(244,239,230,0.1);padding:8px 16px;cursor:pointer;border-radius:0;}
-.admin-body{padding:40px 32px;max-width:900px;}
-.admin-body h2{font-size:28px;font-weight:300;margin-bottom:6px;}
-.sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.1em;margin-bottom:40px;}
-.wcard{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);padding:24px;margin-bottom:2px;display:flex;gap:20px;align-items:center;}
-.wthumb{width:64px;height:64px;object-fit:cover;flex-shrink:0;}
-.winfo{flex:1;}
-.wid{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);letter-spacing:0.15em;margin-bottom:4px;}
-.wtitle{font-size:18px;font-weight:300;margin-bottom:3px;}
+.btn-out{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);background:none;border:1px solid rgba(244,239,230,0.1);padding:7px 14px;cursor:pointer;border-radius:0;}
+.admin-body{padding:36px 28px;max-width:860px;}
+.admin-body h2{font-size:26px;font-weight:300;margin-bottom:4px;}
+.sub2{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.1em;margin-bottom:32px;}
+.wcard{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);padding:20px;margin-bottom:2px;display:flex;gap:16px;align-items:center;}
+.wthumb{width:60px;height:60px;object-fit:cover;flex-shrink:0;border-radius:2px;}
+.winfo{flex:1;min-width:0;}
+.wid{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);letter-spacing:0.15em;margin-bottom:3px;}
+.wtitle{font-size:17px;font-weight:300;margin-bottom:2px;}
 .wmeta{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.3);}
 .wact{display:flex;flex-direction:column;gap:8px;align-items:flex-end;flex-shrink:0;}
-.badge{font-family:'Space Mono',monospace;font-size:9px;padding:4px 10px;border-radius:2px;}
+.badge{font-family:'Space Mono',monospace;font-size:9px;padding:3px 9px;}
 .badge.pub{background:rgba(184,154,110,0.15);color:var(--stone);border:1px solid rgba(184,154,110,0.3);}
-.badge.prv{background:rgba(244,239,230,0.03);color:rgba(244,239,230,0.3);border:1px solid rgba(244,239,230,0.08);}
-.tog-row{display:flex;align-items:center;gap:10px;}
+.badge.prv{background:transparent;color:rgba(244,239,230,0.25);border:1px solid rgba(244,239,230,0.08);}
+.tog-row{display:flex;align-items:center;gap:8px;}
 .tog-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);}
-.tog{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0;}
+.tog{position:relative;width:38px;height:20px;cursor:pointer;flex-shrink:0;}
 .tog input{opacity:0;width:0;height:0;position:absolute;}
-.tog-sl{position:absolute;inset:0;background:rgba(244,239,230,0.08);border:1px solid rgba(184,154,110,0.2);border-radius:22px;transition:0.3s;}
-.tog-sl::before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:rgba(184,154,110,0.5);border-radius:50%;transition:0.3s;}
-.tog input:checked + .tog-sl{background:rgba(184,154,110,0.12);border-color:var(--stone);}
+.tog-sl{position:absolute;inset:0;background:rgba(244,239,230,0.08);border:1px solid rgba(184,154,110,0.2);border-radius:20px;transition:0.3s;}
+.tog-sl::before{content:'';position:absolute;height:12px;width:12px;left:3px;bottom:3px;background:rgba(184,154,110,0.5);border-radius:50%;transition:0.3s;}
+.tog input:checked + .tog-sl{border-color:var(--stone);}
 .tog input:checked + .tog-sl::before{transform:translateX(18px);background:var(--stone);}
 .wlink{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.25);text-decoration:none;}
 .wlink:hover{color:var(--stone);}
-.saved{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-top:24px;display:none;}
-.loading{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);padding:32px 0;letter-spacing:0.2em;}
+.saved{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-top:20px;display:none;}
+.loading-txt{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);padding:28px 0;letter-spacing:0.15em;}
+/* Token setup banner */
+.token-banner{background:rgba(184,154,110,0.08);border:1px solid rgba(184,154,110,0.2);padding:20px;margin-bottom:24px;}
+.token-banner p{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-bottom:12px;line-height:1.6;}
+.token-row{display:flex;gap:8px;}
+.token-row input{flex:1;background:rgba(244,239,230,0.05);border:1px solid rgba(184,154,110,0.2);padding:10px 12px;color:var(--paper);font-family:'Space Mono',monospace;font-size:11px;outline:none;border-radius:0;-webkit-appearance:none;}
+.token-row button{padding:10px 16px;background:var(--stone);color:var(--ink);border:none;font-family:'Space Mono',monospace;font-size:10px;cursor:pointer;white-space:nowrap;border-radius:0;}
 </style>
 </head>
 <body>
@@ -59,16 +66,17 @@ body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',
   <div class="login-logo">JADE<em>KEY</em></div>
   <div class="login-box">
     <h2>Admin Panel</h2>
-    <p>RESTRICTED ACCESS · JADEKEY.ART</p>
+    <p class="sub">RESTRICTED ACCESS · JADEKEY.ART</p>
     <div class="field">
       <label>Email</label>
       <input type="email" id="f-email" value="paninsergey1965@gmail.com">
     </div>
     <div class="field">
       <label>Password</label>
-      <input type="password" id="f-pass" placeholder="Enter password">
+      <input type="password" id="f-pass" placeholder="Enter password (min 4 chars)">
+      <div class="hint">First login: set your password. Next time: enter the same password.</div>
     </div>
-    <button class="btn-login" id="btn-enter" onclick="doLogin()">ENTER</button>
+    <button class="btn-login" onclick="doLogin()">ENTER</button>
     <div class="err" id="err-msg">Incorrect password</div>
   </div>
 </div>
@@ -80,8 +88,17 @@ body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',
   </div>
   <div class="admin-body">
     <h2>Works Registry</h2>
-    <div class="sub" id="wcount">Loading...</div>
-    <div id="wlist"><div class="loading">Loading...</div></div>
+    <div class="sub2" id="wcount">Loading...</div>
+
+    <div id="token-banner" class="token-banner" style="display:none">
+      <p>Enter GitHub token to enable saving changes:<br>Token is stored locally in your browser only.</p>
+      <div class="token-row">
+        <input type="password" id="token-input" placeholder="ghp_...">
+        <button onclick="saveToken()">Save token</button>
+      </div>
+    </div>
+
+    <div id="wlist"><div class="loading-txt">Loading...</div></div>
     <div class="saved" id="saved-msg">✓ Saved</div>
   </div>
 </div>
@@ -90,28 +107,36 @@ body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',
 const ADMIN_EMAIL = 'paninsergey1965@gmail.com';
 const PASS_KEY = 'jk_pass';
 const SESSION_KEY = 'jk_session';
+const TOKEN_KEY = 'jk_t';
 const GH_REPO = 'paninsergey1965-lgtm/jadekey-art';
 const RAW = 'https://raw.githubusercontent.com/' + GH_REPO + '/main';
 const GH_API = 'https://api.github.com/repos/' + GH_REPO + '/contents/works.json';
 
 let works = {}, sha = '';
 
-function getToken() { return localStorage.getItem('jk_t') || ''; }
+function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
+
+function saveToken() {
+  const t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+  localStorage.setItem(TOKEN_KEY, t);
+  document.getElementById('token-banner').style.display = 'none';
+  loadWorks();
+}
 
 function doLogin() {
   const email = document.getElementById('f-email').value.trim();
   const pass = document.getElementById('f-pass').value;
   const stored = localStorage.getItem(PASS_KEY);
+  const err = document.getElementById('err-msg');
+  err.style.display = 'none';
 
-  if (email !== ADMIN_EMAIL) {
-    document.getElementById('err-msg').style.display = 'block';
-    return;
-  }
+  if (email !== ADMIN_EMAIL) { err.style.display = 'block'; return; }
 
   if (!stored) {
     if (pass.length < 4) {
-      document.getElementById('err-msg').textContent = 'Min 4 characters';
-      document.getElementById('err-msg').style.display = 'block';
+      err.textContent = 'Min 4 characters';
+      err.style.display = 'block';
       return;
     }
     localStorage.setItem(PASS_KEY, pass);
@@ -120,16 +145,12 @@ function doLogin() {
     return;
   }
 
-  if (pass !== stored) {
-    document.getElementById('err-msg').style.display = 'block';
-    return;
-  }
-
+  if (pass !== stored) { err.style.display = 'block'; return; }
   localStorage.setItem(SESSION_KEY, '1');
   enterPanel();
 }
 
-document.getElementById('f-pass').addEventListener('keydown', function(e) {
+document.getElementById('f-pass').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
 
@@ -141,27 +162,33 @@ function doLogout() {
 function enterPanel() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'block';
-  loadWorks();
+  if (!getToken()) {
+    document.getElementById('token-banner').style.display = 'block';
+    document.getElementById('wcount').textContent = 'Token required to load works';
+  } else {
+    loadWorks();
+  }
 }
 
 async function loadWorks() {
   try {
-    const t = getToken();
-    const headers = t ? { 'Authorization': 'Bearer ' + t } : {};
-    const res = await fetch(GH_API, { headers });
+    const res = await fetch(GH_API, {
+      headers: { 'Authorization': 'Bearer ' + getToken() }
+    });
     const data = await res.json();
+    if (!data.sha) throw new Error('no sha');
     sha = data.sha;
     works = JSON.parse(atob(data.content.replace(/\n/g, '')));
     renderWorks();
   } catch(e) {
-    document.getElementById('wlist').innerHTML = '<div class="loading">Error loading</div>';
+    document.getElementById('wlist').innerHTML = '<div class="loading-txt">Error loading — check token</div>';
+    document.getElementById('token-banner').style.display = 'block';
   }
 }
 
 function renderWorks() {
   const keys = Object.keys(works);
   document.getElementById('wcount').textContent = keys.length + ' work' + (keys.length !== 1 ? 's' : '') + ' registered';
-
   document.getElementById('wlist').innerHTML = keys.map(id => {
     const w = works[id];
     return `<div class="wcard">
@@ -183,7 +210,7 @@ function renderWorks() {
         <a href="/${id}" target="_blank" class="wlink">↗ passport</a>
       </div>
     </div>`;
-  }).join('') || '<div class="loading">No works yet</div>';
+  }).join('') || '<div class="loading-txt">No works yet</div>';
 }
 
 async function toggle(id, val) {
@@ -191,14 +218,8 @@ async function toggle(id, val) {
   const b = document.getElementById('b-' + id);
   b.textContent = val ? 'PUBLIC' : 'PRIVATE';
   b.className = 'badge ' + (val ? 'pub' : 'prv');
-
   const t = getToken();
-  if (!t) {
-    document.getElementById('saved-msg').textContent = '⚠ No GitHub token — changes not saved';
-    document.getElementById('saved-msg').style.display = 'block';
-    return;
-  }
-
+  if (!t) return;
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(works, null, 2))));
   const res = await fetch(GH_API, {
     method: 'PUT',
