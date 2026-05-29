@@ -91,6 +91,24 @@ footer{background:var(--deep);padding:48px;display:flex;justify-content:space-be
 .foot-logo{font-size:13px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;}
 .foot-logo em{color:var(--red);font-style:normal;}
 footer p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.3);letter-spacing:0.1em;}
+.collections{background:var(--ink);padding:120px 48px;}
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.coll-card{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);overflow:hidden;text-decoration:none;color:var(--paper);display:block;transition:background 0.3s;}
+.coll-card:hover{background:rgba(184,154,110,0.06);}
+.coll-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(20%);}
+.coll-body{padding:28px 28px 32px;}
+.coll-id{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);letter-spacing:0.2em;margin-bottom:8px;}
+.coll-title{font-size:22px;font-weight:300;font-style:italic;margin-bottom:6px;}
+.coll-artist{font-size:14px;color:rgba(244,239,230,0.5);margin-bottom:16px;}
+.coll-owner-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(184,154,110,0.1);padding-top:16px;}
+.coll-owner{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.1em;}
+.coll-arrow{font-size:16px;color:rgba(184,154,110,0.4);}
+.coll-card:hover .coll-arrow{color:var(--stone);}
+.coll-loading{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);letter-spacing:0.2em;padding:40px 0;}
+@media(max-width:768px){
+  .collections{padding:80px 24px;}
+  .coll-grid{grid-template-columns:1fr;}
+}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:768px){
   nav{padding:20px 24px;}
@@ -243,6 +261,13 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,23
   </div>
 </section>
 
+<section class="collections" id="collections">
+  <div class="section-label" data-en="Registered Collections" data-ru="Зарегистрированные коллекции">Registered Collections</div>
+  <div class="coll-grid" id="coll-grid">
+    <div class="coll-loading">Loading...</div>
+  </div>
+</section>
+
 <section class="cta-section" id="contact">
   <div class="section-label" data-en="Register your artwork" data-ru="Зарегистрируйте произведение">Register your artwork</div>
   <h2 data-en="Ready to make your art <em>unforgeable?</em>" data-ru="Готовы сделать своё искусство <em>неподдельным?</em>">Ready to make your art <em>unforgeable?</em></h2>
@@ -276,6 +301,39 @@ function setLang(lang) {
   
   localStorage.setItem('jk-lang', lang);
 }
+
+// Load collections
+async function loadCollections() {
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/works.json?t=' + Date.now());
+    const works = await res.json();
+    const keys = Object.keys(works).filter(k => works[k].public);
+    const lang = localStorage.getItem('jk-lang') || 'en';
+    if (!keys.length) {
+      document.getElementById('coll-grid').innerHTML = '<div class="coll-loading">No public works yet</div>';
+      return;
+    }
+    document.getElementById('coll-grid').innerHTML = keys.map(id => {
+      const w = works[id];
+      const img = 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/' + w.photo;
+      return `<a href="/${id}" class="coll-card">
+        <img class="coll-img" src="${img}" alt="${w.title}">
+        <div class="coll-body">
+          <div class="coll-id">${id}</div>
+          <div class="coll-title">${w.title}</div>
+          <div class="coll-artist">${w.artist} · ${w.year}</div>
+          <div class="coll-owner-row">
+            <span class="coll-owner">${w.owner} · ${w.owner_city}</span>
+            <span class="coll-arrow">→</span>
+          </div>
+        </div>
+      </a>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('coll-grid').innerHTML = '';
+  }
+}
+loadCollections();
 
 // Restore saved language
 const saved = localStorage.getItem('jk-lang');
