@@ -203,74 +203,506 @@ async function serveFile(filename) {
   return new Response(h, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
 }
 
+
+// Passport page generator for JadeKey worker
+// Called from servePassport() in worker.js
+
 function passportPage(id, w) {
-  const photoUrl = `${GITHUB_RAW}/${w.photo}`;
-  const agateUrl = `${GITHUB_RAW}/${w.agate}`;
-  return `<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JadeKey — ${id}</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+  const RAW = 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main';
+  const photoUrl = `${RAW}/${w.photo}`;
+  const agateUrl = `${RAW}/${w.agate}`;
+  const artistPhotoUrl = w.artist_photo ? `${RAW}/${w.artist_photo}` : '';
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JadeKey — ${id} · ${w.title}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cinzel:wght@400;500&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#f5f0e8;color:#0e0e0c;font-family:'Cormorant Garamond',serif}
-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid rgba(0,0,0,.1)}
-.logo{font-size:13px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;color:#0e0e0c}
-.logo span{color:#c0392b}.logo em{font-style:normal;color:#c0392b}
-.nav-id{font-family:'Space Mono',monospace;font-size:11px;color:#c4a882}
-.pic img{width:100%;max-height:70vw;object-fit:cover;display:block}
-.cert{padding:40px 24px}
-.lbl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#c4a882;margin-bottom:20px}
-.t{font-size:44px;font-weight:300;font-style:italic;margin-bottom:6px}
-.zh{font-size:22px;color:#c4a882;margin-bottom:32px}
-.hr{width:48px;height:1px;background:#c4a882;margin-bottom:28px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px}
-.item label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#c4a882;display:block;margin-bottom:4px}
-.item .v{font-size:15px}.item .s{font-size:12px;color:#c4a882}
-.agate{display:flex;gap:20px;padding:24px;background:#e8e3d9;margin-bottom:28px;align-items:center}
-.agate img{width:64px;height:64px;object-fit:cover;border-radius:50%;flex-shrink:0}
-.agate label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#c4a882;display:block;margin-bottom:6px}
-.agate p{font-size:13px;line-height:1.6}
-.seal{display:flex;gap:16px;align-items:center}
-.sc{width:48px;height:48px;border:2px solid #c0392b;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.si{width:34px;height:34px;background:#c0392b;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Mono',monospace;font-size:7px;text-align:center;line-height:1.3}
-.sc2{font-size:13px;color:#c4a882}.sc2 strong{display:block;font-family:'Space Mono',monospace;font-size:14px;color:#0e0e0c}
-.foot{border-top:1px solid rgba(0,0,0,.1);padding:16px 24px;background:#e8e3d9;font-family:'Space Mono',monospace;font-size:10px;color:#c4a882;text-align:center}
-.back-link{font-family:'Space Mono',monospace;font-size:10px;color:#c4a882;text-decoration:none;letter-spacing:.15em}
-.back-link:hover{color:#0e0e0c}
-</style></head><body>
-<nav>
-  <a href="/" class="logo">JADE<em>KEY</em></a>
-  <div style="display:flex;gap:20px;align-items:center">
-    ${w.client ? `<a href="/clients/${w.client}" class="back-link">← Collection</a>` : ''}
-    <span class="nav-id">${id}</span>
-  </div>
-</nav>
-<div class="pic"><img src="${photoUrl}" alt="${w.title}"></div>
-<div class="cert">
-  <div class="lbl">Certificate of Authenticity</div>
-  <div class="t">${w.title}</div>
-  <div class="zh">${w.title_zh}</div>
-  <div class="hr"></div>
-  <div class="grid">
-    <div class="item"><label>Artist</label><div class="v">${w.artist}</div><div class="s">${w.artist_zh}</div></div>
-    <div class="item"><label>Year</label><div class="v">${w.year}</div></div>
-    <div class="item"><label>Medium</label><div class="v">${w.medium}</div><div class="s">${w.medium_zh}</div></div>
-    <div class="item"><label>Owner</label><div class="v">${w.owner}</div><div class="s">${w.owner_city} · ${w.registered}</div></div>
-  </div>
-  <div class="agate">
-    <img src="${agateUrl}" alt="Agate">
-    <div><label>JadeKey Mineral PUF / Минеральный ключ</label>
-    <p>Agate slice — unique microstructure linked as physical identifier.<br><em>Агат · неклонируемая физическая подпись</em></p></div>
-  </div>
-  <div class="seal">
-    <div class="sc"><div class="si">JK<br>✓</div></div>
-    <div class="sc2"><strong>${id}</strong>Authenticated · jadekey.art</div>
-  </div>
-</div>
-<div class="foot">© 2026 JadeKey — Physical Authentication System · jadekey.art</div>
-</body></html>`;
+:root {
+  --bg: #f2ece0;
+  --ink: #1a1714;
+  --gold: #9a7d4e;
+  --red: #8b2218;
+  --pale: #e8e0d0;
+  --mid: #6b5f4e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: 'EB Garamond', serif; }
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999;
 }
 
+/* HEADER */
+.passport-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  border-bottom: 1px solid rgba(154,125,78,0.25);
+}
+.header-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.header-logo em { color: var(--red); font-style: normal; }
+.header-right {
+  display: flex; align-items: center; gap: 20px;
+}
+.back-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 0.15em;
+  color: var(--gold); text-decoration: none;
+}
+.back-link:hover { color: var(--ink); }
+.passport-id {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--gold);
+  letter-spacing: 0.1em;
+}
+
+/* LANG TOGGLE */
+.lang-toggle {
+  display: flex; border: 1px solid rgba(154,125,78,0.3);
+}
+.lang-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.15em;
+  padding: 5px 10px; cursor: pointer;
+  color: var(--gold); background: transparent; border: none;
+}
+.lang-btn.active { background: var(--gold); color: var(--bg); }
+
+/* ARTWORK SECTION */
+.artwork-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 60vh;
+  border-bottom: 1px solid rgba(154,125,78,0.2);
+}
+.artwork-photo {
+  overflow: hidden;
+  background: #1a1714;
+}
+.artwork-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.95;
+}
+.artwork-info {
+  padding: 56px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid rgba(154,125,78,0.15);
+}
+.section-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 28px;
+}
+.artwork-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.artwork-title-zh {
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 40px;
+  font-style: normal;
+}
+.divider {
+  width: 40px; height: 1px;
+  background: var(--gold);
+  margin-bottom: 36px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 32px;
+}
+.meta-item label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block; margin-bottom: 5px;
+}
+.meta-item .val {
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.meta-item .val-sub {
+  font-size: 12px;
+  color: var(--mid);
+  margin-top: 2px;
+}
+
+/* ARTIST SECTION */
+.artist-section {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  border-bottom: 1px solid rgba(154,125,78,0.2);
+}
+.artist-photo-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #1a1714;
+  min-height: 400px;
+}
+.artist-photo-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(15%) contrast(1.05);
+}
+.artist-photo-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px 24px;
+  background: linear-gradient(transparent, rgba(26,23,20,0.8));
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  color: rgba(242,236,224,0.7);
+}
+.artist-info {
+  padding: 56px 56px;
+  border-left: 1px solid rgba(154,125,78,0.15);
+}
+.artist-name {
+  font-family: 'Cinzel', serif;
+  font-size: 32px; font-weight: 500;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.artist-name-zh {
+  font-size: 18px; color: var(--gold);
+  margin-bottom: 8px;
+}
+.artist-dates {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 0.2em;
+  color: var(--mid);
+  margin-bottom: 32px;
+}
+.artist-bio {
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(26,23,20,0.75);
+  max-width: 520px;
+}
+
+/* AGATE SECTION */
+.agate-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(154,125,78,0.2);
+}
+.agate-photo {
+  background: #0e0c0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  min-height: 360px;
+}
+.agate-photo img {
+  max-width: 280px;
+  max-height: 280px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
+}
+.agate-info {
+  padding: 56px 56px;
+  border-left: 1px solid rgba(154,125,78,0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.agate-title {
+  font-size: 28px;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.agate-subtitle {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 32px;
+}
+.agate-desc {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(26,23,20,0.7);
+  margin-bottom: 32px;
+}
+.hash-block {
+  background: rgba(26,23,20,0.05);
+  border: 1px solid rgba(154,125,78,0.2);
+  padding: 16px 20px;
+}
+.hash-block label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block; margin-bottom: 6px;
+}
+.hash-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--mid);
+  letter-spacing: 0.05em;
+  word-break: break-all;
+}
+
+/* FOOTER / SEAL */
+.passport-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 40px;
+  background: var(--ink);
+  color: var(--bg);
+}
+.seal-group {
+  display: flex; align-items: center; gap: 20px;
+}
+.seal-circle {
+  width: 56px; height: 56px;
+  border: 2px solid var(--red);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.seal-inner {
+  width: 40px; height: 40px;
+  background: var(--red);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 7px; color: var(--bg);
+  text-align: center; line-height: 1.4;
+}
+.seal-text strong {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--bg);
+}
+.seal-text span {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(242,236,224,0.4);
+  letter-spacing: 0.1em;
+}
+.footer-right {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(242,236,224,0.3);
+  text-align: right;
+  letter-spacing: 0.1em;
+  line-height: 1.7;
+}
+
+/* OWNER STRIP */
+.owner-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 40px;
+  border-bottom: 1px solid rgba(154,125,78,0.2);
+  background: var(--pale);
+}
+.owner-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.owner-name { font-size: 18px; }
+.owner-city {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--mid);
+  letter-spacing: 0.1em;
+}
+.reg-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--mid);
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .passport-header { padding: 16px 20px; }
+  .artwork-section, .artist-section, .agate-section { grid-template-columns: 1fr; }
+  .artwork-photo { height: 70vw; }
+  .artwork-info { padding: 36px 20px; border-left: none; border-top: 1px solid rgba(154,125,78,0.15); }
+  .artist-photo-wrap { min-height: 280px; }
+  .artist-info { padding: 36px 20px; border-left: none; border-top: 1px solid rgba(154,125,78,0.15); }
+  .agate-photo { padding: 40px 20px; }
+  .agate-info { padding: 36px 20px; border-left: none; border-top: 1px solid rgba(154,125,78,0.15); }
+  .passport-footer { flex-direction: column; gap: 20px; padding: 32px 20px; text-align: center; }
+  .footer-right { text-align: center; }
+  .owner-strip { flex-direction: column; align-items: flex-start; gap: 8px; padding: 24px 20px; }
+  .reg-date { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<header class="passport-header">
+  <a href="/" class="header-logo">JADE<em>KEY</em></a>
+  <div class="header-right">
+    ${w.client ? `<a href="/clients/${w.client}" class="back-link">← Collection</a>` : ''}
+    <span class="passport-id">${id}</span>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+</header>
+
+<!-- ARTWORK -->
+<div class="artwork-section">
+  <div class="artwork-photo">
+    <img src="${photoUrl}" alt="${w.title}">
+  </div>
+  <div class="artwork-info">
+    <div class="section-tag" data-en="Certificate of Authenticity" data-ru="Сертификат подлинности">Certificate of Authenticity</div>
+    <div class="artwork-title">${w.title}</div>
+    <div class="artwork-title-zh">${w.title_zh}</div>
+    <div class="divider"></div>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <label data-en="Medium" data-ru="Техника">Medium</label>
+        <div class="val">${w.medium}</div>
+        <div class="val-sub">${w.medium_zh}</div>
+      </div>
+      <div class="meta-item">
+        <label data-en="Year" data-ru="Год">Year</label>
+        <div class="val">${w.year}</div>
+      </div>
+      <div class="meta-item">
+        <label data-en="Tradition" data-ru="Традиция">Tradition</label>
+        <div class="val">${w.tradition}</div>
+      </div>
+      <div class="meta-item">
+        <label data-en="Registered" data-ru="Зарегистрировано">Registered</label>
+        <div class="val">${w.registered}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTIST -->
+<div class="artist-section">
+  ${artistPhotoUrl ? `
+  <div class="artist-photo-wrap">
+    <img src="${artistPhotoUrl}" alt="${w.artist_full}">
+    <div class="artist-photo-caption">${w.artist_full} · ${w.artist_born} – ${w.artist_died}</div>
+  </div>` : ''}
+  <div class="artist-info" ${!artistPhotoUrl ? 'style="grid-column:1/3"' : ''}>
+    <div class="section-tag" data-en="About the Artist" data-ru="О художнике">About the Artist</div>
+    <div class="artist-name">${w.artist_full || w.artist}</div>
+    <div class="artist-name-zh">${w.artist_zh}</div>
+    <div class="artist-dates">${w.artist_born} — ${w.artist_died}</div>
+    <div class="artist-bio" id="artist-bio">${w.artist_bio_en || ''}</div>
+  </div>
+</div>
+
+<!-- OWNER -->
+<div class="owner-strip">
+  <div>
+    <div class="owner-label" data-en="Collector" data-ru="Коллекционер">Collector</div>
+    <div class="owner-name">${w.owner}</div>
+    <div class="owner-city">${w.owner_city}</div>
+  </div>
+  <div class="reg-date">
+    <div class="owner-label" data-en="Registered" data-ru="Дата регистрации">Registered</div>
+    <div>${w.registered}</div>
+    <div style="margin-top:2px;font-size:9px;letter-spacing:.1em">jadekey.art</div>
+  </div>
+</div>
+
+<!-- AGATE -->
+<div class="agate-section">
+  <div class="agate-photo">
+    <img src="${agateUrl}" alt="JadeKey Mineral PUF ${id}">
+  </div>
+  <div class="agate-info">
+    <div class="section-tag" data-en="Physical Authentication Key" data-ru="Физический ключ аутентификации">Physical Authentication Key</div>
+    <div class="agate-title" data-en="Mineral PUF" data-ru="Минеральный PUF">Mineral PUF</div>
+    <div class="agate-subtitle">AGATE SLICE · PHYSICALLY UNCLONABLE FUNCTION</div>
+    <div class="agate-desc" id="agate-desc">A unique agate specimen whose internal microstructure — formed over millions of years — serves as an unclonable physical identifier permanently linked to this artwork.</div>
+    <div class="hash-block">
+      <label>JadeKey ID</label>
+      <div class="hash-val">${id} · Verified & Registered · jadekey.art</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="passport-footer">
+  <div class="seal-group">
+    <div class="seal-circle">
+      <div class="seal-inner">JK<br>✓</div>
+    </div>
+    <div class="seal-text">
+      <strong>${id}</strong>
+      <span data-en="Authenticated by JadeKey" data-ru="Верифицировано JadeKey">Authenticated by JadeKey</span>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div>© 2026 JadeKey</div>
+    <div>Physical Authentication System</div>
+    <div>jadekey.art</div>
+  </div>
+</footer>
+
+<script>
+const bioEn = ${JSON.stringify(w.artist_bio_en || '')};
+const bioRu = ${JSON.stringify(w.artist_bio_ru || '')};
+const agateEn = 'A unique agate specimen whose internal microstructure — formed over millions of years — serves as an unclonable physical identifier permanently linked to this artwork.';
+const agateRu = 'Уникальный образец агата, внутренняя микроструктура которого — формировавшаяся миллионы лет — служит неклонируемым физическим идентификатором, навсегда связанным с этим произведением.';
+
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(lang === 'en' ? '.lang-btn:first-child' : '.lang-btn:last-child').classList.add('active');
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+  document.getElementById('artist-bio').textContent = lang === 'en' ? bioEn : bioRu;
+  document.getElementById('agate-desc').textContent = lang === 'en' ? agateEn : agateRu;
+  localStorage.setItem('jk-lang', lang);
+}
+const saved = localStorage.getItem('jk-lang');
+if (saved && saved !== 'en') setLang(saved);
+</script>
+</body>
+</html>`;
+}
 function privatePage(id) {
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JadeKey — ${id}</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
