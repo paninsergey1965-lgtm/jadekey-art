@@ -12,6 +12,11 @@ async function handle(req) {
     return servePassport(jkMatch[1].toUpperCase());
   }
 
+  // Route: /admin
+  if (path === '/admin') {
+    return serveFile('admin.html');
+  }
+
   // Route: / — main page
   if (path === "/") {
     return serveMain();
@@ -155,4 +160,10 @@ a{color:#c4a882;text-decoration:none;font-size:11px;letter-spacing:.2em;text-tra
 <p>This identifier is not registered in the JadeKey system.</p>
 <a href="/">← jadekey.art</a>
 </body></html>`;
+}
+
+async function serveFile(filename) {
+  const r = await fetch(`${GITHUB_RAW}/${filename}`);
+  const h = await r.text();
+  return new Response(h, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
 }
