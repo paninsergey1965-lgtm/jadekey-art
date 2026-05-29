@@ -329,7 +329,6 @@ async function loadClients() {
       const wCount = clientWorks.length;
       const pubCount = clientWorks.filter(w => w && w.public).length;
       return `<a href="/clients/${slug}" class="client-card">
-        ${thumb ? `<img class="client-card-img" src="${thumb}" alt="${c.name}">` : '<div class="client-card-img" style="background:rgba(184,154,110,.08)"></div>'}
         <div class="client-card-body">
           <div class="client-card-type">${c.type}</div>
           <div class="client-card-name">${c.name}</div>
