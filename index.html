@@ -91,23 +91,26 @@ footer{background:var(--deep);padding:48px;display:flex;justify-content:space-be
 .foot-logo{font-size:13px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;}
 .foot-logo em{color:var(--red);font-style:normal;}
 footer p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.3);letter-spacing:0.1em;}
-.collections{background:var(--ink);padding:120px 48px;}
-.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-.coll-card{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);overflow:hidden;text-decoration:none;color:var(--paper);display:block;transition:background 0.3s;}
-.coll-card:hover{background:rgba(184,154,110,0.06);}
-.coll-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(20%);}
-.coll-body{padding:28px 28px 32px;}
-.coll-id{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);letter-spacing:0.2em;margin-bottom:8px;}
-.coll-title{font-size:22px;font-weight:300;font-style:italic;margin-bottom:6px;}
-.coll-artist{font-size:14px;color:rgba(244,239,230,0.5);margin-bottom:16px;}
-.coll-owner-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(184,154,110,0.1);padding-top:16px;}
-.coll-owner{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.1em;}
-.coll-arrow{font-size:16px;color:rgba(184,154,110,0.4);}
-.coll-card:hover .coll-arrow{color:var(--stone);}
-.coll-loading{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);letter-spacing:0.2em;padding:40px 0;}
+.clients-section{background:var(--deep);padding:120px 48px;}
+.clients-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:40px;}
+.client-card{background:rgba(244,239,230,.03);border:1px solid rgba(184,154,110,.1);overflow:hidden;text-decoration:none;color:var(--paper);display:block;transition:background .3s;}
+.client-card:hover{background:rgba(184,154,110,.07);}
+.client-card-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;filter:grayscale(20%);}
+.client-card-body{padding:24px 28px 28px;}
+.client-card-type{font-family:'Space Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.25em;text-transform:uppercase;margin-bottom:8px;}
+.client-card-name{font-size:24px;font-weight:300;margin-bottom:4px;}
+.client-card-city{font-size:14px;color:rgba(244,239,230,.4);margin-bottom:16px;}
+.client-card-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(184,154,110,.1);padding-top:14px;}
+.client-card-count{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,.3);letter-spacing:.1em;}
+.client-card-arrow{color:rgba(184,154,110,.4);font-size:16px;transition:color .2s;}
+.client-card:hover .client-card-arrow{color:var(--stone);}
+.clients-footer{text-align:center;}
+.clients-all-link{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);text-decoration:none;padding:14px 32px;border:1px solid rgba(184,154,110,.3);display:inline-block;transition:all .2s;}
+.clients-all-link:hover{background:var(--stone);color:var(--ink);}
+.coll-loading{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);letter-spacing:.2em;padding:40px 0;}
 @media(max-width:768px){
-  .collections{padding:80px 24px;}
-  .coll-grid{grid-template-columns:1fr;}
+  .clients-section{padding:80px 24px;}
+  .clients-grid{grid-template-columns:1fr;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:768px){
@@ -140,6 +143,7 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,23
   <div class="nav-right">
     <a href="#how" class="nav-link" data-en="Technology" data-ru="Технология">Technology</a>
     <a href="#whom" class="nav-link" data-en="For Whom" data-ru="Для кого">For Whom</a>
+    <a href="/clients" class="nav-link" data-en="Clients" data-ru="Клиенты">Clients</a>
     <div class="lang-switch">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('ru')">RU</button>
@@ -261,10 +265,13 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,23
   </div>
 </section>
 
-<section class="collections" id="collections">
-  <div class="section-label" data-en="Registered Collections" data-ru="Зарегистрированные коллекции">Registered Collections</div>
-  <div class="coll-grid" id="coll-grid">
+<section class="clients-section" id="clients">
+  <div class="section-label" data-en="Our Clients" data-ru="Наши клиенты">Our Clients</div>
+  <div class="clients-grid" id="clients-grid">
     <div class="coll-loading">Loading...</div>
+  </div>
+  <div class="clients-footer">
+    <a href="/clients" class="clients-all-link" data-en="View all clients →" data-ru="Все клиенты →">View all clients →</a>
   </div>
 </section>
 
@@ -302,38 +309,43 @@ function setLang(lang) {
   localStorage.setItem('jk-lang', lang);
 }
 
-// Load collections
-async function loadCollections() {
+// Load clients preview
+async function loadClients() {
   try {
     const res = await fetch('https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/works.json?t=' + Date.now());
-    const works = await res.json();
-    const keys = Object.keys(works).filter(k => works[k].public);
-    const lang = localStorage.getItem('jk-lang') || 'en';
+    const db = await res.json();
+    const clients = db.clients || {};
+    const works = db.works || {};
+    const keys = Object.keys(clients);
     if (!keys.length) {
-      document.getElementById('coll-grid').innerHTML = '<div class="coll-loading">No public works yet</div>';
+      document.getElementById('clients-grid').innerHTML = '';
       return;
     }
-    document.getElementById('coll-grid').innerHTML = keys.map(id => {
-      const w = works[id];
-      const img = 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/' + w.photo;
-      return `<a href="/${id}" class="coll-card">
-        <img class="coll-img" src="${img}" alt="${w.title}">
-        <div class="coll-body">
-          <div class="coll-id">${id}</div>
-          <div class="coll-title">${w.title}</div>
-          <div class="coll-artist">${w.artist} · ${w.year}</div>
-          <div class="coll-owner-row">
-            <span class="coll-owner">${w.owner} · ${w.owner_city}</span>
-            <span class="coll-arrow">→</span>
+    document.getElementById('clients-grid').innerHTML = keys.map(slug => {
+      const c = clients[slug];
+      const clientWorks = (c.works || []).map(id => works[id]).filter(Boolean);
+      const firstPublic = clientWorks.find(w => w && w.public);
+      const thumb = firstPublic ? 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/' + firstPublic.photo : '';
+      const wCount = clientWorks.length;
+      const pubCount = clientWorks.filter(w => w && w.public).length;
+      return `<a href="/clients/${slug}" class="client-card">
+        ${thumb ? `<img class="client-card-img" src="${thumb}" alt="${c.name}">` : '<div class="client-card-img" style="background:rgba(184,154,110,.08)"></div>'}
+        <div class="client-card-body">
+          <div class="client-card-type">${c.type}</div>
+          <div class="client-card-name">${c.name}</div>
+          <div class="client-card-city">${c.city}</div>
+          <div class="client-card-foot">
+            <span class="client-card-count">${wCount} work${wCount!==1?'s':''} · ${pubCount} public</span>
+            <span class="client-card-arrow">→</span>
           </div>
         </div>
       </a>`;
     }).join('');
   } catch(e) {
-    document.getElementById('coll-grid').innerHTML = '';
+    document.getElementById('clients-grid').innerHTML = '';
   }
 }
-loadCollections();
+loadClients();
 
 // Restore saved language
 const saved = localStorage.getItem('jk-lang');
