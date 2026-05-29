@@ -1,18 +1,30 @@
 {
-  "JK-000001": {
-    "public": true,
-    "artist": "Cuckoo (Caifoo)",
-    "artist_zh": "å°æ¹¾æ°´å¢¨å¤§å¸",
-    "title": "Mountain Landscape",
-    "title_zh": "å±±æ°´ Â· ç¦å¢",
-    "year": 2010,
-    "medium": "Ink on paper, scroll",
-    "medium_zh": "æ°´å¢¨ Â· çº¸æ¬ç«è½´",
-    "tradition": "Chinese ink painting Â· Zen Master",
-    "owner": "Sergei Panin",
-    "owner_city": "ÐÐ¾ÑÐºÐ²Ð°",
-    "registered": "2026",
-    "photo": "IMG_7861.jpeg",
-    "agate": "IMG_7859.jpeg"
+  "clients": {
+    "sergei-panin": {
+      "name": "Sergei Panin",
+      "city": "Москва",
+      "type": "Private Collector",
+      "type_ru": "Частный коллекционер",
+      "works": ["JK-000001"]
+    }
+  },
+  "works": {
+    "JK-000001": {
+      "client": "sergei-panin",
+      "public": true,
+      "artist": "Cuckoo (Caifoo)",
+      "artist_zh": "台湾水墨大师",
+      "title": "Mountain Landscape",
+      "title_zh": "山水 · 禅境",
+      "year": 2010,
+      "medium": "Ink on paper, scroll",
+      "medium_zh": "水墨 · 纸本立轴",
+      "tradition": "Chinese ink painting · Zen Master",
+      "owner": "Sergei Panin",
+      "owner_city": "Москва",
+      "registered": "2026",
+      "photo": "IMG_7861.jpeg",
+      "agate": "IMG_7859.jpeg"
+    }
   }
 }
