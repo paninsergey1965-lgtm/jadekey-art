@@ -3,421 +3,808 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JadeKey — JK-000001</title>
+<title>JadeKey — Physical Authentication of Art</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #0e0e0c;
-    --paper: #f5f0e8;
-    --stone: #c4a882;
-    --red-seal: #c0392b;
-    --mist: #e8e3d9;
-    --deep: #1a1a18;
-  }
+:root {
+  --ink: #0a0a08;
+  --paper: #f4efe6;
+  --stone: #b89a6e;
+  --red: #b83225;
+  --mist: #e6e0d4;
+  --deep: #141410;
+  --mid: #3a3830;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Cormorant Garamond', serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+html { scroll-behavior: smooth; }
 
-  /* GRAIN */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.5;
-  }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+}
 
-  /* NAV */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 28px 48px;
-    border-bottom: 1px solid rgba(14,14,12,0.12);
-  }
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
 
-  .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
-    font-weight: 300;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-  }
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  mix-blend-mode: normal;
+}
 
-  .logo span {
-    color: var(--red-seal);
-  }
+nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,10,8,0.9) 0%, transparent 100%);
+  pointer-events: none;
+}
 
-  .nav-id {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--stone);
-    letter-spacing: 0.1em;
-  }
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  position: relative;
+  text-decoration: none;
+  color: var(--paper);
+}
 
-  /* HERO */
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: calc(100vh - 85px);
-  }
+.logo em { color: var(--red); font-style: normal; }
 
-  /* LEFT — painting */
-  .painting-side {
-    position: relative;
-    background: var(--deep);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.nav-right {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+}
 
-  .painting-side img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    opacity: 0.92;
-    mix-blend-mode: luminosity;
-    filter: contrast(1.05) brightness(1.02);
-    transition: opacity 0.8s ease;
-  }
+.nav-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  transition: color 0.2s;
+}
 
-  .painting-side:hover img {
-    opacity: 1;
-    mix-blend-mode: normal;
-  }
+.nav-link:hover { color: var(--paper); }
 
-  .painting-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, transparent 70%, var(--paper));
-    pointer-events: none;
-  }
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
 
-  /* RIGHT — certificate */
-  .cert-side {
-    padding: 64px 56px 64px 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-  }
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(184,154,110,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(184,50,37,0.04) 0%, transparent 50%);
+}
 
-  .cert-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--stone);
-    margin-bottom: 32px;
-  }
+.hero-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 48px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(184,154,110,0.3) 30%, rgba(184,154,110,0.3) 70%, transparent);
+}
 
-  .cert-title {
-    font-size: clamp(36px, 4vw, 56px);
-    font-weight: 300;
-    font-style: italic;
-    line-height: 1.1;
-    margin-bottom: 8px;
-    color: var(--ink);
-  }
+.hero-counter {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--stone);
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
 
-  .cert-title-zh {
-    font-family: 'Noto Serif SC', serif;
-    font-size: clamp(20px, 2.5vw, 32px);
-    font-weight: 300;
-    color: var(--stone);
-    margin-bottom: 48px;
-    letter-spacing: 0.15em;
-  }
+.hero-title {
+  font-size: clamp(52px, 8vw, 112px);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.4s forwards;
+}
 
-  .divider {
-    width: 48px;
-    height: 1px;
-    background: var(--stone);
-    margin-bottom: 40px;
-  }
+.hero-title em {
+  font-style: italic;
+  color: var(--stone);
+}
 
-  .meta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px 40px;
-    margin-bottom: 48px;
-  }
+.hero-title .accent { color: var(--red); }
 
-  .meta-item label {
-    display: block;
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--stone);
-    margin-bottom: 6px;
-  }
+.hero-sub {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.6s forwards;
+}
 
-  .meta-item .value {
-    font-size: 15px;
-    font-weight: 400;
-    color: var(--ink);
-    line-height: 1.4;
-  }
+.hero-desc {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(244,239,230,0.6);
+  max-width: 480px;
+}
 
-  .meta-item .value-zh {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 12px;
-    color: var(--stone);
-    margin-top: 2px;
-  }
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 36px;
+  border: 1px solid var(--stone);
+  color: var(--stone);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-  /* STONE SECTION */
-  .stone-section {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 28px 32px;
-    background: var(--mist);
-    border: 1px solid rgba(14,14,12,0.08);
-    margin-bottom: 40px;
-  }
+.hero-cta:hover {
+  background: var(--stone);
+  color: var(--ink);
+}
 
-  .stone-img {
-    width: 72px;
-    height: 72px;
-    object-fit: cover;
-    border-radius: 50%;
-    filter: saturate(0.85);
-  }
+.hero-cta-arrow { font-size: 14px; }
 
-  .stone-info label {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--stone);
-    display: block;
-    margin-bottom: 6px;
-  }
+/* SCROLL INDICATOR */
+.scroll-ind {
+  position: absolute;
+  right: 48px;
+  bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--stone);
+  opacity: 0.5;
+  writing-mode: vertical-rl;
+}
 
-  .stone-info p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--ink);
-  }
+/* SECTION BASE */
+section {
+  padding: 120px 48px;
+}
 
-  /* SEAL */
-  .seal-row {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 64px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
 
-  .seal {
-    width: 52px;
-    height: 52px;
-    border: 2px solid var(--red-seal);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(184,154,110,0.2);
+  max-width: 120px;
+}
 
-  .seal-inner {
-    width: 36px;
-    height: 36px;
-    background: var(--red-seal);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/* WHAT */
+.what {
+  background: var(--deep);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
 
-  .seal-text {
-    font-family: 'Space Mono', monospace;
-    font-size: 7px;
-    color: white;
-    letter-spacing: 0.05em;
-    text-align: center;
-    line-height: 1.3;
-  }
+.what-text h2 {
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 300;
+  line-height: 1.15;
+  margin-bottom: 32px;
+}
 
-  .seal-caption {
-    font-size: 13px;
-    color: var(--stone);
-    line-height: 1.5;
-  }
+.what-text h2 em {
+  font-style: italic;
+  color: var(--stone);
+}
 
-  .seal-caption strong {
-    display: block;
-    font-size: 15px;
-    color: var(--ink);
-    font-weight: 400;
-    font-family: 'Space Mono', monospace;
-    letter-spacing: 0.05em;
-  }
+.what-text p {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(244,239,230,0.65);
+  margin-bottom: 20px;
+}
 
-  /* BOTTOM strip */
-  .bottom-strip {
-    border-top: 1px solid rgba(14,14,12,0.1);
-    padding: 20px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--mist);
-  }
+.what-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 
-  .bottom-strip p {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--stone);
-    letter-spacing: 0.1em;
-  }
+.stone-demo {
+  background: rgba(184,154,110,0.08);
+  border: 1px solid rgba(184,154,110,0.15);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
 
-  /* MOBILE */
-  @media (max-width: 768px) {
-    nav { padding: 20px 24px; }
+.stone-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(220,140,100,0.6), rgba(184,100,80,0.3) 40%, rgba(120,60,80,0.5));
+  border: 1px solid rgba(184,154,110,0.3);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
 
-    .hero {
-      grid-template-columns: 1fr;
-      min-height: auto;
-    }
+.stone-icon::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,180,120,0.2);
+}
 
-    .painting-side {
-      height: 65vw;
-      max-height: 420px;
-    }
+.stone-demo-text label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--stone);
+  display: block;
+  margin-bottom: 6px;
+}
 
-    .painting-overlay {
-      background: linear-gradient(to bottom, transparent 60%, var(--paper));
-    }
+.stone-demo-text p {
+  font-size: 14px;
+  color: rgba(244,239,230,0.7);
+  line-height: 1.5;
+  margin: 0;
+}
 
-    .cert-side {
-      padding: 40px 24px;
-    }
+.hash-line {
+  background: rgba(10,10,8,0.6);
+  border: 1px solid rgba(184,154,110,0.1);
+  padding: 20px 32px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--stone);
+  letter-spacing: 0.05em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
-    .meta-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 20px 24px;
-    }
+.hash-line span { color: rgba(184,154,110,0.4); }
 
-    .stone-section {
-      padding: 20px;
-    }
+/* HOW IT WORKS */
+.how {
+  background: var(--ink);
+}
 
-    .bottom-strip {
-      padding: 16px 24px;
-      flex-direction: column;
-      gap: 8px;
-      text-align: center;
-    }
-  }
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
 
-  /* FADE IN */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+.step {
+  background: rgba(244,239,230,0.03);
+  border: 1px solid rgba(184,154,110,0.1);
+  padding: 40px 32px;
+  position: relative;
+  transition: background 0.3s;
+}
 
-  .cert-label   { animation: fadeUp 0.6s ease 0.1s both; }
-  .cert-title   { animation: fadeUp 0.6s ease 0.2s both; }
-  .cert-title-zh{ animation: fadeUp 0.6s ease 0.25s both; }
-  .divider      { animation: fadeUp 0.6s ease 0.3s both; }
-  .meta-grid    { animation: fadeUp 0.6s ease 0.35s both; }
-  .stone-section{ animation: fadeUp 0.6s ease 0.4s both; }
-  .seal-row     { animation: fadeUp 0.6s ease 0.45s both; }
+.step:hover {
+  background: rgba(184,154,110,0.06);
+}
+
+.step-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--red);
+  letter-spacing: 0.2em;
+  margin-bottom: 32px;
+}
+
+.step h3 {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 16px;
+  color: var(--paper);
+}
+
+.step p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(244,239,230,0.5);
+}
+
+.step-connector {
+  position: absolute;
+  top: 40px;
+  right: -1px;
+  width: 1px;
+  height: 40px;
+  background: var(--red);
+  display: none;
+}
+
+/* FOR WHOM */
+.whom {
+  background: var(--deep);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  padding: 0;
+}
+
+.whom-card {
+  padding: 80px 48px;
+  border-right: 1px solid rgba(184,154,110,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.whom-card:last-child { border-right: none; }
+
+.whom-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.whom-card:hover::before { transform: scaleX(1); }
+
+.whom-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(184,154,110,0.15);
+  line-height: 1;
+  margin-bottom: 32px;
+}
+
+.whom-card h3 {
+  font-size: 26px;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.whom-card p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(244,239,230,0.5);
+}
+
+/* ACCESS */
+.access {
+  background: var(--ink);
+}
+
+.access-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.access-card {
+  padding: 56px 48px;
+  border: 1px solid rgba(184,154,110,0.1);
+  position: relative;
+}
+
+.access-card.public { border-top: 2px solid var(--stone); }
+.access-card.private { border-top: 2px solid rgba(184,154,110,0.2); }
+
+.access-icon {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--stone);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--stone);
+  flex-shrink: 0;
+}
+
+.dot.dim { background: rgba(184,154,110,0.3); }
+
+.access-card h3 {
+  font-size: 32px;
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+
+.access-card p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(244,239,230,0.5);
+  margin-bottom: 32px;
+}
+
+.access-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.access-list li {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(244,239,230,0.4);
+  padding-left: 20px;
+  position: relative;
+}
+
+.access-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--stone);
+}
+
+/* CTA SECTION */
+.cta-section {
+  background: var(--paper);
+  color: var(--ink);
+  text-align: center;
+  padding: 120px 48px;
+}
+
+.cta-section .section-label {
+  color: var(--red);
+  justify-content: center;
+}
+
+.cta-section .section-label::after { display: none; }
+
+.cta-section h2 {
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 300;
+  line-height: 1.15;
+  margin-bottom: 24px;
+  color: var(--ink);
+}
+
+.cta-section h2 em {
+  font-style: italic;
+  color: var(--stone);
+}
+
+.cta-section p {
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(10,10,8,0.5);
+  margin-bottom: 56px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 18px 48px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover { background: var(--red); }
+
+.btn-secondary {
+  padding: 18px 48px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* FOOTER */
+footer {
+  background: var(--deep);
+  padding: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(184,154,110,0.1);
+}
+
+.foot-logo {
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.foot-logo em { color: var(--red); font-style: normal; }
+
+footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(244,239,230,0.3);
+  letter-spacing: 0.1em;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  nav { padding: 20px 24px; }
+  .nav-right { gap: 20px; }
+
+  .hero { padding: 0 24px 64px; }
+  .hero-title { font-size: 52px; }
+  .hero-sub { flex-direction: column; align-items: flex-start; }
+  .scroll-ind { display: none; }
+  .hero-line { left: 24px; }
+
+  section { padding: 80px 24px; }
+
+  .what { grid-template-columns: 1fr; gap: 48px; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .whom { grid-template-columns: 1fr; }
+  .whom-card { border-right: none; border-bottom: 1px solid rgba(184,154,110,0.1); padding: 56px 24px; }
+  .access-grid { grid-template-columns: 1fr; }
+  .access-card { padding: 40px 24px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 40px 24px; }
+}
+
+@media (max-width: 480px) {
+  .steps { grid-template-columns: 1fr; }
+  .hero-title { font-size: 40px; }
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">JADE<span>KEY</span> &nbsp;·&nbsp; Physical Authentication of Art</div>
-  <div class="nav-id">JK-000001</div>
+  <a href="/" class="logo">JADE<em>KEY</em></a>
+  <div class="nav-right">
+    <a href="#how" class="nav-link">Technology</a>
+    <a href="#whom" class="nav-link">For Whom</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </div>
 </nav>
 
-<main class="hero">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
 
-  <div class="painting-side">
-    <img src="https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/IMG_7861.jpeg" alt="Mountain Landscape by Cuckoo">
-    <div class="painting-overlay"></div>
+  <div class="hero-counter">Physical Authentication System · Est. 2026</div>
+
+  <h1 class="hero-title">
+    Every stone<br>
+    is a <em>signature</em><br>
+    that <span class="accent">cannot</span><br>
+    be forged
+  </h1>
+
+  <div class="hero-sub">
+    <p class="hero-desc">
+      JadeKey binds a unique mineral specimen to a work of art — creating an unclonable physical identity that survives centuries and cannot be digitally replicated.
+    </p>
+    <a href="#how" class="hero-cta">
+      How it works
+      <span class="hero-cta-arrow">→</span>
+    </a>
   </div>
 
-  <div class="cert-side">
+  <div class="scroll-ind">Scroll</div>
+</section>
 
-    <div class="cert-label">Certificate of Authenticity</div>
-
-    <div class="cert-title">Mountain Landscape</div>
-    <div class="cert-title-zh">山水 · 禅境</div>
-
-    <div class="divider"></div>
-
-    <div class="meta-grid">
-      <div class="meta-item">
-        <label>Artist / 艺术家</label>
-        <div class="value">Cuckoo (Caifoo)</div>
-        <div class="value-zh">台湾水墨大师</div>
-      </div>
-      <div class="meta-item">
-        <label>Year / 年份</label>
-        <div class="value">2010</div>
-      </div>
-      <div class="meta-item">
-        <label>Medium / 材质</label>
-        <div class="value">Ink on paper, scroll</div>
-        <div class="value-zh">水墨 · 纸本立轴</div>
-      </div>
-      <div class="meta-item">
-        <label>Tradition / 流派</label>
-        <div class="value">Chinese ink painting</div>
-        <div class="value-zh">Zen Master / 禅宗</div>
-      </div>
-      <div class="meta-item">
-        <label>Owner / Владелец</label>
-        <div class="value">Sergei Panin</div>
-        <div class="value-zh">Москва</div>
-      </div>
-      <div class="meta-item">
-        <label>Registered / Дата</label>
-        <div class="value">2026</div>
-      </div>
-    </div>
-
-    <div class="stone-section">
-      <img class="stone-img" src="https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/IMG_7859.jpeg" alt="Agate PUF JK-000001">
-      <div class="stone-info">
-        <label>JadeKey Mineral PUF / Минеральный ключ</label>
-        <p>Agate slice — unique microstructure pattern<br>linked to this artwork as physical identifier.<br><em>Агат · неклонируемая физическая подпись</em></p>
-      </div>
-    </div>
-
-    <div class="seal-row">
-      <div class="seal">
-        <div class="seal-inner">
-          <div class="seal-text">JK<br>✓</div>
-        </div>
-      </div>
-      <div class="seal-caption">
-        <strong>JK-000001</strong>
-        Authenticated by JadeKey · jadekey.art
-      </div>
-    </div>
-
+<!-- WHAT IS JADEKEY -->
+<section class="what" id="what">
+  <div class="what-text">
+    <div class="section-label">The Technology</div>
+    <h2>Nature creates what <em>technology cannot copy</em></h2>
+    <p>Every agate, jasper, or quartz slice carries a microstructure formed over millions of years — a pattern unique to that single specimen in the entire universe.</p>
+    <p>JadeKey reads this pattern, converts it into a cryptographic identifier, and permanently links it to your artwork. The stone becomes the key. The artwork becomes verifiable.</p>
   </div>
-</main>
+  <div class="what-visual">
+    <div class="stone-demo">
+      <div class="stone-icon"></div>
+      <div class="stone-demo-text">
+        <label>Mineral PUF · Physically Unclonable Function</label>
+        <p>Agate slice · unique microstructure<br>formed over millions of years</p>
+      </div>
+    </div>
+    <div class="hash-line">
+      <span>JK-000001 · hash → </span>a7f3c2e91b84d056f3a9...
+    </div>
+    <div class="stone-demo" style="background:rgba(184,50,37,0.06); border-color:rgba(184,50,37,0.2)">
+      <div class="stone-icon" style="background:radial-gradient(circle at 35% 35%, rgba(100,180,140,0.6), rgba(60,140,100,0.3) 40%, rgba(40,100,80,0.5))"></div>
+      <div class="stone-demo-text">
+        <label>Linked to artwork</label>
+        <p>Certificate issued · jadekey.art/JK-000001<br>Verified &amp; registered</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div class="bottom-strip">
-  <p>© 2026 JadeKey — Physical Authentication System</p>
-  <p>jadekey.art · Powered by mineral PUF technology</p>
-</div>
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-label">Process</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>You bring the artwork</h3>
+      <p>Collector or gallery provides the work and its documentation. No special preparation needed.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>We select the stone</h3>
+      <p>JadeKey chooses, photographs, and marks an agate specimen. The stone is assigned a unique JK-number.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Digital passport issued</h3>
+      <p>A permanent certificate is created at jadekey.art — containing artwork details, provenance, and stone identity.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Verify anytime</h3>
+      <p>Scan the stone via Telegram Mini App — instantly see if it matches the registered artwork. Anywhere, anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHOM -->
+<section class="whom" id="whom">
+  <div class="whom-card">
+    <div class="whom-num">01</div>
+    <div class="section-label" style="margin-bottom:32px">Collectors</div>
+    <h3>Protect your investment</h3>
+    <p>Prove ownership and authenticity beyond paper certificates. Your artwork carries an unforgeable physical identity that adds to its value.</p>
+  </div>
+  <div class="whom-card">
+    <div class="whom-num">02</div>
+    <div class="section-label" style="margin-bottom:32px">Galleries</div>
+    <h3>Certify what you sell</h3>
+    <p>Offer buyers a verifiable guarantee. Every work you register comes with a permanent digital passport and physical seal.</p>
+  </div>
+  <div class="whom-card">
+    <div class="whom-num">03</div>
+    <div class="section-label" style="margin-bottom:32px">Artists</div>
+    <h3>Sign with nature</h3>
+    <p>Each edition, each unique piece — tied to a mineral specimen as old as time. A signature that outlasts any technology.</p>
+  </div>
+</section>
+
+<!-- ACCESS MODES -->
+<section class="access">
+  <div class="section-label">Privacy Control</div>
+  <div class="access-grid">
+    <div class="access-card public">
+      <div class="access-icon"><div class="dot"></div> Public Passport</div>
+      <h3>Open to the world</h3>
+      <p>Your artwork's certificate is visible to anyone with the link. Share it, publish it, let the market know your piece is verified.</p>
+      <ul class="access-list">
+        <li>Full artwork details visible</li>
+        <li>Shareable URL</li>
+        <li>Provenance on display</li>
+        <li>Increases market value</li>
+      </ul>
+    </div>
+    <div class="access-card private">
+      <div class="access-icon"><div class="dot dim"></div> Private Verification</div>
+      <h3>Known only to you</h3>
+      <p>The passport exists but is invisible to the public. Only the physical stone can unlock verification — through the Telegram app.</p>
+      <ul class="access-list">
+        <li>Certificate hidden from search</li>
+        <li>Verification via stone only</li>
+        <li>Owner controls access</li>
+        <li>Switchable anytime</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="section-label">Register your artwork</div>
+  <h2>Ready to make your art <em>unforgeable?</em></h2>
+  <p>Contact us to register your first work. We handle the stone selection, photography, and certification.</p>
+  <div class="cta-buttons">
+    <a href="https://t.me/paninsergey1965" class="btn-primary">Contact via Telegram</a>
+    <a href="/JK-000001" class="btn-secondary">See example passport</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">JADE<em>KEY</em> · Physical Authentication of Art</div>
+  <p>© 2026 JadeKey · jadekey.art</p>
+</footer>
 
 </body>
 </html>
