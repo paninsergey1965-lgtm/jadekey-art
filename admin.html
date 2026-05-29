@@ -4,89 +4,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JadeKey Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0a0a08;--paper:#f4efe6;--stone:#b89a6e;--red:#b83225;--mist:#e6e0d4;--deep:#141410;}
+:root{--ink:#0a0a08;--paper:#f4efe6;--stone:#b89a6e;--red:#b83225;--deep:#141410;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',serif;min-height:100vh;}
-
-/* LOGIN */
 #login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;}
 .login-logo{font-size:14px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:64px;}
 .login-logo em{color:var(--red);font-style:normal;}
 .login-box{width:100%;max-width:400px;}
 .login-box h2{font-size:28px;font-weight:300;margin-bottom:8px;}
-.login-box p{font-size:14px;color:rgba(244,239,230,0.4);font-family:'Space Mono',monospace;margin-bottom:40px;font-size:11px;letter-spacing:0.1em;}
+.login-box p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);letter-spacing:0.1em;margin-bottom:40px;}
 .field{margin-bottom:20px;}
 .field label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--stone);display:block;margin-bottom:8px;}
-.field input{width:100%;background:rgba(244,239,230,0.05);border:1px solid rgba(184,154,110,0.2);padding:14px 16px;color:var(--paper);font-family:'Space Mono',monospace;font-size:13px;outline:none;transition:border 0.2s;}
+.field input{width:100%;background:rgba(244,239,230,0.05);border:1px solid rgba(184,154,110,0.2);padding:14px 16px;color:var(--paper);font-family:'Space Mono',monospace;font-size:13px;outline:none;-webkit-appearance:none;border-radius:0;}
 .field input:focus{border-color:var(--stone);}
-.btn-login{width:100%;padding:16px;background:var(--stone);color:var(--ink);border:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background 0.2s;}
-.btn-login:hover{background:#c9aa7e;}
-.login-error{font-family:'Space Mono',monospace;font-size:11px;color:var(--red);margin-top:16px;display:none;text-align:center;}
-
-/* ADMIN PANEL */
-#admin-panel{display:none;padding:0;}
-.admin-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:1px solid rgba(184,154,110,0.1);background:var(--ink);}
-.admin-nav .logo{font-size:13px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;}
-.admin-nav .logo em{color:var(--red);font-style:normal;}
-.admin-nav-right{display:flex;align-items:center;gap:24px;}
-.admin-nav-right span{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);}
-.btn-logout{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(244,239,230,0.4);background:none;border:1px solid rgba(244,239,230,0.1);padding:8px 16px;cursor:pointer;transition:all 0.2s;}
-.btn-logout:hover{color:var(--paper);border-color:rgba(244,239,230,0.3);}
-
-.admin-content{padding:48px 40px;max-width:1000px;}
-.admin-title{font-size:32px;font-weight:300;margin-bottom:8px;}
-.admin-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.15em;margin-bottom:48px;}
-
-/* WORKS TABLE */
-.works-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
-.works-header h3{font-size:18px;font-weight:300;letter-spacing:0.1em;}
-.btn-add{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--stone);background:none;border:1px solid rgba(184,154,110,0.3);padding:10px 20px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;}
-.btn-add:hover{background:var(--stone);color:var(--ink);}
-
-.work-card{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);padding:28px 32px;margin-bottom:2px;display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:center;transition:background 0.2s;}
-.work-card:hover{background:rgba(244,239,230,0.05);}
-.work-thumb{width:72px;height:72px;object-fit:cover;border-radius:2px;}
-.work-thumb-placeholder{width:72px;height:72px;background:rgba(184,154,110,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:8px;color:var(--stone);}
-.work-info .work-id{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.15em;margin-bottom:6px;}
-.work-info .work-title{font-size:20px;font-weight:300;margin-bottom:4px;}
-.work-info .work-meta{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.35);letter-spacing:0.1em;}
-.work-actions{display:flex;flex-direction:column;gap:10px;align-items:flex-end;}
-
-/* TOGGLE */
-.toggle-wrap{display:flex;align-items:center;gap:12px;}
-.toggle-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--stone);}
-.toggle{position:relative;width:44px;height:24px;cursor:pointer;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:rgba(244,239,230,0.1);border:1px solid rgba(184,154,110,0.2);transition:0.3s;border-radius:24px;}
-.toggle-slider::before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:var(--stone);opacity:0.4;transition:0.3s;border-radius:50%;}
-.toggle input:checked + .toggle-slider{background:rgba(184,154,110,0.15);border-color:var(--stone);}
-.toggle input:checked + .toggle-slider::before{transform:translateX(20px);opacity:1;background:var(--stone);}
-
-.work-link{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.3);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;}
-.work-link:hover{color:var(--stone);}
-
-.status-badge{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;padding:4px 10px;border-radius:2px;}
-.status-badge.public{background:rgba(184,154,110,0.15);color:var(--stone);border:1px solid rgba(184,154,110,0.3);}
-.status-badge.private{background:rgba(244,239,230,0.05);color:rgba(244,239,230,0.3);border:1px solid rgba(244,239,230,0.1);}
-
-.save-msg{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-top:32px;display:none;}
-
-/* LOADING */
-.loading{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);letter-spacing:0.2em;padding:40px 0;}
-
-@media(max-width:600px){
-  .admin-nav{padding:16px 20px;}
-  .admin-content{padding:32px 20px;}
-  .work-card{grid-template-columns:1fr;gap:16px;}
-  .work-actions{align-items:flex-start;flex-direction:row;flex-wrap:wrap;}
-}
+.btn-login{width:100%;padding:16px;background:var(--stone);color:var(--ink);border:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;-webkit-appearance:none;border-radius:0;}
+.err{font-family:'Space Mono',monospace;font-size:11px;color:var(--red);margin-top:12px;display:none;text-align:center;}
+#admin-panel{display:none;}
+.admin-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid rgba(184,154,110,0.1);background:rgba(10,10,8,0.8);}
+.a-logo{font-size:13px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;}
+.a-logo em{color:var(--red);font-style:normal;}
+.btn-out{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);background:none;border:1px solid rgba(244,239,230,0.1);padding:8px 16px;cursor:pointer;border-radius:0;}
+.admin-body{padding:40px 32px;max-width:900px;}
+.admin-body h2{font-size:28px;font-weight:300;margin-bottom:6px;}
+.sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.1em;margin-bottom:40px;}
+.wcard{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);padding:24px;margin-bottom:2px;display:flex;gap:20px;align-items:center;}
+.wthumb{width:64px;height:64px;object-fit:cover;flex-shrink:0;}
+.winfo{flex:1;}
+.wid{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);letter-spacing:0.15em;margin-bottom:4px;}
+.wtitle{font-size:18px;font-weight:300;margin-bottom:3px;}
+.wmeta{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.3);}
+.wact{display:flex;flex-direction:column;gap:8px;align-items:flex-end;flex-shrink:0;}
+.badge{font-family:'Space Mono',monospace;font-size:9px;padding:4px 10px;border-radius:2px;}
+.badge.pub{background:rgba(184,154,110,0.15);color:var(--stone);border:1px solid rgba(184,154,110,0.3);}
+.badge.prv{background:rgba(244,239,230,0.03);color:rgba(244,239,230,0.3);border:1px solid rgba(244,239,230,0.08);}
+.tog-row{display:flex;align-items:center;gap:10px;}
+.tog-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);}
+.tog{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;position:absolute;}
+.tog-sl{position:absolute;inset:0;background:rgba(244,239,230,0.08);border:1px solid rgba(184,154,110,0.2);border-radius:22px;transition:0.3s;}
+.tog-sl::before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:rgba(184,154,110,0.5);border-radius:50%;transition:0.3s;}
+.tog input:checked + .tog-sl{background:rgba(184,154,110,0.12);border-color:var(--stone);}
+.tog input:checked + .tog-sl::before{transform:translateX(18px);background:var(--stone);}
+.wlink{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.25);text-decoration:none;}
+.wlink:hover{color:var(--stone);}
+.saved{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-top:24px;display:none;}
+.loading{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);padding:32px 0;letter-spacing:0.2em;}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-logo">JADE<em>KEY</em></div>
   <div class="login-box">
@@ -94,191 +62,160 @@ body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',
     <p>RESTRICTED ACCESS · JADEKEY.ART</p>
     <div class="field">
       <label>Email</label>
-      <input type="email" id="login-email" placeholder="your@email.com" autocomplete="email">
+      <input type="email" id="f-email" value="paninsergey1965@gmail.com">
     </div>
     <div class="field">
       <label>Password</label>
-      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+      <input type="password" id="f-pass" placeholder="Enter password">
     </div>
-    <button class="btn-login" onclick="doLogin()">Enter</button>
-    <div class="login-error" id="login-error">Invalid credentials</div>
+    <button class="btn-login" id="btn-enter" onclick="doLogin()">ENTER</button>
+    <div class="err" id="err-msg">Incorrect password</div>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <div id="admin-panel">
   <div class="admin-nav">
-    <div class="logo">JADE<em>KEY</em> <span style="color:rgba(244,239,230,0.2);font-size:11px"> · Admin</span></div>
-    <div class="admin-nav-right">
-      <span id="admin-email-display"></span>
-      <button class="btn-logout" onclick="doLogout()">Logout</button>
-    </div>
+    <div class="a-logo">JADE<em>KEY</em> · Admin</div>
+    <button class="btn-out" onclick="doLogout()">Logout</button>
   </div>
-
-  <div class="admin-content">
-    <div class="admin-title">Works Registry</div>
-    <div class="admin-sub" id="works-count">Loading...</div>
-
-    <div class="works-header">
-      <h3>Registered Works</h3>
-      <a href="#" class="btn-add" onclick="showAddInfo()">+ Add Work</a>
-    </div>
-
-    <div id="works-list"><div class="loading">Loading works...</div></div>
-    <div class="save-msg" id="save-msg">✓ Saved to database</div>
+  <div class="admin-body">
+    <h2>Works Registry</h2>
+    <div class="sub" id="wcount">Loading...</div>
+    <div id="wlist"><div class="loading">Loading...</div></div>
+    <div class="saved" id="saved-msg">✓ Saved</div>
   </div>
 </div>
 
 <script>
-// CONFIG — change these credentials
 const ADMIN_EMAIL = 'paninsergey1965@gmail.com';
-// Password is stored as SHA-256 hash for security
-// Default password hash below — change via setPassword() in console
-const PASS_HASH_KEY = 'jk_admin_hash';
+const PASS_KEY = 'jk_pass';
+const SESSION_KEY = 'jk_session';
+const GH_REPO = 'paninsergey1965-lgtm/jadekey-art';
+const RAW = 'https://raw.githubusercontent.com/' + GH_REPO + '/main';
+const GH_API = 'https://api.github.com/repos/' + GH_REPO + '/contents/works.json';
 
-const GITHUB_TOKEN = localStorage.getItem('jk_gh_token') || '';
-const GITHUB_REPO = 'paninsergey1965-lgtm/jadekey-art';
-const RAW_BASE = 'https://raw.githubusercontent.com/' + GITHUB_REPO + '/main';
+let works = {}, sha = '';
 
-let worksData = {};
-let worksSha = '';
+function getToken() { return localStorage.getItem('jk_t') || ''; }
 
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-
-async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  const hash = await sha256(pass);
-  const stored = localStorage.getItem(PASS_HASH_KEY);
+function doLogin() {
+  const email = document.getElementById('f-email').value.trim();
+  const pass = document.getElementById('f-pass').value;
+  const stored = localStorage.getItem(PASS_KEY);
 
   if (email !== ADMIN_EMAIL) {
-    showError('Invalid credentials');
+    document.getElementById('err-msg').style.display = 'block';
     return;
   }
 
-  // First login — set password
   if (!stored) {
-    if (pass.length < 6) { showError('Password must be at least 6 characters'); return; }
-    localStorage.setItem(PASS_HASH_KEY, hash);
-    localStorage.setItem('jk_admin_session', '1');
-    localStorage.setItem('jk_gh_token', document.getElementById('login-token').value.trim());
-    enterAdmin(email);
+    if (pass.length < 4) {
+      document.getElementById('err-msg').textContent = 'Min 4 characters';
+      document.getElementById('err-msg').style.display = 'block';
+      return;
+    }
+    localStorage.setItem(PASS_KEY, pass);
+    localStorage.setItem(SESSION_KEY, '1');
+    enterPanel();
     return;
   }
 
-  if (hash !== stored) { showError('Invalid credentials'); return; }
-  localStorage.setItem('jk_admin_session', '1');
-    localStorage.setItem('jk_gh_token', document.getElementById('login-token').value.trim());
-  enterAdmin(email);
+  if (pass !== stored) {
+    document.getElementById('err-msg').style.display = 'block';
+    return;
+  }
+
+  localStorage.setItem(SESSION_KEY, '1');
+  enterPanel();
 }
 
-document.getElementById('login-pass').addEventListener('keydown', e => {
+document.getElementById('f-pass').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') doLogin();
 });
 
-function showError(msg) {
-  const el = document.getElementById('login-error');
-  el.textContent = msg;
-  el.style.display = 'block';
+function doLogout() {
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
 }
 
-function enterAdmin(email) {
+function enterPanel() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'block';
-  document.getElementById('admin-email-display').textContent = email;
   loadWorks();
-}
-
-function doLogout() {
-  localStorage.removeItem('jk_admin_session');
-  location.reload();
 }
 
 async function loadWorks() {
   try {
-    const res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/works.json', {
-      headers: { 'Authorization': 'Bearer ' + GITHUB_TOKEN }
-    });
+    const t = getToken();
+    const headers = t ? { 'Authorization': 'Bearer ' + t } : {};
+    const res = await fetch(GH_API, { headers });
     const data = await res.json();
-    worksSha = data.sha;
-    worksData = JSON.parse(atob(data.content.replace(/\n/g,'')));
+    sha = data.sha;
+    works = JSON.parse(atob(data.content.replace(/\n/g, '')));
     renderWorks();
   } catch(e) {
-    document.getElementById('works-list').innerHTML = '<div class="loading">Error loading works</div>';
+    document.getElementById('wlist').innerHTML = '<div class="loading">Error loading</div>';
   }
 }
 
 function renderWorks() {
-  const keys = Object.keys(worksData);
-  document.getElementById('works-count').textContent = keys.length + ' work' + (keys.length!==1?'s':'') + ' registered';
-  
-  const html = keys.map(id => {
-    const w = worksData[id];
-    const thumb = RAW_BASE + '/' + w.photo;
-    return `
-    <div class="work-card" id="card-${id}">
-      <img class="work-thumb" src="${thumb}" onerror="this.style.display='none'">
-      <div class="work-info">
-        <div class="work-id">${id}</div>
-        <div class="work-title">${w.title}</div>
-        <div class="work-meta">${w.artist} · ${w.year} · Owner: ${w.owner}</div>
+  const keys = Object.keys(works);
+  document.getElementById('wcount').textContent = keys.length + ' work' + (keys.length !== 1 ? 's' : '') + ' registered';
+
+  document.getElementById('wlist').innerHTML = keys.map(id => {
+    const w = works[id];
+    return `<div class="wcard">
+      <img class="wthumb" src="${RAW}/${w.photo}" onerror="this.style.display='none'">
+      <div class="winfo">
+        <div class="wid">${id}</div>
+        <div class="wtitle">${w.title}</div>
+        <div class="wmeta">${w.artist} · ${w.year} · ${w.owner}</div>
       </div>
-      <div class="work-actions">
-        <span class="status-badge ${w.public?'public':'private'}" id="badge-${id}">${w.public?'PUBLIC':'PRIVATE'}</span>
-        <div class="toggle-wrap">
-          <span class="toggle-label">Public</span>
-          <label class="toggle">
-            <input type="checkbox" ${w.public?'checked':''} onchange="togglePublic('${id}', this.checked)">
-            <span class="toggle-slider"></span>
+      <div class="wact">
+        <span class="badge ${w.public?'pub':'prv'}" id="b-${id}">${w.public?'PUBLIC':'PRIVATE'}</span>
+        <div class="tog-row">
+          <span class="tog-lbl">Public</span>
+          <label class="tog">
+            <input type="checkbox" ${w.public?'checked':''} onchange="toggle('${id}',this.checked)">
+            <span class="tog-sl"></span>
           </label>
         </div>
-        <a href="//${location.host}/${id}" target="_blank" class="work-link">↗ View passport</a>
+        <a href="/${id}" target="_blank" class="wlink">↗ passport</a>
       </div>
     </div>`;
-  }).join('');
-  
-  document.getElementById('works-list').innerHTML = html || '<div class="loading">No works registered yet</div>';
+  }).join('') || '<div class="loading">No works yet</div>';
 }
 
-async function togglePublic(id, isPublic) {
-  worksData[id].public = isPublic;
-  const badge = document.getElementById('badge-' + id);
-  badge.textContent = isPublic ? 'PUBLIC' : 'PRIVATE';
-  badge.className = 'status-badge ' + (isPublic ? 'public' : 'private');
-  
-  await saveWorks();
-}
+async function toggle(id, val) {
+  works[id].public = val;
+  const b = document.getElementById('b-' + id);
+  b.textContent = val ? 'PUBLIC' : 'PRIVATE';
+  b.className = 'badge ' + (val ? 'pub' : 'prv');
 
-async function saveWorks() {
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(worksData, null, 2))));
-  const res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/works.json', {
+  const t = getToken();
+  if (!t) {
+    document.getElementById('saved-msg').textContent = '⚠ No GitHub token — changes not saved';
+    document.getElementById('saved-msg').style.display = 'block';
+    return;
+  }
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(works, null, 2))));
+  const res = await fetch(GH_API, {
     method: 'PUT',
-    headers: {
-      'Authorization': 'Bearer ' + GITHUB_TOKEN,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ message: 'Update works visibility', content, sha: worksSha })
+    headers: { 'Authorization': 'Bearer ' + t, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'Update visibility', content, sha })
   });
   const data = await res.json();
   if (data.content) {
-    worksSha = data.content.sha;
-    const msg = document.getElementById('save-msg');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 3000);
+    sha = data.content.sha;
+    const m = document.getElementById('saved-msg');
+    m.textContent = '✓ Saved';
+    m.style.display = 'block';
+    setTimeout(() => m.style.display = 'none', 3000);
   }
 }
 
-function showAddInfo() {
-  alert('To add a new work, contact JadeKey admin or send artwork details and photos.');
-}
-
-// Auto-login if session exists
-if (localStorage.getItem('jk_admin_session')) {
-  enterAdmin(ADMIN_EMAIL);
-}
+if (localStorage.getItem(SESSION_KEY)) enterPanel();
 </script>
 </body>
 </html>
