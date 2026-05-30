@@ -2,11 +2,14 @@
   "clients": {
     "sergei-panin": {
       "name": "Sergei Panin",
-      "city": "Москва",
+      "city": "ÐÐ¾ÑÐºÐ²Ð°",
       "type": "Private Collector",
-      "type_ru": "Частный коллекционер",
-      "works": ["JK-000001"]
-    }
+      "type_ru": "Ð§Ð°ÑÑÐ½ÑÐ¹ ÐºÐ¾Ð»Ð»ÐµÐºÑÐ¸Ð¾Ð½ÐµÑ",
+      "works": [
+        "JK-000001"
+      ]
+    },
+    "public": true
   },
   "works": {
     "JK-000001": {
@@ -14,20 +17,20 @@
       "public": true,
       "artist": "Cuckoo",
       "artist_full": "Cuckoo",
-      "artist_zh": "台湾水墨大师",
+      "artist_zh": "å°æ¹¾æ°´å¢¨å¤§å¸",
       "artist_bio_en": "Zen master, healer and ink painting master from Taiwan. Born in 1957, he awakened at the age of 36. Traveled annually through Europe, Russia, Canada and Goa, conducting acupuncture sessions and Zen gatherings. Passed away on November 10, 2017 at his forest center in Taiwan.",
-      "artist_bio_ru": "Дзен-мастер, целитель и мастер китайской тушевой живописи с Тайваня. Родился в 1957 году, пробудился в 36 лет. Ежегодно путешествовал по Европе, России, Канаде и Гоа, проводя сессии акупунктуры и дзен-встречи. Ушёл 10 ноября 2017 года в своём лесном центре на Тайване.",
+      "artist_bio_ru": "ÐÐ·ÐµÐ½-Ð¼Ð°ÑÑÐµÑ, ÑÐµÐ»Ð¸ÑÐµÐ»Ñ Ð¸ Ð¼Ð°ÑÑÐµÑ ÐºÐ¸ÑÐ°Ð¹ÑÐºÐ¾Ð¹ ÑÑÑÐµÐ²Ð¾Ð¹ Ð¶Ð¸Ð²Ð¾Ð¿Ð¸ÑÐ¸ Ñ Ð¢Ð°Ð¹Ð²Ð°Ð½Ñ. Ð Ð¾Ð´Ð¸Ð»ÑÑ Ð² 1957 Ð³Ð¾Ð´Ñ, Ð¿ÑÐ¾Ð±ÑÐ´Ð¸Ð»ÑÑ Ð² 36 Ð»ÐµÑ. ÐÐ¶ÐµÐ³Ð¾Ð´Ð½Ð¾ Ð¿ÑÑÐµÑÐµÑÑÐ²Ð¾Ð²Ð°Ð» Ð¿Ð¾ ÐÐ²ÑÐ¾Ð¿Ðµ, Ð Ð¾ÑÑÐ¸Ð¸, ÐÐ°Ð½Ð°Ð´Ðµ Ð¸ ÐÐ¾Ð°, Ð¿ÑÐ¾Ð²Ð¾Ð´Ñ ÑÐµÑÑÐ¸Ð¸ Ð°ÐºÑÐ¿ÑÐ½ÐºÑÑÑÑ Ð¸ Ð´Ð·ÐµÐ½-Ð²ÑÑÑÐµÑÐ¸. Ð£ÑÑÐ» 10 Ð½Ð¾ÑÐ±ÑÑ 2017 Ð³Ð¾Ð´Ð° Ð² ÑÐ²Ð¾ÑÐ¼ Ð»ÐµÑÐ½Ð¾Ð¼ ÑÐµÐ½ÑÑÐµ Ð½Ð° Ð¢Ð°Ð¹Ð²Ð°Ð½Ðµ.",
       "artist_photo": "IMG_2914.jpeg",
       "artist_born": "1957, Taiwan",
       "artist_died": "2017",
       "title": "Mountain Landscape",
-      "title_zh": "山水 · 禅境",
+      "title_zh": "å±±æ°´ Â· ç¦å¢",
       "year": 2010,
       "medium": "Ink on paper, scroll",
-      "medium_zh": "水墨 · 纸本立轴",
-      "tradition": "Chinese ink painting · Zen Master",
+      "medium_zh": "æ°´å¢¨ Â· çº¸æ¬ç«è½´",
+      "tradition": "Chinese ink painting Â· Zen Master",
       "owner": "Sergei Panin",
-      "owner_city": "Москва",
+      "owner_city": "ÐÐ¾ÑÐºÐ²Ð°",
       "registered": "2026",
       "photo": "IMG_7861.jpeg",
       "agate": "agate-jk000001.png"
