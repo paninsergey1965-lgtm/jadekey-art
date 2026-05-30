@@ -1,6 +1,10 @@
 const GITHUB_RAW = "https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main";
 
-addEventListener("fetch", e => e.respondWith(handle(e.request)));
+export default {
+  async fetch(request, env) {
+    return handle(request);
+  }
+};
 
 async function handle(req) {
   const url = new URL(req.url);
@@ -209,18 +213,18 @@ async function serveFile(filename) {
 
 function passportPage(id, w) {
   // Build TON anchor block if available
-  const tonBlock = w.ton_tx ? (
-    "<div class=\"ton-section\">" +
-    "<div class=\"ton-inner\">" +
-    "<div class=\"ton-icon\">&#x2B21;</div>" +
-    "<div class=\"ton-body\">" +
-    "<div class=\"ton-label\">Blockchain Anchor &middot; TON</div>" +
-    "<div class=\"ton-comment\">" + (w.ton_agate_hash ? "JadeKey:" + id + ":" + w.ton_agate_hash.slice(0,16) : "JadeKey:" + id) + "</div>" +
-    "<div class=\"ton-date\">" + (w.ton_anchored_at || "2026-05-30") + " &middot; Immutable proof of existence</div>" +
-    "</div>" +
-    "<a href=\"" + (w.ton_explorer_agate || w.ton_explorer || "https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu") + "\" target=\"_blank\" class=\"ton-link\">Verify &rarr;</a>" +
-    "</div></div>"
-  ) : "";
+  const tonBlock = w.ton_tx ? [
+    '<div style="padding:32px 40px;border-bottom:1px solid rgba(154,125,78,0.2);background:rgba(26,23,20,0.02)">',
+    '<div style="display:flex;align-items:center;gap:24px;max-width:800px">',
+    '<div style="width:44px;height:44px;background:rgba(0,136,204,0.1);border:1px solid rgba(0,136,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:#29b6f6">&#x2B21;</div>',
+    '<div style="flex:1">',
+    '<div style="font-family:Space Mono,monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#29b6f6;margin-bottom:6px">BLOCKCHAIN ANCHOR &middot; TON</div>',
+    '<div style="font-family:Space Mono,monospace;font-size:11px;color:#1a1714;letter-spacing:.05em;margin-bottom:4px;word-break:break-all">' + (w.ton_agate_hash ? 'JadeKey:' + id + ':' + w.ton_agate_hash.slice(0,16) : 'JadeKey:' + id) + '</div>',
+    '<div style="font-family:Space Mono,monospace;font-size:9px;color:#6b5f4e">' + (w.ton_anchored_at || '2026-05-30') + ' &middot; Immutable proof of existence</div>',
+    '</div>',
+    '<a href="' + (w.ton_explorer_agate || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu') + '" target="_blank" style="font-family:Space Mono,monospace;font-size:10px;color:#29b6f6;text-decoration:none;border:1px solid rgba(0,136,204,0.3);padding:6px 12px;white-space:nowrap">Verify &rarr;</a>',
+    '</div></div>'
+  ].join('') : '';
   const RAW = 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main';
   const photoUrl = `${RAW}/${w.photo}`;
   const agateUrl = `${RAW}/${w.agate}`;
