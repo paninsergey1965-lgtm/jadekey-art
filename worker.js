@@ -630,6 +630,16 @@ body::after {
   </div>
 </header>
 
+
+${w.for_sale ? `
+<div style='background:#8b2218;color:#f2ece0;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;'>
+  <div>
+    <div style='font-family:Space Mono,monospace;font-size:10px;letter-spacing:.3em;margin-bottom:6px'>ПРОДАЁТСЯ · FOR SALE</div>
+    <div style='font-size:28px;font-weight:300'>${w.price_ton} TON</div>
+  </div>
+  <a href='ton://transfer/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu?amount=${w.price_ton*1000000000}&text=JadeKey:${id}' style='background:#f2ece0;color:#8b2218;padding:14px 28px;text-decoration:none;font-family:Space Mono,monospace;font-size:11px;letter-spacing:.2em;'>КУПИТЬ →</a>
+</div>
+` : ''}
 <!-- ARTWORK -->
 <div class="artwork-section">
   <div class="artwork-photo">
