@@ -2,14 +2,15 @@
   "clients": {
     "sergei-panin": {
       "name": "Sergei Panin",
-      "city": "Москва",
+      "city": "ÐÐ¾ÑÐºÐ²Ð°",
       "type": "Private Collector",
-      "type_ru": "Частный коллекционер",
+      "type_ru": "Ð§Ð°ÑÑÐ½ÑÐ¹ ÐºÐ¾Ð»Ð»ÐµÐºÑÐ¸Ð¾Ð½ÐµÑ",
       "works": [
         "JK-000001",
         "JK-000002"
       ]
-    }
+    },
+    "public": true
   },
   "works": {
     "JK-000001": {
@@ -17,18 +18,18 @@
       "public": true,
       "artist": "Cuckoo",
       "artist_full": "Cuckoo",
-      "artist_zh": "台湾水墨大师",
+      "artist_zh": "å°æ¹¾æ°´å¢¨å¤§å¸",
       "artist_bio_en": "Zen master, healer and ink painting master from Taiwan. Born in 1957, he awakened at the age of 36. Traveled annually through Europe, Russia, Canada and Goa, conducting acupuncture sessions and Zen gatherings. Passed away on November 10, 2017 at his forest center in Taiwan.",
-      "artist_bio_ru": "Дзен-мастер, целитель и мастер китайской тушевой живописи с Тайваня. Родился в 1957 году, пробудился в 36 лет. Ежегодно путешествовал по Европе, России, Канаде и Гоа, проводя сессии акупунктуры и дзен-встречи. Ушёл 10 ноября 2017 года в своём лесном центре на Тайване.",
+      "artist_bio_ru": "ÐÐ·ÐµÐ½-Ð¼Ð°ÑÑÐµÑ, ÑÐµÐ»Ð¸ÑÐµÐ»Ñ Ð¸ Ð¼Ð°ÑÑÐµÑ ÐºÐ¸ÑÐ°Ð¹ÑÐºÐ¾Ð¹ ÑÑÑÐµÐ²Ð¾Ð¹ Ð¶Ð¸Ð²Ð¾Ð¿Ð¸ÑÐ¸ Ñ Ð¢Ð°Ð¹Ð²Ð°Ð½Ñ. Ð Ð¾Ð´Ð¸Ð»ÑÑ Ð² 1957 Ð³Ð¾Ð´Ñ, Ð¿ÑÐ¾Ð±ÑÐ´Ð¸Ð»ÑÑ Ð² 36 Ð»ÐµÑ. ÐÐ¶ÐµÐ³Ð¾Ð´Ð½Ð¾ Ð¿ÑÑÐµÑÐµÑÑÐ²Ð¾Ð²Ð°Ð» Ð¿Ð¾ ÐÐ²ÑÐ¾Ð¿Ðµ, Ð Ð¾ÑÑÐ¸Ð¸, ÐÐ°Ð½Ð°Ð´Ðµ Ð¸ ÐÐ¾Ð°, Ð¿ÑÐ¾Ð²Ð¾Ð´Ñ ÑÐµÑÑÐ¸Ð¸ Ð°ÐºÑÐ¿ÑÐ½ÐºÑÑÑÑ Ð¸ Ð´Ð·ÐµÐ½-Ð²ÑÑÑÐµÑÐ¸. Ð£ÑÑÐ» 10 Ð½Ð¾ÑÐ±ÑÑ 2017 Ð³Ð¾Ð´Ð° Ð² ÑÐ²Ð¾ÑÐ¼ Ð»ÐµÑÐ½Ð¾Ð¼ ÑÐµÐ½ÑÑÐµ Ð½Ð° Ð¢Ð°Ð¹Ð²Ð°Ð½Ðµ.",
       "artist_photo": "IMG_2914.jpeg",
       "artist_born": "1957, Taiwan",
       "artist_died": "2017",
       "title": "Mountain Landscape",
-      "title_zh": "山水 · 禅境",
+      "title_zh": "å±±æ°´ Â· ç¦å¢",
       "year": 2010,
       "medium": "Ink on paper, scroll",
-      "medium_zh": "水墨 · 纸本立轴",
-      "tradition": "Chinese ink painting · Zen Master",
+      "medium_zh": "æ°´å¢¨ Â· çº¸æ¬ç«è½´",
+      "tradition": "Chinese ink painting Â· Zen Master",
       "owner": "Sergei Panin",
       "owner_city": "Moscow",
       "registered": "2026",
@@ -47,18 +48,18 @@
       "public": true,
       "artist": "Unknown Master",
       "artist_full": "Unknown Master",
-      "artist_zh": "无名工匠",
+      "artist_zh": "æ åå·¥å ",
       "artist_bio_en": "Japanese export ceramics master of the Meiji era. The author of this vase remains unknown, as was common for workshop production of the period.",
-      "artist_bio_ru": "Японский мастер экспортной керамики эпохи Мэйдзи. Автор этой вазы неизвестен, что типично для мастерского производства того времени.",
+      "artist_bio_ru": "Ð¯Ð¿Ð¾Ð½ÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐµÑ ÑÐºÑÐ¿Ð¾ÑÑÐ½Ð¾Ð¹ ÐºÐµÑÐ°Ð¼Ð¸ÐºÐ¸ ÑÐ¿Ð¾ÑÐ¸ ÐÑÐ¹Ð´Ð·Ð¸. ÐÐ²ÑÐ¾Ñ ÑÑÐ¾Ð¹ Ð²Ð°Ð·Ñ Ð½ÐµÐ¸Ð·Ð²ÐµÑÑÐµÐ½, ÑÑÐ¾ ÑÐ¸Ð¿Ð¸ÑÐ½Ð¾ Ð´Ð»Ñ Ð¼Ð°ÑÑÐµÑÑÐºÐ¾Ð³Ð¾ Ð¿ÑÐ¾Ð¸Ð·Ð²Ð¾Ð´ÑÑÐ²Ð° ÑÐ¾Ð³Ð¾ Ð²ÑÐµÐ¼ÐµÐ½Ð¸.",
       "artist_photo": "",
       "artist_born": "c. 1850",
       "artist_died": "c. 1920",
       "title": "Meiji Peony Vase",
-      "title_zh": "牡丹花瓶",
+      "title_zh": "ç¡ä¸¹è±ç¶",
       "year": 1890,
       "medium": "Glazed ceramic, enamel painting",
-      "medium_zh": "釉陶，珐琅彩绘",
-      "tradition": "Japanese Satsuma export ceramics · Meiji era",
+      "medium_zh": "éé¶ï¼ççå½©ç»",
+      "tradition": "Japanese Satsuma export ceramics Â· Meiji era",
       "owner": "Sergei Panin",
       "owner_city": "Moscow",
       "registered": "2026",
