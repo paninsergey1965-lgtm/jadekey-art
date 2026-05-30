@@ -700,10 +700,10 @@ body::after {
       <div class="hash-val">${id} · Verified & Registered · jadekey.art</div>
     </div>
     <div style="margin-top:16px;display:flex;align-items:center;gap:16px">
-      <div id="qrcode-${id}" style="background:white;padding:6px;display:inline-block"></div>
+      <div id="qrcode-' + id + '" style="background:white;padding:6px;display:inline-block"></div>
       <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--mid);letter-spacing:.1em;line-height:1.8">
         <div>SCAN TO VERIFY</div>
-        <div style="color:var(--gold)">jadekey.art/${id}</div>
+        <div style="color:var(--gold)">jadekey.art/' + id + '</div>
       </div>
     </div>
   </div>
@@ -748,8 +748,8 @@ function setLang(lang) {
 const saved = localStorage.getItem('jk-lang');
 if (saved && saved !== 'en') setLang(saved);
 // Generate QR
-new QRCode(document.getElementById('qrcode-${id}'), {
-  text: 'https://jadekey.art/${id}',
+new QRCode(document.getElementById('qrcode-' + id + ''), {
+  text: 'https://jadekey.art/' + id,
   width: 80,
   height: 80,
   colorDark: '#1a1714',
