@@ -553,6 +553,53 @@ body::after {
   text-align: right;
 }
 
+
+/* TON ANCHOR */
+.ton-section {
+  padding: 40px 40px;
+  border-bottom: 1px solid rgba(154,125,78,0.2);
+  background: rgba(26,23,20,0.03);
+}
+.ton-inner {
+  display: flex; align-items: center; gap: 32px;
+  max-width: 860px;
+}
+.ton-icon {
+  width: 48px; height: 48px;
+  background: rgba(0,136,204,0.1);
+  border: 1px solid rgba(0,136,204,0.25);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+.ton-body { flex: 1; }
+.ton-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #29b6f6;
+  margin-bottom: 6px;
+}
+.ton-comment {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--ink);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+.ton-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--mid);
+  letter-spacing: 0.1em;
+}
+.ton-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; color: #29b6f6;
+  text-decoration: none; letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.ton-link:hover { color: var(--ink); }
 /* MOBILE */
 @media (max-width: 768px) {
   .passport-header { padding: 16px 20px; }
@@ -662,6 +709,22 @@ body::after {
     </div>
   </div>
 </div>
+
+
+<!-- TON ANCHOR -->
+${w.ton_tx ? `
+<div class="ton-section">
+  <div class="ton-inner">
+    <div class="ton-icon">⬡</div>
+    <div class="ton-body">
+      <div class="ton-label">Blockchain Anchor · TON</div>
+      <div class="ton-comment">${w.ton_tx_agate ? 'JadeKey:${id}:' + w.ton_agate_hash.slice(0,16) : 'JadeKey:${id}'}</div>
+      <div class="ton-date">${w.ton_anchored_at || ''} · Immutable proof of existence</div>
+    </div>
+    <a href="${w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/transaction/' + w.ton_tx}" target="_blank" class="ton-link">Verify →</a>
+  </div>
+</div>
+` : ''}
 
 <!-- FOOTER -->
 <footer class="passport-footer">
