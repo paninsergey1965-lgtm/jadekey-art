@@ -6,7 +6,8 @@
       "type": "Private Collector",
       "type_ru": "Частный коллекционер",
       "works": [
-        "JK-000001"
+        "JK-000001",
+        "JK-000002"
       ]
     }
   },
@@ -40,6 +41,29 @@
       "ton_agate_hash": "0465d57ab5954ae5768587bbde1583232d64d1628902919eb1d4456a17303bcc",
       "ton_explorer_agate": "https://tonviewer.com/transaction/e517975761195e030e953e25391402c41ea17d652307f46403a4d3e5d1fb4d5a"
     },
-    "public": false
+    "public": false,
+    "JK-000002": {
+      "client": "sergei-panin",
+      "public": true,
+      "artist": "Unknown Master",
+      "artist_full": "Unknown Master",
+      "artist_zh": "无名工匠",
+      "artist_bio_en": "Japanese export ceramics master of the Meiji era. The author of this vase remains unknown, as was common for workshop production of the period.",
+      "artist_bio_ru": "Японский мастер экспортной керамики эпохи Мэйдзи. Автор этой вазы неизвестен, что типично для мастерского производства того времени.",
+      "artist_photo": "",
+      "artist_born": "c. 1850",
+      "artist_died": "c. 1920",
+      "title": "Meiji Peony Vase",
+      "title_zh": "牡丹花瓶",
+      "year": 1890,
+      "medium": "Glazed ceramic, enamel painting",
+      "medium_zh": "釉陶，珐琅彩绘",
+      "tradition": "Japanese Satsuma export ceramics · Meiji era",
+      "owner": "Sergei Panin",
+      "owner_city": "Moscow",
+      "registered": "2026",
+      "photo": "D116EDA0-0844-4A96-B0E0-6FC2F3CBF718.png",
+      "agate": "A249D0C1-B917-45DF-8E8C-2C7EB232C76B.png"
+    }
   }
 }
