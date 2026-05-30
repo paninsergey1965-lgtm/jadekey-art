@@ -606,6 +606,14 @@ body::after {
   .owner-strip { flex-direction: column; align-items: flex-start; gap: 8px; padding: 24px 20px; }
   .reg-date { text-align: left; }
 }
+
+@media print {
+  .passport-header .lang-toggle, .passport-header .back-link, .print-btn { display: none !important; }
+  body::after { display: none; }
+  .passport-header { border-bottom: 1px solid #9a7d4e; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: A4; margin: 10mm; }
+}
 </style>
 </head>
 <body>
@@ -618,7 +626,7 @@ body::after {
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('ru')">RU</button>
-    </div>
+    <button class="lang-btn print-btn" onclick="window.print()" style="margin-left:8px;background:rgba(154,125,78,0.15);border:1px solid rgba(154,125,78,0.4);color:#9a7d4e;cursor:pointer;">PDF</button>
   </div>
 </header>
 
