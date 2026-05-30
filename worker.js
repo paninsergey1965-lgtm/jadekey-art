@@ -697,6 +697,7 @@ body::after {
     <div class="hash-block">
       <label>JadeKey ID</label>
       <div class="hash-val">${id} · Verified & Registered · jadekey.art</div>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fjadekey.art%2F${id}" style="display:block;margin-top:12px;width:80px;height:80px" alt="QR">
     </div>
   </div>
 </div>
