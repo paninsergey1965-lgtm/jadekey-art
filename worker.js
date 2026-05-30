@@ -22,6 +22,7 @@ async function handle(req) {
 
   // Route: / — main page
   if (path === "/en") return serveFile("index-en.html");
+  if (path === "/en") return serveFile("index-en.html");
   if (path === "/") return serveFile("index.html");
 
   return new Response("Not found", { status: 404 });
