@@ -476,7 +476,7 @@ footer {
       </div>
       <div class="get-item">
         <span class="get-icon">🔗</span>
-        <div class="get-title">QR-код верификации</div>
+        <div class="get-title" data-en="QR Verification Code">QR-код верификации</div>
         <p class="get-text" data-en="Anyone can point a camera and verify authenticity in seconds. Forgery is impossible — verification goes through the blockchain.">Любой человек может навести камеру и за секунды убедиться в подлинности. Подделать невозможно — проверка идёт через блокчейн.</p>
       </div>
     </div>
@@ -486,7 +486,7 @@ footer {
 <!-- WHY MINERAL -->
 <section class="mineral">
   <span class="section-tag" data-en="Why a mineral">Почему минерал</span>
-  <h2 style="font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1">Подделать подпись просто.<br>Подделать природу — нельзя.</h2>
+  <h2 style="font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1" data-en="Forging a signature is easy.<br>Forging nature is impossible.">Подделать подпись просто.<br>Подделать природу — нельзя.</h2>
   <blockquote class="mineral-quote">
     The internal structure of agate forms over millions of years. No two identical slices exist in nature.
   </blockquote>
@@ -540,11 +540,11 @@ footer {
       <div class="form-row">
         <div class="form-group">
           <label>Ваше имя</label>
-          <input type="text" name="name" placeholder="Имя Фамилия" required>
+          <input type="text" name="name" placeholder="Имя Фамилия" data-placeholder-en="First Last Name" required>
         </div>
         <div class="form-group">
           <label>Телефон или Email</label>
-          <input type="text" name="contact" placeholder="+7 или email" required>
+          <input type="text" name="contact" placeholder="+7 или email" data-placeholder-en="+7 or email" required>
         </div>
       </div>
       <div class="form-group">
@@ -560,7 +560,7 @@ footer {
       </div>
       <div class="form-group">
         <label>Расскажите о работе</label>
-        <textarea name="description" placeholder="Что за произведение? Автор, техника, размер — любые детали которые считаете важными"></textarea>
+        <textarea name="description" placeholder="Что за произведение? Автор, техника, размер — любые детали которые считаете важными" data-placeholder-en="What artwork? Artist, medium, size — any details you consider important"></textarea>
       </div>
       <button type="submit" class="btn-submit" data-en="Submit Request">Отправить заявку</button>
       <p class="form-note" data-en="We will respond within 24 hours · JadeKey1965@gmail.com">Мы ответим в течение 24 часов · JadeKey1965@gmail.com</p>
@@ -617,6 +617,7 @@ function toggleLang(){
 isEN=!isEN;
 var btn=document.getElementById("lang-btn");
 if(btn)btn.textContent=isEN?"RU":"EN";
+document.querySelectorAll("[data-placeholder-en]").forEach(function(el){if(isEN){if(!el.dataset.placeholderRu)el.dataset.placeholderRu=el.placeholder;el.placeholder=el.dataset.placeholderEn;}else{if(el.dataset.placeholderRu)el.placeholder=el.dataset.placeholderRu;}});
 document.querySelectorAll("[data-en]").forEach(function(el){
 if(isEN){if(!el.dataset.ru)el.dataset.ru=el.innerHTML;el.innerHTML=el.dataset.en;}else{if(el.dataset.ru)el.innerHTML=el.dataset.ru;}
 });
