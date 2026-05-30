@@ -1,10 +1,6 @@
 const GITHUB_RAW = "https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main";
 
-export default {
-  async fetch(request, env) {
-    return handle(request);
-  }
-};
+addEventListener("fetch", e => e.respondWith(handle(e.request)));
 
 async function handle(req) {
   const url = new URL(req.url);
