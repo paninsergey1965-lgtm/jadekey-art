@@ -577,6 +577,18 @@ body::after {
 .ton-comment{font-family:'Space Mono',monospace;font-size:10px;color:var(--ink);letter-spacing:.05em;margin-bottom:3px;word-break:break-all;}
 .ton-date{font-family:'Space Mono',monospace;font-size:9px;color:var(--mid);}
 .ton-link{font-family:'Space Mono',monospace;font-size:10px;color:#29b6f6;text-decoration:none;white-space:nowrap;}
+
+/* TON ANCHOR */
+.ton-section{padding:32px 40px;border-bottom:1px solid rgba(154,125,78,0.2);background:rgba(26,23,20,0.02);}
+.ton-inner{display:flex;align-items:center;gap:24px;max-width:800px;}
+.ton-icon{width:44px;height:44px;background:rgba(0,136,204,0.1);border:1px solid rgba(0,136,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:#29b6f6;}
+.ton-body{flex:1;}
+.ton-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#29b6f6;margin-bottom:6px;}
+.ton-comment{font-family:'Space Mono',monospace;font-size:11px;color:var(--ink);letter-spacing:.05em;margin-bottom:4px;word-break:break-all;}
+.ton-date{font-family:'Space Mono',monospace;font-size:9px;color:var(--mid);letter-spacing:.1em;}
+.ton-link{font-family:'Space Mono',monospace;font-size:10px;color:#29b6f6;text-decoration:none;letter-spacing:.1em;white-space:nowrap;border:1px solid rgba(0,136,204,0.3);padding:6px 12px;}
+.ton-link:hover{background:rgba(0,136,204,0.1);}
+@media(max-width:768px){.ton-section{padding:24px 20px;}.ton-inner{gap:16px;}.ton-link{display:block;margin-top:12px;text-align:center;}}
 /* MOBILE */
 @media (max-width: 768px) {
   .passport-header { padding: 16px 20px; }
