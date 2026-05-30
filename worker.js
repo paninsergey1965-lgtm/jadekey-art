@@ -698,18 +698,11 @@ body::after {
     <div class="hash-block">
       <label>JadeKey ID</label>
       <div class="hash-val">${id} · Verified & Registered · jadekey.art</div>
-    </div>
-    <div style="margin-top:16px;display:flex;align-items:center;gap:16px">
-      `<img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://jadekey.art/${id}" style="width:80px;height:80px;display:block" alt="QR">` +
-      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--mid);letter-spacing:.1em;line-height:1.8">
-        <div>SCAN TO VERIFY</div>
-        <div style="color:var(--gold)">jadekey.art/' + id + '</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
+      '</div>' +
+      '<div style="margin-top:16px;display:flex;align-items:center;gap:16px">' +
+      '<img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://jadekey.art/' + id + '" style="width:80px;height:80px;display:block" alt="QR">' +
+      '<div style="font-family:Space Mono,monospace;font-size:9px;color:#6b5f4e;letter-spacing:.1em;line-height:1.8"><div>SCAN TO VERIFY</div><div style="color:#9a7d4e">jadekey.art/' + id + '</div></div>' +
+      '</div>' +
 ${tonBlock}
 <!-- FOOTER -->
 <footer class="passport-footer">
