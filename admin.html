@@ -50,9 +50,12 @@ body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',
 .tog input:checked + .tog-sl::before{transform:translateX(18px);background:var(--stone);}
 .wlink{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.25);text-decoration:none;}
 .wlink:hover{color:var(--stone);}
+.btn-ton{font-family:'Space Mono',monospace;font-size:9px;padding:5px 10px;background:rgba(0,136,204,0.12);border:1px solid rgba(0,136,204,0.3);color:#29b6f6;cursor:pointer;white-space:nowrap;border-radius:0;text-decoration:none;display:inline-block;}
+.btn-ton:hover{background:rgba(0,136,204,0.25);}
+.btn-ton.anchored{background:rgba(0,204,102,0.12);border-color:rgba(0,204,102,0.3);color:#0c6;}
+.btn-ton.anchored:hover{background:rgba(0,204,102,0.22);}
 .saved{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-top:20px;display:none;}
 .loading-txt{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);padding:28px 0;letter-spacing:0.15em;}
-/* Token setup banner */
 .token-banner{background:rgba(184,154,110,0.08);border:1px solid rgba(184,154,110,0.2);padding:20px;margin-bottom:24px;}
 .token-banner p{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-bottom:12px;line-height:1.6;}
 .token-row{display:flex;gap:8px;}
@@ -111,8 +114,11 @@ const TOKEN_KEY = 'jk_t';
 const GH_REPO = 'paninsergey1965-lgtm/jadekey-art';
 const RAW = 'https://raw.githubusercontent.com/' + GH_REPO + '/main';
 const GH_API = 'https://api.github.com/repos/' + GH_REPO + '/contents/works.json';
+const TON_REGISTRY = 'UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu';
 
-let works = {}, sha = '';
+// db = полный объект {clients:{...}, works:{...}}
+// worksDb = db.works = {JK-000001:{...}, ...}
+let db = {}, worksDb = {}, sha = '';
 
 function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
 
@@ -130,21 +136,13 @@ function doLogin() {
   const stored = localStorage.getItem(PASS_KEY);
   const err = document.getElementById('err-msg');
   err.style.display = 'none';
-
   if (email !== ADMIN_EMAIL) { err.style.display = 'block'; return; }
-
   if (!stored) {
-    if (pass.length < 4) {
-      err.textContent = 'Min 4 characters';
-      err.style.display = 'block';
-      return;
-    }
+    if (pass.length < 4) { err.textContent = 'Min 4 characters'; err.style.display = 'block'; return; }
     localStorage.setItem(PASS_KEY, pass);
     localStorage.setItem(SESSION_KEY, '1');
-    enterPanel();
-    return;
+    enterPanel(); return;
   }
-
   if (pass !== stored) { err.style.display = 'block'; return; }
   localStorage.setItem(SESSION_KEY, '1');
   enterPanel();
@@ -178,7 +176,9 @@ async function loadWorks() {
     const data = await res.json();
     if (!data.sha) throw new Error('no sha');
     sha = data.sha;
-    works = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    db = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    // works.json имеет структуру {clients:{...}, works:{JK-000001:{...}}}
+    worksDb = db.works || db;
     renderWorks();
   } catch(e) {
     document.getElementById('wlist').innerHTML = '<div class="loading-txt">Error loading — check token</div>';
@@ -187,10 +187,11 @@ async function loadWorks() {
 }
 
 function renderWorks() {
-  const keys = Object.keys(works);
+  const keys = Object.keys(worksDb);
   document.getElementById('wcount').textContent = keys.length + ' work' + (keys.length !== 1 ? 's' : '') + ' registered';
   document.getElementById('wlist').innerHTML = keys.map(id => {
-    const w = works[id];
+    const w = worksDb[id];
+    const tonAnchored = !!w.ton_tx;
     return `<div class="wcard">
       <img class="wthumb" src="${RAW}/${w.photo}" onerror="this.style.display='none'">
       <div class="winfo">
@@ -208,27 +209,53 @@ function renderWorks() {
           </label>
         </div>
         <a href="/${id}" target="_blank" class="wlink">↗ passport</a>
+        <button class="btn-ton ${tonAnchored?'anchored':''}" onclick="anchorToTon('${id}')">${tonAnchored?'⬡ TON anchored':'⬡ Anchor to TON'}</button>
       </div>
     </div>`;
   }).join('') || '<div class="loading-txt">No works yet</div>';
 }
 
 async function toggle(id, val) {
-  works[id].public = val;
+  worksDb[id].public = val;
   const b = document.getElementById('b-' + id);
   b.textContent = val ? 'PUBLIC' : 'PRIVATE';
   b.className = 'badge ' + (val ? 'pub' : 'prv');
+  await saveWorks('Update visibility: ' + id);
+}
+
+async function anchorToTon(id) {
+  const w = worksDb[id];
+  if (w.ton_tx) {
+    window.open('https://tonscan.org/tx/' + w.ton_tx, '_blank');
+    return;
+  }
+  const comment = 'JadeKey:' + id;
+  const tonLink = 'ton://transfer/' + TON_REGISTRY + '?amount=10000000&text=' + encodeURIComponent(comment);
+  if (!confirm('Anchor "' + w.title + '" to TON blockchain?\n\nOpens TON wallet · 0.01 TON\nComment: ' + comment)) return;
+  window.open(tonLink, '_blank');
+  setTimeout(() => {
+    const tx = prompt('Paste transaction hash from TON explorer\n(leave empty to cancel):');
+    if (!tx || !tx.trim()) return;
+    worksDb[id].ton_tx = tx.trim();
+    worksDb[id].ton_anchored_at = new Date().toISOString().slice(0, 10);
+    saveWorks('TON anchor: ' + id);
+  }, 3000);
+}
+
+async function saveWorks(message) {
   const t = getToken();
-  if (!t) return;
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(works, null, 2))));
+  if (!t) { alert('GitHub token required'); return; }
+  // Сохраняем весь db обратно (с clients и works)
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(db, null, 2))));
   const res = await fetch(GH_API, {
     method: 'PUT',
     headers: { 'Authorization': 'Bearer ' + t, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: 'Update visibility', content, sha })
+    body: JSON.stringify({ message, content, sha })
   });
   const data = await res.json();
   if (data.content) {
     sha = data.content.sha;
+    renderWorks();
     const m = document.getElementById('saved-msg');
     m.textContent = '✓ Saved';
     m.style.display = 'block';
