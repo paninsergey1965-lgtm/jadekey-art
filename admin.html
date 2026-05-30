@@ -226,7 +226,7 @@ async function toggle(id, val) {
 async function anchorToTon(id) {
   const w = worksDb[id];
   if (w.ton_tx) {
-    window.open('https://tonscan.org/tx/' + w.ton_tx, '_blank');
+    window.open(w.ton_explorer || ('https://tonviewer.com/transaction/' + w.ton_tx), '_blank');
     return;
   }
   const comment = 'JadeKey:' + id;
