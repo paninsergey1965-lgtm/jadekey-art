@@ -748,6 +748,7 @@ function setLang(lang) {
 const saved = localStorage.getItem('jk-lang');
 if (saved && saved !== 'en') setLang(saved);
 // Generate QR
+window.addEventListener('load', function() {
 new QRCode(document.getElementById('qrcode-' + id + ''), {
   text: 'https://jadekey.art/' + id,
   width: 80,
@@ -755,6 +756,7 @@ new QRCode(document.getElementById('qrcode-' + id + ''), {
   colorDark: '#1a1714',
   colorLight: '#ffffff',
   correctLevel: QRCode.CorrectLevel.M
+});
 });
 </script>
 
