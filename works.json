@@ -63,7 +63,10 @@
       "owner_city": "Moscow",
       "registered": "2026",
       "photo": "D116EDA0-0844-4A96-B0E0-6FC2F3CBF718.png",
-      "agate": "A249D0C1-B917-45DF-8E8C-2C7EB232C76B.png"
+      "agate": "A249D0C1-B917-45DF-8E8C-2C7EB232C76B.png",
+      "ton_tx": "52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
+      "ton_anchored_at": "2026-05-30",
+      "ton_explorer": "https://tonviewer.com/transaction/52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1"
     }
   }
 }
