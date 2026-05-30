@@ -554,52 +554,16 @@ body::after {
 }
 
 
+
 /* TON ANCHOR */
-.ton-section {
-  padding: 40px 40px;
-  border-bottom: 1px solid rgba(154,125,78,0.2);
-  background: rgba(26,23,20,0.03);
-}
-.ton-inner {
-  display: flex; align-items: center; gap: 32px;
-  max-width: 860px;
-}
-.ton-icon {
-  width: 48px; height: 48px;
-  background: rgba(0,136,204,0.1);
-  border: 1px solid rgba(0,136,204,0.25);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  font-size: 20px;
-}
-.ton-body { flex: 1; }
-.ton-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px; letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: #29b6f6;
-  margin-bottom: 6px;
-}
-.ton-comment {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px; color: var(--ink);
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
-  word-break: break-all;
-}
-.ton-date {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px; color: var(--mid);
-  letter-spacing: 0.1em;
-}
-.ton-link {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px; color: #29b6f6;
-  text-decoration: none; letter-spacing: 0.1em;
-  white-space: nowrap;
-}
-.ton-link:hover { color: var(--ink); }
+.ton-section{padding:32px 40px;border-bottom:1px solid rgba(154,125,78,0.2);background:rgba(26,23,20,0.02);}
+.ton-inner{display:flex;align-items:center;gap:24px;}
+.ton-icon{width:44px;height:44px;background:rgba(0,136,204,0.1);border:1px solid rgba(0,136,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:#29b6f6;}
+.ton-body{flex:1;}
+.ton-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#29b6f6;margin-bottom:5px;}
+.ton-comment{font-family:'Space Mono',monospace;font-size:10px;color:var(--ink);letter-spacing:.05em;margin-bottom:3px;word-break:break-all;}
+.ton-date{font-family:'Space Mono',monospace;font-size:9px;color:var(--mid);}
+.ton-link{font-family:'Space Mono',monospace;font-size:10px;color:#29b6f6;text-decoration:none;white-space:nowrap;}
 /* MOBILE */
 @media (max-width: 768px) {
   .passport-header { padding: 16px 20px; }
@@ -618,6 +582,15 @@ body::after {
 </style>
 </head>
 <body>
+<script>
+window._jkton = {
+  id: "${id}",
+  tx: ${w.ton_tx ? '"' + w.ton_tx + '"' : 'null'},
+  agate: ${w.ton_agate_hash ? '"' + w.ton_agate_hash.slice(0,16) + '"' : 'null'},
+  date: "${w.ton_anchored_at || '2026-05-30'}",
+  url: "${w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu'}"
+};
+</script>
 
 <header class="passport-header">
   <a href="/" class="header-logo">JADE<em>KEY</em></a>
@@ -711,20 +684,6 @@ body::after {
 </div>
 
 
-<!-- TON ANCHOR -->
-${w.ton_tx ? `<div class="ton-section">
-  <div class="ton-inner">
-    <div class="ton-icon">&#x2B21;</div>
-    <div class="ton-body">
-      <div class="ton-label">Blockchain Anchor &middot; TON</div>
-      <div class="ton-comment">JadeKey:${id}${w.ton_agate_hash ? ':' + w.ton_agate_hash.slice(0,16) : ''}</div>
-      <div class="ton-date">${w.ton_anchored_at || '2026-05-30'} &middot; Immutable proof of existence</div>
-    </div>
-    <a href="${w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu'}" target="_blank" class="ton-link">Verify &rarr;</a>
-  </div>
-</div>` : ''}
-
-
 <!-- FOOTER -->
 <footer class="passport-footer">
   <div class="seal-group">
@@ -761,6 +720,27 @@ function setLang(lang) {
 }
 const saved = localStorage.getItem('jk-lang');
 if (saved && saved !== 'en') setLang(saved);
+</script>
+
+<script>
+(function(){
+  var t = window._jkton;
+  if (!t || !t.tx) return;
+  var comment = t.agate ? 'JadeKey:' + t.id + ':' + t.agate : 'JadeKey:' + t.id;
+  var div = document.createElement('div');
+  div.className = 'ton-section';
+  div.innerHTML = '<div class="ton-inner">'
+    + '<div class="ton-icon">&#x2B21;</div>'
+    + '<div class="ton-body">'
+    + '<div class="ton-label">Blockchain Anchor &middot; TON</div>'
+    + '<div class="ton-comment">' + comment + '</div>'
+    + '<div class="ton-date">' + t.date + ' &middot; Immutable proof of existence</div>'
+    + '</div>'
+    + '<a href="' + t.url + '" target="_blank" class="ton-link">Verify &rarr;</a>'
+    + '</div>';
+  var footer = document.querySelector('footer.passport-footer');
+  if (footer) footer.parentNode.insertBefore(div, footer);
+})();
 </script>
 </body>
 </html>`;
