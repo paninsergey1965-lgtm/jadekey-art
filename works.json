@@ -66,7 +66,9 @@
       "agate": "A249D0C1-B917-45DF-8E8C-2C7EB232C76B.png",
       "ton_tx": "52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
       "ton_anchored_at": "2026-05-30",
-      "ton_explorer": "https://tonviewer.com/transaction/52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1"
+      "ton_explorer": "https://tonviewer.com/transaction/52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
+      "for_sale": true,
+      "price_ton": 150
     }
   }
 }
