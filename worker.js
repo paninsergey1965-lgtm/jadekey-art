@@ -208,6 +208,19 @@ async function serveFile(filename) {
 // Called from servePassport() in worker.js
 
 function passportPage(id, w) {
+  // Build TON anchor block if available
+  const tonBlock = w.ton_tx ? (
+    '<div class="ton-section">' +
+    '<div class="ton-inner">' +
+    '<div class="ton-icon">&#x2B21;</div>' +
+    '<div class="ton-body">' +
+    '<div class="ton-label">Blockchain Anchor &middot; TON</div>' +
+    '<div class="ton-comment">' + (w.ton_agate_hash ? 'JadeKey:' + id + ':' + w.ton_agate_hash.slice(0,16) : 'JadeKey:' + id) + '</div>' +
+    '<div class="ton-date">' + (w.ton_anchored_at || '2026-05-30') + ' &middot; Immutable proof of existence</div>' +
+    '</div>' +
+    '<a href="' + (w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu') + '" target="_blank" class="ton-link">Verify &rarr;</a>' +
+    '</div></div>'
+  ) : '';
   const RAW = 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main';
   const photoUrl = `${RAW}/${w.photo}`;
   const agateUrl = `${RAW}/${w.agate}`;
@@ -582,15 +595,6 @@ body::after {
 </style>
 </head>
 <body>
-<script>
-window._jkton = {
-  id: "${id}",
-  tx: ${w.ton_tx ? '"' + w.ton_tx + '"' : 'null'},
-  agate: ${w.ton_agate_hash ? '"' + w.ton_agate_hash.slice(0,16) + '"' : 'null'},
-  date: "${w.ton_anchored_at || '2026-05-30'}",
-  url: "${w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu'}"
-};
-</script>
 
 <header class="passport-header">
   <a href="/" class="header-logo">JADE<em>KEY</em></a>
@@ -684,6 +688,7 @@ window._jkton = {
 </div>
 
 
+${tonBlock}
 <!-- FOOTER -->
 <footer class="passport-footer">
   <div class="seal-group">
@@ -722,26 +727,6 @@ const saved = localStorage.getItem('jk-lang');
 if (saved && saved !== 'en') setLang(saved);
 </script>
 
-<script>
-(function(){
-  var t = window._jkton;
-  if (!t || !t.tx) return;
-  var comment = t.agate ? 'JadeKey:' + t.id + ':' + t.agate : 'JadeKey:' + t.id;
-  var div = document.createElement('div');
-  div.className = 'ton-section';
-  div.innerHTML = '<div class="ton-inner">'
-    + '<div class="ton-icon">&#x2B21;</div>'
-    + '<div class="ton-body">'
-    + '<div class="ton-label">Blockchain Anchor &middot; TON</div>'
-    + '<div class="ton-comment">' + comment + '</div>'
-    + '<div class="ton-date">' + t.date + ' &middot; Immutable proof of existence</div>'
-    + '</div>'
-    + '<a href="' + t.url + '" target="_blank" class="ton-link">Verify &rarr;</a>'
-    + '</div>';
-  var footer = document.querySelector('footer.passport-footer');
-  if (footer) footer.parentNode.insertBefore(div, footer);
-})();
-</script>
 </body>
 </html>`;
 }
