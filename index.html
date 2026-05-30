@@ -389,12 +389,12 @@ footer {
 
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
-  <a href="/en" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.35);text-decoration:none;margin-right:12px">EN</a><a href="#form" class="nav-cta">Оставить заявку</a>
+  <a href="#" onclick="toggleLang();return false;" id="lang-btn" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.35);text-decoration:none;margin-right:12px">EN</a><a href="#form" class="nav-cta" data-en="Leave a Request">Оставить заявку</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero" style="display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;padding:100px 40px 80px">
-  <div><div class="hero-tag">Физическая защита подлинности</div>
+  <div><div class="hero-tag" data-en="Physical Authentication">Физическая защита подлинности</div>
   <h1 class="hero-title">
     Ваша картина<br>заслуживает<br><em>паспорта</em>
   </h1>
@@ -402,8 +402,8 @@ footer {
     Вы приносите работу. Мы делаем всё остальное — минеральный ключ, цифровой паспорт, запись в блокчейне. Навсегда.
   </p>
   <div class="hero-btns">
-    <a href="#form" class="btn-primary">Зарегистрировать работу</a>
-    <a href="#how" class="btn-secondary">Как это работает</a>
+    <a href="#form" class="btn-primary" data-en="Register Artwork">Зарегистрировать работу</a>
+    <a href="#how" class="btn-secondary" data-en="How it works">Как это работает</a>
   </div>
   </div><div style="display:flex;align-items:center;justify-content:center"><img src="https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/agate-jk000001.png" style="width:100%;height:65vh;object-fit:cover" alt="agate"></div></section>
 
@@ -417,7 +417,7 @@ footer {
 
 <!-- PROBLEM -->
 <section class="problem">
-  <span class="section-tag">Проблема</span>
+  <span class="section-tag" data-en="Problem">Проблема</span>
   <h2 class="problem-title">Сертификат на бумаге<br>можно подделать за час</h2>
   <p class="problem-text">
     Каждый год рынок искусства теряет миллиарды из-за подделок. <strong>Бумажные сертификаты, подписи, печати</strong> — всё это копируется. Покупатель не может быть уверен. Коллекционер не может доказать.
@@ -429,24 +429,24 @@ footer {
 <!-- HOW IT WORKS -->
 <section class="how" id="how">
   <div class="how-inner">
-    <span class="section-tag">Как это работает</span>
+    <span class="section-tag" data-en="How it works">Как это работает</span>
     <h2 style="font-size:clamp(32px,5vw,52px);font-weight:300;line-height:1.1">Три шага.<br>Всё остальное — наша работа</h2>
     <div class="steps">
       <div class="step">
         <span class="step-num">01</span>
-        <div class="step-title">Вы приносите работу</div>
+        <div class="step-title" data-en="You bring the artwork">Вы приносите работу</div>
         <p class="step-text">Картину, скульптуру, предмет коллекционирования. Никаких специальных требований — просто сама работа и сопроводительные материалы если есть.</p>
         <span class="step-arrow">→</span>
       </div>
       <div class="step">
         <span class="step-num">02</span>
-        <div class="step-title">Мы делаем всё</div>
+        <div class="step-title" data-en="We do everything">Мы делаем всё</div>
         <p class="step-text">Фотографируем работу и художника, сканируем минеральный ключ, оформляем цифровой паспорт, записываем в блокчейн TON. Вы не делаете ничего технического.</p>
         <span class="step-arrow">→</span>
       </div>
       <div class="step">
         <span class="step-num">03</span>
-        <div class="step-title">Получаете паспорт</div>
+        <div class="step-title" data-en="You receive the passport">Получаете паспорт</div>
         <p class="step-text">QR-код, персональная страница онлайн, физический минеральный ключ. Любой желающий может проверить подлинность работы за секунды.</p>
       </div>
     </div>
@@ -456,17 +456,17 @@ footer {
 <!-- WHAT YOU GET -->
 <section class="get">
   <div class="get-inner">
-    <span class="section-tag">Что вы получаете</span>
+    <span class="section-tag" data-en="What you receive">Что вы получаете</span>
     <h2 style="font-size:clamp(32px,5vw,52px);font-weight:300;line-height:1.1">Полный пакет<br>защиты подлинности</h2>
     <div class="get-grid">
       <div class="get-item">
         <span class="get-icon">◈</span>
-        <div class="get-title">Минеральный ключ</div>
+        <div class="get-title" data-en="Mineral Key">Минеральный ключ</div>
         <p class="get-text">Срез агата с уникальной микроструктурой — физически неклонируемый идентификатор. Природа создавала его миллионы лет. Прикрепляется к работе или хранится у владельца.</p>
       </div>
       <div class="get-item">
         <span class="get-icon">⬡</span>
-        <div class="get-title">Запись в блокчейне</div>
+        <div class="get-title" data-en="Blockchain Record">Запись в блокчейне</div>
         <p class="get-text">Цифровой отпечаток минерала и дата регистрации записываются в блокчейн TON. Это невозможно удалить или изменить задним числом.</p>
       </div>
       <div class="get-item">
@@ -505,22 +505,22 @@ footer {
     <div class="whom-grid">
       <div class="whom-item">
         <span class="whom-icon">🖼</span>
-        <div class="whom-title">Коллекционеры</div>
+        <div class="whom-title" data-en="Collectors">Коллекционеры</div>
         <p class="whom-text">Защитите и подтвердите ценность своего собрания</p>
       </div>
       <div class="whom-item">
         <span class="whom-icon">🎨</span>
-        <div class="whom-title">Художники</div>
+        <div class="whom-title" data-en="Artists">Художники</div>
         <p class="whom-text">Защитите авторство и упростите продажу работ</p>
       </div>
       <div class="whom-item">
         <span class="whom-icon">🏛</span>
-        <div class="whom-title">Галереи</div>
+        <div class="whom-title" data-en="Galleries">Галереи</div>
         <p class="whom-text">Повысьте доверие покупателей и стоимость работ</p>
       </div>
       <div class="whom-item">
         <span class="whom-icon">🔨</span>
-        <div class="whom-title">Аукционы</div>
+        <div class="whom-title" data-en="Auctions">Аукционы</div>
         <p class="whom-text">Верифицированный провенанс для каждого лота</p>
       </div>
     </div>
@@ -528,11 +528,11 @@ footer {
 </section>
 
 
-<section style="padding:80px 40px;background:rgba(154,125,78,0.06);border-top:1px solid rgba(154,125,78,0.15);border-bottom:1px solid rgba(154,125,78,0.15)"><div style="max-width:900px;margin:0 auto"><div style="font-family:monospace;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:#8b2218;margin-bottom:24px">Наши клиенты</div><h2 style="font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px">Коллекционеры и галереи<br>которые уже с нами</h2><p style="font-size:18px;color:rgba(245,240,232,0.5);margin-bottom:48px;max-width:560px">Каждая работа получает минеральный ключ, цифровой паспорт и запись в блокчейне TON. Навсегда.</p><div style="border:1px solid rgba(154,125,78,0.2);padding:32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><div style="font-family:monospace;font-size:9px;letter-spacing:.25em;color:#8b2218;margin-bottom:8px">JK-000001 · 2026</div><div style="font-size:24px;font-weight:300;font-style:italic;margin-bottom:4px">Mountain Landscape</div><div style="font-size:13px;color:rgba(245,240,232,0.4);font-family:monospace">Cuckoo · Sergei Panin · Москва · TON ✓</div></div><a href="/JK-000001" style="font-family:monospace;font-size:10px;letter-spacing:.2em;color:#9a7d4e;text-decoration:none;border:1px solid rgba(154,125,78,0.3);padding:12px 24px;white-space:nowrap">Открыть паспорт →</a></div><a href="#form" style="font-family:monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,0.4);text-decoration:none">Зарегистрировать свою работу →</a></div></section>
+<section style="padding:80px 40px;background:rgba(154,125,78,0.06);border-top:1px solid rgba(154,125,78,0.15);border-bottom:1px solid rgba(154,125,78,0.15)"><div style="max-width:900px;margin:0 auto"><div style="font-family:monospace;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:#8b2218;margin-bottom:24px" data-en="Our Clients">Наши клиенты</div><h2 style="font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px">Коллекционеры и галереи<br>которые уже с нами</h2><p style="font-size:18px;color:rgba(245,240,232,0.5);margin-bottom:48px;max-width:560px">Каждая работа получает минеральный ключ, цифровой паспорт и запись в блокчейне TON. Навсегда.</p><div style="border:1px solid rgba(154,125,78,0.2);padding:32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><div style="font-family:monospace;font-size:9px;letter-spacing:.25em;color:#8b2218;margin-bottom:8px">JK-000001 · 2026</div><div style="font-size:24px;font-weight:300;font-style:italic;margin-bottom:4px">Mountain Landscape</div><div style="font-size:13px;color:rgba(245,240,232,0.4);font-family:monospace">Cuckoo · Sergei Panin · Москва · TON ✓</div></div><a href="/JK-000001" style="font-family:monospace;font-size:10px;letter-spacing:.2em;color:#9a7d4e;text-decoration:none;border:1px solid rgba(154,125,78,0.3);padding:12px 24px;white-space:nowrap">Открыть паспорт →</a></div><a href="#form" style="font-family:monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,0.4);text-decoration:none">Зарегистрировать свою работу →</a></div></section>
 <!-- FORM -->
 <section class="form-section" id="form">
   <div class="form-inner">
-    <span class="section-tag">Заявка</span>
+    <span class="section-tag" data-en="Contact">Заявка</span>
     <h2 class="form-title">Зарегистрируйте<br>свою работу</h2>
     <p class="form-sub">Оставьте заявку — мы свяжемся и согласуем все детали. Никакой технической подготовки с вашей стороны не требуется.</p>
 
@@ -562,7 +562,7 @@ footer {
         <label>Расскажите о работе</label>
         <textarea name="description" placeholder="Что за произведение? Автор, техника, размер — любые детали которые считаете важными"></textarea>
       </div>
-      <button type="submit" class="btn-submit">Отправить заявку</button>
+      <button type="submit" class="btn-submit" data-en="Submit Request">Отправить заявку</button>
       <p class="form-note">Мы ответим в течение 24 часов · JadeKey1965@gmail.com</p>
     </form>
 
@@ -611,5 +611,15 @@ document.getElementById('jk-form').addEventListener('submit', function(e) {
 });
 </script>
 
-<section style="padding:80px 40px;background:rgba(154,125,78,0.06);border-top:1px solid rgba(154,125,78,0.15);border-bottom:1px solid rgba(154,125,78,0.15)"><div style="max-width:900px;margin:0 auto"><div style="font-family:monospace;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:#8b2218;margin-bottom:24px">Наши клиенты</div><h2 style="font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px">Коллекционеры и галереи<br>которые уже с нами</h2><p style="font-size:18px;color:rgba(245,240,232,0.5);margin-bottom:48px;max-width:560px">Каждая работа получает минеральный ключ, цифровой паспорт и запись в блокчейне TON. Навсегда.</p><div style="border:1px solid rgba(154,125,78,0.2);padding:32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><div style="font-family:monospace;font-size:9px;letter-spacing:.25em;color:#8b2218;margin-bottom:8px">JK-000001 · 2026</div><div style="font-size:24px;font-weight:300;font-style:italic;margin-bottom:4px">Mountain Landscape</div><div style="font-size:13px;color:rgba(245,240,232,0.4);font-family:monospace">Cuckoo · Sergei Panin · Москва · TON ✓</div></div><a href="/JK-000001" style="font-family:monospace;font-size:10px;letter-spacing:.2em;color:#9a7d4e;text-decoration:none;border:1px solid rgba(154,125,78,0.3);padding:12px 24px;white-space:nowrap">Открыть паспорт →</a></div><a href="/clients" style="font-family:monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,0.4);text-decoration:none">Все клиенты →</a></div></section></body>
+<section style="padding:80px 40px;background:rgba(154,125,78,0.06);border-top:1px solid rgba(154,125,78,0.15);border-bottom:1px solid rgba(154,125,78,0.15)"><div style="max-width:900px;margin:0 auto"><div style="font-family:monospace;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:#8b2218;margin-bottom:24px" data-en="Our Clients">Наши клиенты</div><h2 style="font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px">Коллекционеры и галереи<br>которые уже с нами</h2><p style="font-size:18px;color:rgba(245,240,232,0.5);margin-bottom:48px;max-width:560px">Каждая работа получает минеральный ключ, цифровой паспорт и запись в блокчейне TON. Навсегда.</p><div style="border:1px solid rgba(154,125,78,0.2);padding:32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><div style="font-family:monospace;font-size:9px;letter-spacing:.25em;color:#8b2218;margin-bottom:8px">JK-000001 · 2026</div><div style="font-size:24px;font-weight:300;font-style:italic;margin-bottom:4px">Mountain Landscape</div><div style="font-size:13px;color:rgba(245,240,232,0.4);font-family:monospace">Cuckoo · Sergei Panin · Москва · TON ✓</div></div><a href="/JK-000001" style="font-family:monospace;font-size:10px;letter-spacing:.2em;color:#9a7d4e;text-decoration:none;border:1px solid rgba(154,125,78,0.3);padding:12px 24px;white-space:nowrap">Открыть паспорт →</a></div><a href="/clients" style="font-family:monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,0.4);text-decoration:none">Все клиенты →</a></div></section><script>
+var isEN=false;
+function toggleLang(){
+isEN=!isEN;
+var btn=document.getElementById("lang-btn");
+if(btn)btn.textContent=isEN?"RU":"EN";
+document.querySelectorAll("[data-en]").forEach(function(el){
+if(isEN){if(!el.dataset.ru)el.dataset.ru=el.innerHTML;el.innerHTML=el.dataset.en;}else{if(el.dataset.ru)el.innerHTML=el.dataset.ru;}
+});
+}
+</script></body>
 </html>
