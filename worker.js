@@ -87,7 +87,7 @@ h1{font-size:clamp(32px,5vw,56px);font-weight:300;margin-bottom:8px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 .cc{background:rgba(244,239,230,.03);border:1px solid rgba(184,154,110,.1);text-decoration:none;color:#f4efe6;display:block;transition:background .3s}
 .cc:hover{background:rgba(184,154,110,.07)}
-.cc-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;filter:grayscale(15%)}
+.cc-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(15%)}
 .cc-no-img{background:rgba(184,154,110,.08)}
 .cc-body{padding:24px}
 .cc-type{font-family:'Space Mono',monospace;font-size:9px;color:#b89a6e;letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px}
@@ -169,7 +169,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
 .wc:hover{background:rgba(184,154,110,.07)}
 .wc-private{cursor:default}
 .wc-private:hover{background:rgba(244,239,230,.03)}
-.wc-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(15%)}
+.wc-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;filter:grayscale(15%)}
 .wc-img-wrap{width:100%;aspect-ratio:4/3;background:rgba(244,239,230,.03);display:flex;align-items:center;justify-content:center}
 .wc-private-icon{font-size:32px;opacity:.3}
 .wc-body{padding:20px}
