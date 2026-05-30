@@ -712,19 +712,18 @@ body::after {
 
 
 <!-- TON ANCHOR -->
-${w.ton_tx ? `
-<div class="ton-section">
+${w.ton_tx ? `<div class="ton-section">
   <div class="ton-inner">
-    <div class="ton-icon">⬡</div>
+    <div class="ton-icon">&#x2B21;</div>
     <div class="ton-body">
-      <div class="ton-label">Blockchain Anchor · TON</div>
-      <div class="ton-comment">${w.ton_tx_agate ? 'JadeKey:${id}:' + w.ton_agate_hash.slice(0,16) : 'JadeKey:${id}'}</div>
-      <div class="ton-date">${w.ton_anchored_at || ''} · Immutable proof of existence</div>
+      <div class="ton-label">Blockchain Anchor &middot; TON</div>
+      <div class="ton-comment">JadeKey:${id}${w.ton_agate_hash ? ':' + w.ton_agate_hash.slice(0,16) : ''}</div>
+      <div class="ton-date">${w.ton_anchored_at || '2026-05-30'} &middot; Immutable proof of existence</div>
     </div>
-    <a href="${w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/transaction/' + w.ton_tx}" target="_blank" class="ton-link">Verify →</a>
+    <a href="${w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu'}" target="_blank" class="ton-link">Verify &rarr;</a>
   </div>
-</div>
-` : ''}
+</div>` : ''}
+
 
 <!-- FOOTER -->
 <footer class="passport-footer">
