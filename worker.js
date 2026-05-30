@@ -674,7 +674,7 @@ body::after {
       <span data-en="Authenticated by JadeKey" data-ru="Верифицировано JadeKey">Authenticated by JadeKey</span>
     </div>
   </div>
-  <div class="footer-right">
+  <div class="disclaimer" id="disc" style="padding:24px 40px;background:var(--ink);border-top:1px solid rgba(154,125,78,0.2);text-align:center"><p id="disc-text" style="font-family:Space Mono,monospace;font-size:9px;color:rgba(242,236,224,0.35);letter-spacing:0.08em;line-height:1.8;max-width:700px;margin:0 auto">JadeKey registers the physical identifier of an object. The authenticity of the artwork is confirmed by the owner and the author. JadeKey does not guarantee the accuracy of the information provided and bears no responsibility for the accuracy of information declared by users or third parties.</p></div><div class="footer-right">
     <div>© 2026 JadeKey</div>
     <div>Physical Authentication System</div>
     <div>jadekey.art</div>
