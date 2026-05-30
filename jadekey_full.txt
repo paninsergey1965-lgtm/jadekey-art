@@ -1869,4 +1869,599 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 </script>
 </body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JadeKey — Physical Authentication of Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0a0a08;--paper:#f4efe6;--stone:#b89a6e;--red:#b83225;--mist:#e6e0d4;--deep:#141410;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--paper);font-family:'Cormorant Garamond',serif;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;}
+nav::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,8,0.9) 0%,transparent 100%);pointer-events:none;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;position:relative;text-decoration:none;color:var(--paper);}
+.logo em{color:var(--red);font-style:normal;}
+.nav-right{display:flex;gap:32px;align-items:center;position:relative;}
+.nav-link{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:color 0.2s;}
+.nav-link:hover{color:var(--paper);}
+.lang-switch{display:flex;gap:0;border:1px solid rgba(184,154,110,0.3);}
+.lang-btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;padding:6px 12px;cursor:pointer;color:var(--stone);background:transparent;border:none;transition:all 0.2s;}
+.lang-btn.active{background:var(--stone);color:var(--ink);}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(184,154,110,0.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(184,50,37,0.04) 0%,transparent 50%);}
+.hero-line{position:absolute;top:0;bottom:0;left:48px;width:1px;background:linear-gradient(to bottom,transparent,rgba(184,154,110,0.3) 30%,rgba(184,154,110,0.3) 70%,transparent);}
+.hero-counter{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--stone);margin-bottom:40px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+.hero-title{font-size:clamp(52px,8vw,112px);font-weight:300;line-height:0.95;letter-spacing:-0.02em;margin-bottom:40px;opacity:0;animation:fadeUp 0.8s ease 0.4s forwards;}
+.hero-title em{font-style:italic;color:var(--stone);}
+.hero-title .accent{color:var(--red);}
+.hero-sub{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;opacity:0;animation:fadeUp 0.8s ease 0.6s forwards;}
+.hero-desc{font-size:18px;font-weight:300;line-height:1.6;color:rgba(244,239,230,0.6);max-width:480px;}
+.hero-cta{display:inline-flex;align-items:center;gap:16px;padding:18px 36px;border:1px solid var(--stone);color:var(--stone);text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.3s;white-space:nowrap;flex-shrink:0;}
+.hero-cta:hover{background:var(--stone);color:var(--ink);}
+section{padding:120px 48px;}
+.section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--red);margin-bottom:64px;display:flex;align-items:center;gap:24px;}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(184,154,110,0.2);max-width:120px;}
+.what{background:var(--deep);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.what-text h2{font-size:clamp(36px,4vw,56px);font-weight:300;line-height:1.15;margin-bottom:32px;}
+.what-text h2 em{font-style:italic;color:var(--stone);}
+.what-text p{font-size:18px;font-weight:300;line-height:1.7;color:rgba(244,239,230,0.65);margin-bottom:20px;}
+.what-visual{display:flex;flex-direction:column;gap:2px;}
+.stone-demo{background:rgba(184,154,110,0.08);border:1px solid rgba(184,154,110,0.15);padding:32px;display:flex;align-items:center;gap:24px;}
+.stone-icon{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(220,140,100,0.6),rgba(184,100,80,0.3) 40%,rgba(120,60,80,0.5));border:1px solid rgba(184,154,110,0.3);flex-shrink:0;position:relative;overflow:hidden;}
+.stone-icon::after{content:'';position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(255,180,120,0.2);}
+.stone-demo-text label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--stone);display:block;margin-bottom:6px;}
+.stone-demo-text p{font-size:14px;color:rgba(244,239,230,0.7);line-height:1.5;margin:0;}
+.hash-line{background:rgba(10,10,8,0.6);border:1px solid rgba(184,154,110,0.1);padding:20px 32px;font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);letter-spacing:0.05em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.hash-line span{color:rgba(184,154,110,0.4);}
+.how{background:var(--ink);}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.step{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);padding:40px 32px;transition:background 0.3s;}
+.step:hover{background:rgba(184,154,110,0.06);}
+.step-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--red);letter-spacing:0.2em;margin-bottom:32px;}
+.step h3{font-size:22px;font-weight:400;line-height:1.3;margin-bottom:16px;}
+.step p{font-size:15px;font-weight:300;line-height:1.7;color:rgba(244,239,230,0.5);}
+.whom{background:var(--deep);display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding:0;}
+.whom-card{padding:80px 48px;border-right:1px solid rgba(184,154,110,0.1);position:relative;overflow:hidden;}
+.whom-card:last-child{border-right:none;}
+.whom-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;}
+.whom-card:hover::before{transform:scaleX(1);}
+.whom-num{font-family:'Space Mono',monospace;font-size:48px;font-weight:700;color:rgba(184,154,110,0.15);line-height:1;margin-bottom:32px;}
+.whom-card h3{font-size:26px;font-weight:400;margin-bottom:16px;}
+.whom-card p{font-size:16px;font-weight:300;line-height:1.7;color:rgba(244,239,230,0.5);}
+.access{background:var(--ink);}
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.access-card{padding:56px 48px;border:1px solid rgba(184,154,110,0.1);}
+.access-card.public{border-top:2px solid var(--stone);}
+.access-card.private{border-top:2px solid rgba(184,154,110,0.2);}
+.access-icon{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--stone);margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--stone);flex-shrink:0;}
+.dot.dim{background:rgba(184,154,110,0.3);}
+.access-card h3{font-size:32px;font-weight:300;margin-bottom:16px;}
+.access-card p{font-size:16px;font-weight:300;line-height:1.7;color:rgba(244,239,230,0.5);margin-bottom:32px;}
+.access-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.access-list li{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;color:rgba(244,239,230,0.4);padding-left:20px;position:relative;}
+.access-list li::before{content:'—';position:absolute;left:0;color:var(--stone);}
+.cta-section{background:var(--paper);color:var(--ink);text-align:center;padding:120px 48px;}
+.cta-section .section-label{color:var(--red);justify-content:center;}
+.cta-section .section-label::after{display:none;}
+.cta-section h2{font-size:clamp(40px,5vw,72px);font-weight:300;line-height:1.15;margin-bottom:24px;color:var(--ink);}
+.cta-section h2 em{font-style:italic;color:var(--stone);}
+.cta-section p{font-size:18px;font-weight:300;color:rgba(10,10,8,0.5);margin-bottom:56px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.6;}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{padding:18px 48px;background:var(--ink);color:var(--paper);text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.3s;}
+.btn-primary:hover{background:var(--red);}
+.btn-secondary{padding:18px 48px;border:1px solid var(--ink);color:var(--ink);text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.3s;}
+.btn-secondary:hover{background:var(--ink);color:var(--paper);}
+footer{background:var(--deep);padding:48px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(184,154,110,0.1);}
+.foot-logo{font-size:13px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;}
+.foot-logo em{color:var(--red);font-style:normal;}
+footer p{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.3);letter-spacing:0.1em;}
+.clients-section{background:var(--deep);padding:120px 48px;}
+.clients-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:40px;}
+.client-card{background:rgba(244,239,230,.03);border:1px solid rgba(184,154,110,.1);overflow:hidden;text-decoration:none;color:var(--paper);display:block;transition:background .3s;}
+.client-card:hover{background:rgba(184,154,110,.07);}
+.client-card-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;filter:grayscale(20%);}
+.client-card-body{padding:24px 28px 28px;}
+.client-card-type{font-family:'Space Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.25em;text-transform:uppercase;margin-bottom:8px;}
+.client-card-name{font-size:24px;font-weight:300;margin-bottom:4px;}
+.client-card-city{font-size:14px;color:rgba(244,239,230,.4);margin-bottom:16px;}
+.client-card-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(184,154,110,.1);padding-top:14px;}
+.client-card-count{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,.3);letter-spacing:.1em;}
+.client-card-arrow{color:rgba(184,154,110,.4);font-size:16px;transition:color .2s;}
+.client-card:hover .client-card-arrow{color:var(--stone);}
+.clients-footer{text-align:center;}
+.clients-all-link{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);text-decoration:none;padding:14px 32px;border:1px solid rgba(184,154,110,.3);display:inline-block;transition:all .2s;}
+.clients-all-link:hover{background:var(--stone);color:var(--ink);}
+.coll-loading{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);letter-spacing:.2em;padding:40px 0;}
+@media(max-width:768px){
+  .clients-section{padding:80px 24px;}
+  .clients-grid{grid-template-columns:1fr;}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:768px){
+  nav{padding:20px 24px;}
+  .nav-right{gap:16px;}
+  .nav-link{display:none;}
+  .hero{padding:0 24px 64px;}
+  .hero-title{font-size:48px;}
+  .hero-sub{flex-direction:column;align-items:flex-start;}
+  .hero-line{left:24px;}
+  section{padding:80px 24px;}
+  .what{grid-template-columns:1fr;gap:48px;}
+  .steps{grid-template-columns:1fr 1fr;}
+  .whom{grid-template-columns:1fr;}
+  .whom-card{border-right:none;border-bottom:1px solid rgba(184,154,110,0.1);padding:56px 24px;}
+  .access-grid{grid-template-columns:1fr;}
+  .access-card{padding:40px 24px;}
+  footer{flex-direction:column;gap:16px;text-align:center;padding:40px 24px;}
+}
+@media(max-width:480px){
+  .steps{grid-template-columns:1fr;}
+  .hero-title{font-size:38px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">JADE<em>KEY</em></a>
+  <div class="nav-right">
+    <a href="#how" class="nav-link" data-en="Technology" data-ru="Технология">Technology</a>
+    <a href="#whom" class="nav-link" data-en="For Whom" data-ru="Для кого">For Whom</a>
+    <a href="/clients" class="nav-link" data-en="Clients" data-ru="Клиенты">Clients</a>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-counter" data-en="Physical Authentication System · Est. 2026" data-ru="Система физической аутентификации · с 2026">Physical Authentication System · Est. 2026</div>
+  <h1 class="hero-title">
+    <span data-en="Every stone<br>is a <em>signature</em><br>that <span class='accent'>cannot</span><br>be forged" data-ru="Каждый камень —<br><em>подпись</em>, которую<br><span class='accent'>невозможно</span><br>подделать">Every stone<br>is a <em>signature</em><br>that <span class='accent'>cannot</span><br>be forged</span>
+  </h1>
+  <div class="hero-sub">
+    <p class="hero-desc" data-en="JadeKey binds a unique mineral specimen to a work of art — creating an unclonable physical identity that survives centuries and cannot be digitally replicated." data-ru="JadeKey связывает уникальный минеральный образец с произведением искусства — создавая неклонируемую физическую идентичность, которая переживёт века и не может быть воспроизведена цифровым способом.">JadeKey binds a unique mineral specimen to a work of art — creating an unclonable physical identity that survives centuries and cannot be digitally replicated.</p>
+    <a href="#how" class="hero-cta" data-en="How it works →" data-ru="Как это работает →">How it works →</a>
+  </div>
+</section>
+
+<section class="what" id="what">
+  <div class="what-text">
+    <div class="section-label" data-en="The Technology" data-ru="Технология">The Technology</div>
+    <h2 data-en="Nature creates what <em>technology cannot copy</em>" data-ru="Природа создаёт то, что <em>технология не может скопировать</em>">Nature creates what <em>technology cannot copy</em></h2>
+    <p data-en="Every agate, jasper, or quartz slice carries a microstructure formed over millions of years — a pattern unique to that single specimen in the entire universe." data-ru="Каждый срез агата, яшмы или кварца несёт микроструктуру, формировавшуюся миллионы лет — рисунок, уникальный для этого единственного образца во всей вселенной.">Every agate, jasper, or quartz slice carries a microstructure formed over millions of years — a pattern unique to that single specimen in the entire universe.</p>
+    <p data-en="JadeKey reads this pattern, converts it into a cryptographic identifier, and permanently links it to your artwork. The stone becomes the key. The artwork becomes verifiable." data-ru="JadeKey считывает этот рисунок, преобразует его в криптографический идентификатор и навсегда связывает с вашим произведением. Камень становится ключом. Произведение становится верифицируемым.">JadeKey reads this pattern, converts it into a cryptographic identifier, and permanently links it to your artwork. The stone becomes the key. The artwork becomes verifiable.</p>
+  </div>
+  <div class="what-visual">
+    <div class="stone-demo">
+      <div class="stone-icon"></div>
+      <div class="stone-demo-text">
+        <label data-en="Mineral PUF · Physically Unclonable Function" data-ru="Минеральный PUF · Физически неклонируемая функция">Mineral PUF · Physically Unclonable Function</label>
+        <p data-en="Agate slice · unique microstructure formed over millions of years" data-ru="Срез агата · уникальная микроструктура, формировавшаяся миллионы лет">Agate slice · unique microstructure formed over millions of years</p>
+      </div>
+    </div>
+    <div class="hash-line"><span>JK-000001 · hash → </span>a7f3c2e91b84d056f3a9...</div>
+    <div class="stone-demo" style="background:rgba(184,50,37,0.06);border-color:rgba(184,50,37,0.2)">
+      <div class="stone-icon" style="background:radial-gradient(circle at 35% 35%,rgba(100,180,140,0.6),rgba(60,140,100,0.3) 40%,rgba(40,100,80,0.5))"></div>
+      <div class="stone-demo-text">
+        <label data-en="Linked to artwork" data-ru="Привязан к произведению">Linked to artwork</label>
+        <p data-en="Certificate issued · jadekey.art/JK-000001 · Verified &amp; registered" data-ru="Сертификат выдан · jadekey.art/JK-000001 · Верифицировано и зарегистрировано">Certificate issued · jadekey.art/JK-000001 · Verified &amp; registered</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="section-label" data-en="Process" data-ru="Процесс">Process</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3 data-en="You bring the artwork" data-ru="Вы приносите произведение">You bring the artwork</h3>
+      <p data-en="Collector or gallery provides the work and its documentation. No special preparation needed." data-ru="Коллекционер или галерея предоставляет работу и документы на неё. Специальная подготовка не требуется.">Collector or gallery provides the work and its documentation. No special preparation needed.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3 data-en="We select the stone" data-ru="Мы выбираем камень">We select the stone</h3>
+      <p data-en="JadeKey chooses, photographs, and marks an agate specimen. The stone is assigned a unique JK-number." data-ru="JadeKey выбирает, фотографирует и маркирует образец агата. Камню присваивается уникальный JK-номер.">JadeKey chooses, photographs, and marks an agate specimen. The stone is assigned a unique JK-number.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3 data-en="Digital passport issued" data-ru="Выдаётся цифровой паспорт">Digital passport issued</h3>
+      <p data-en="A permanent certificate is created at jadekey.art — containing artwork details, provenance, and stone identity." data-ru="На jadekey.art создаётся постоянный сертификат — с данными о произведении, происхождении и идентификатором камня.">A permanent certificate is created at jadekey.art — containing artwork details, provenance, and stone identity.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3 data-en="Verify anytime" data-ru="Проверяйте в любое время">Verify anytime</h3>
+      <p data-en="Scan the stone via Telegram Mini App — instantly see if it matches the registered artwork. Anywhere, anytime." data-ru="Отсканируйте камень через Telegram Mini App — мгновенно убедитесь, что он соответствует зарегистрированному произведению. Где угодно, когда угодно.">Scan the stone via Telegram Mini App — instantly see if it matches the registered artwork. Anywhere, anytime.</p>
+    </div>
+  </div>
+</section>
+
+<section class="whom" id="whom">
+  <div class="whom-card">
+    <div class="whom-num">01</div>
+    <div class="section-label" style="margin-bottom:32px" data-en="Collectors" data-ru="Коллекционеры">Collectors</div>
+    <h3 data-en="Protect your investment" data-ru="Защитите свои инвестиции">Protect your investment</h3>
+    <p data-en="Prove ownership and authenticity beyond paper certificates. Your artwork carries an unforgeable physical identity that adds to its value." data-ru="Докажите право собственности и подлинность — не только бумагами. Ваше произведение несёт неподдельную физическую идентичность, повышающую его стоимость.">Prove ownership and authenticity beyond paper certificates. Your artwork carries an unforgeable physical identity that adds to its value.</p>
+  </div>
+  <div class="whom-card">
+    <div class="whom-num">02</div>
+    <div class="section-label" style="margin-bottom:32px" data-en="Galleries" data-ru="Галереи">Galleries</div>
+    <h3 data-en="Certify what you sell" data-ru="Сертифицируйте то, что продаёте">Certify what you sell</h3>
+    <p data-en="Offer buyers a verifiable guarantee. Every work you register comes with a permanent digital passport and physical seal." data-ru="Предложите покупателям верифицируемую гарантию. Каждая зарегистрированная работа получает постоянный цифровой паспорт и физическую печать.">Offer buyers a verifiable guarantee. Every work you register comes with a permanent digital passport and physical seal.</p>
+  </div>
+  <div class="whom-card">
+    <div class="whom-num">03</div>
+    <div class="section-label" style="margin-bottom:32px" data-en="Artists" data-ru="Художники">Artists</div>
+    <h3 data-en="Sign with nature" data-ru="Подпись природой">Sign with nature</h3>
+    <p data-en="Each edition, each unique piece — tied to a mineral specimen as old as time. A signature that outlasts any technology." data-ru="Каждый тираж, каждая уникальная работа — привязана к минеральному образцу древнее любой технологии. Подпись, которая переживёт всё.">Each edition, each unique piece — tied to a mineral specimen as old as time. A signature that outlasts any technology.</p>
+  </div>
+</section>
+
+<section class="access">
+  <div class="section-label" data-en="Privacy Control" data-ru="Управление доступом">Privacy Control</div>
+  <div class="access-grid">
+    <div class="access-card public">
+      <div class="access-icon"><div class="dot"></div> <span data-en="Public Passport" data-ru="Публичный паспорт">Public Passport</span></div>
+      <h3 data-en="Open to the world" data-ru="Открыто для всех">Open to the world</h3>
+      <p data-en="Your artwork's certificate is visible to anyone with the link. Share it, publish it, let the market know your piece is verified." data-ru="Сертификат вашего произведения виден всем по ссылке. Делитесь им, публикуйте, пусть рынок знает — работа верифицирована.">Your artwork's certificate is visible to anyone with the link. Share it, publish it, let the market know your piece is verified.</p>
+      <ul class="access-list">
+        <li data-en="Full artwork details visible" data-ru="Полные данные о работе открыты">Full artwork details visible</li>
+        <li data-en="Shareable URL" data-ru="Ссылка для публикации">Shareable URL</li>
+        <li data-en="Provenance on display" data-ru="Провенанс на виду">Provenance on display</li>
+        <li data-en="Increases market value" data-ru="Повышает рыночную стоимость">Increases market value</li>
+      </ul>
+    </div>
+    <div class="access-card private">
+      <div class="access-icon"><div class="dot dim"></div> <span data-en="Private Verification" data-ru="Приватная верификация">Private Verification</span></div>
+      <h3 data-en="Known only to you" data-ru="Известно только вам">Known only to you</h3>
+      <p data-en="The passport exists but is invisible to the public. Only the physical stone can unlock verification — through the Telegram app." data-ru="Паспорт существует, но невидим для публики. Только физический камень открывает верификацию — через Telegram-приложение.">The passport exists but is invisible to the public. Only the physical stone can unlock verification — through the Telegram app.</p>
+      <ul class="access-list">
+        <li data-en="Certificate hidden from search" data-ru="Сертификат скрыт от поиска">Certificate hidden from search</li>
+        <li data-en="Verification via stone only" data-ru="Верификация только через камень">Verification via stone only</li>
+        <li data-en="Owner controls access" data-ru="Доступ контролирует владелец">Owner controls access</li>
+        <li data-en="Switchable anytime" data-ru="Можно изменить в любой момент">Switchable anytime</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="clients-section" id="clients">
+  <div class="section-label" data-en="Our Clients" data-ru="Наши клиенты">Our Clients</div>
+  <div class="clients-grid" id="clients-grid">
+    <div class="coll-loading">Loading...</div>
+  </div>
+  <div class="clients-footer">
+    <a href="/clients" class="clients-all-link" data-en="View all clients →" data-ru="Все клиенты →">View all clients →</a>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="section-label" data-en="Register your artwork" data-ru="Зарегистрируйте произведение">Register your artwork</div>
+  <h2 data-en="Ready to make your art <em>unforgeable?</em>" data-ru="Готовы сделать своё искусство <em>неподдельным?</em>">Ready to make your art <em>unforgeable?</em></h2>
+  <p data-en="Contact us to register your first work. We handle the stone selection, photography, and certification." data-ru="Свяжитесь с нами для регистрации вашей первой работы. Мы берём на себя выбор камня, фотосъёмку и сертификацию.">Contact us to register your first work. We handle the stone selection, photography, and certification.</p>
+  <div class="cta-buttons">
+    <a href="/JK-000001" class="btn-primary" data-en="See example passport" data-ru="Пример паспорта">See example passport</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">JADE<em>KEY</em> · <span data-en="Physical Authentication of Art" data-ru="Физическая аутентификация искусства">Physical Authentication of Art</span></div>
+  <p>© 2026 JadeKey · jadekey.art</p>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.lang-btn:' + (lang==='en'?'first':'last') + '-child').classList.add('active');
+  
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (el.tagName === 'A' && el.classList.contains('hero-cta')) {
+      el.textContent = val.replace(' →','');
+      el.innerHTML = val;
+    } else if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3') {
+      el.innerHTML = val;
+    } else {
+      el.innerHTML = val;
+    }
+  });
+  
+  localStorage.setItem('jk-lang', lang);
+}
+
+// Load clients preview
+async function loadClients() {
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/works.json?t=' + Date.now());
+    const db = await res.json();
+    const clients = db.clients || {};
+    const works = db.works || {};
+    const keys = Object.keys(clients);
+    if (!keys.length) {
+      document.getElementById('clients-grid').innerHTML = '';
+      return;
+    }
+    document.getElementById('clients-grid').innerHTML = keys.map(slug => {
+      const c = clients[slug];
+      const clientWorks = (c.works || []).map(id => works[id]).filter(Boolean);
+      const firstPublic = clientWorks.find(w => w && w.public);
+      const thumb = firstPublic ? 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main/' + firstPublic.photo : '';
+      const wCount = clientWorks.length;
+      const pubCount = clientWorks.filter(w => w && w.public).length;
+      return `<a href="/clients/${slug}" class="client-card">
+        <div class="client-card-body">
+          <div class="client-card-type">${c.type}</div>
+          <div class="client-card-name">${c.name}</div>
+          <div class="client-card-city">${c.city}</div>
+          <div class="client-card-foot">
+            <span class="client-card-count">${wCount} work${wCount!==1?'s':''} · ${pubCount} public</span>
+            <span class="client-card-arrow">→</span>
+          </div>
+        </div>
+      </a>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('clients-grid').innerHTML = '';
+  }
+}
+loadClients();
+
+// Restore saved language
+const saved = localStorage.getItem('jk-lang');
+if (saved && saved !== 'en') setLang(saved);
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JadeKey Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0a0a08;--paper:#f4efe6;--stone:#b89a6e;--red:#b83225;--deep:#141410;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--deep);color:var(--paper);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+#login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;}
+.login-logo{font-size:14px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:48px;}
+.login-logo em{color:var(--red);font-style:normal;}
+.login-box{width:100%;max-width:420px;}
+.login-box h2{font-size:28px;font-weight:300;margin-bottom:6px;}
+.login-box .sub{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);letter-spacing:0.1em;margin-bottom:36px;}
+.field{margin-bottom:16px;}
+.field label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--stone);display:block;margin-bottom:7px;}
+.field input{width:100%;background:rgba(244,239,230,0.05);border:1px solid rgba(184,154,110,0.2);padding:13px 14px;color:var(--paper);font-family:'Space Mono',monospace;font-size:12px;outline:none;-webkit-appearance:none;border-radius:0;}
+.field input:focus{border-color:var(--stone);}
+.field .hint{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.25);margin-top:5px;line-height:1.4;}
+.btn-login{width:100%;padding:15px;background:var(--stone);color:var(--ink);border:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;-webkit-appearance:none;border-radius:0;}
+.err{font-family:'Space Mono',monospace;font-size:10px;color:var(--red);margin-top:10px;display:none;text-align:center;}
+#admin-panel{display:none;}
+.admin-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid rgba(184,154,110,0.1);}
+.a-logo{font-size:13px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;}
+.a-logo em{color:var(--red);font-style:normal;}
+.btn-out{font-family:'Space Mono',monospace;font-size:10px;color:rgba(244,239,230,0.4);background:none;border:1px solid rgba(244,239,230,0.1);padding:7px 14px;cursor:pointer;border-radius:0;}
+.admin-body{padding:36px 28px;max-width:860px;}
+.admin-body h2{font-size:26px;font-weight:300;margin-bottom:4px;}
+.sub2{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);letter-spacing:0.1em;margin-bottom:32px;}
+.wcard{background:rgba(244,239,230,0.03);border:1px solid rgba(184,154,110,0.1);padding:20px;margin-bottom:2px;display:flex;gap:16px;align-items:center;}
+.wthumb{width:60px;height:60px;object-fit:cover;flex-shrink:0;border-radius:2px;}
+.winfo{flex:1;min-width:0;}
+.wid{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);letter-spacing:0.15em;margin-bottom:3px;}
+.wtitle{font-size:17px;font-weight:300;margin-bottom:2px;}
+.wmeta{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.3);}
+.wact{display:flex;flex-direction:column;gap:8px;align-items:flex-end;flex-shrink:0;}
+.badge{font-family:'Space Mono',monospace;font-size:9px;padding:3px 9px;}
+.badge.pub{background:rgba(184,154,110,0.15);color:var(--stone);border:1px solid rgba(184,154,110,0.3);}
+.badge.prv{background:transparent;color:rgba(244,239,230,0.25);border:1px solid rgba(244,239,230,0.08);}
+.tog-row{display:flex;align-items:center;gap:8px;}
+.tog-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--stone);}
+.tog{position:relative;width:38px;height:20px;cursor:pointer;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;position:absolute;}
+.tog-sl{position:absolute;inset:0;background:rgba(244,239,230,0.08);border:1px solid rgba(184,154,110,0.2);border-radius:20px;transition:0.3s;}
+.tog-sl::before{content:'';position:absolute;height:12px;width:12px;left:3px;bottom:3px;background:rgba(184,154,110,0.5);border-radius:50%;transition:0.3s;}
+.tog input:checked + .tog-sl{border-color:var(--stone);}
+.tog input:checked + .tog-sl::before{transform:translateX(18px);background:var(--stone);}
+.wlink{font-family:'Space Mono',monospace;font-size:9px;color:rgba(244,239,230,0.25);text-decoration:none;}
+.wlink:hover{color:var(--stone);}
+.saved{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-top:20px;display:none;}
+.loading-txt{font-family:'Space Mono',monospace;font-size:11px;color:var(--stone);padding:28px 0;letter-spacing:0.15em;}
+/* Token setup banner */
+.token-banner{background:rgba(184,154,110,0.08);border:1px solid rgba(184,154,110,0.2);padding:20px;margin-bottom:24px;}
+.token-banner p{font-family:'Space Mono',monospace;font-size:10px;color:var(--stone);margin-bottom:12px;line-height:1.6;}
+.token-row{display:flex;gap:8px;}
+.token-row input{flex:1;background:rgba(244,239,230,0.05);border:1px solid rgba(184,154,110,0.2);padding:10px 12px;color:var(--paper);font-family:'Space Mono',monospace;font-size:11px;outline:none;border-radius:0;-webkit-appearance:none;}
+.token-row button{padding:10px 16px;background:var(--stone);color:var(--ink);border:none;font-family:'Space Mono',monospace;font-size:10px;cursor:pointer;white-space:nowrap;border-radius:0;}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-logo">JADE<em>KEY</em></div>
+  <div class="login-box">
+    <h2>Admin Panel</h2>
+    <p class="sub">RESTRICTED ACCESS · JADEKEY.ART</p>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="f-email" value="paninsergey1965@gmail.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="f-pass" placeholder="Enter password (min 4 chars)">
+      <div class="hint">First login: set your password. Next time: enter the same password.</div>
+    </div>
+    <button class="btn-login" onclick="doLogin()">ENTER</button>
+    <div class="err" id="err-msg">Incorrect password</div>
+  </div>
+</div>
+
+<div id="admin-panel">
+  <div class="admin-nav">
+    <div class="a-logo">JADE<em>KEY</em> · Admin</div>
+    <button class="btn-out" onclick="doLogout()">Logout</button>
+  </div>
+  <div class="admin-body">
+    <h2>Works Registry</h2>
+    <div class="sub2" id="wcount">Loading...</div>
+
+    <div id="token-banner" class="token-banner" style="display:none">
+      <p>Enter GitHub token to enable saving changes:<br>Token is stored locally in your browser only.</p>
+      <div class="token-row">
+        <input type="password" id="token-input" placeholder="ghp_...">
+        <button onclick="saveToken()">Save token</button>
+      </div>
+    </div>
+
+    <div id="wlist"><div class="loading-txt">Loading...</div></div>
+    <div class="saved" id="saved-msg">✓ Saved</div>
+  </div>
+</div>
+
+<script>
+const ADMIN_EMAIL = 'paninsergey1965@gmail.com';
+const PASS_KEY = 'jk_pass';
+const SESSION_KEY = 'jk_session';
+const TOKEN_KEY = 'jk_t';
+const GH_REPO = 'paninsergey1965-lgtm/jadekey-art';
+const RAW = 'https://raw.githubusercontent.com/' + GH_REPO + '/main';
+const GH_API = 'https://api.github.com/repos/' + GH_REPO + '/contents/works.json';
+
+let works = {}, sha = '';
+
+function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
+
+function saveToken() {
+  const t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+  localStorage.setItem(TOKEN_KEY, t);
+  document.getElementById('token-banner').style.display = 'none';
+  loadWorks();
+}
+
+function doLogin() {
+  const email = document.getElementById('f-email').value.trim();
+  const pass = document.getElementById('f-pass').value;
+  const stored = localStorage.getItem(PASS_KEY);
+  const err = document.getElementById('err-msg');
+  err.style.display = 'none';
+
+  if (email !== ADMIN_EMAIL) { err.style.display = 'block'; return; }
+
+  if (!stored) {
+    if (pass.length < 4) {
+      err.textContent = 'Min 4 characters';
+      err.style.display = 'block';
+      return;
+    }
+    localStorage.setItem(PASS_KEY, pass);
+    localStorage.setItem(SESSION_KEY, '1');
+    enterPanel();
+    return;
+  }
+
+  if (pass !== stored) { err.style.display = 'block'; return; }
+  localStorage.setItem(SESSION_KEY, '1');
+  enterPanel();
+}
+
+document.getElementById('f-pass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogout() {
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+function enterPanel() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  if (!getToken()) {
+    document.getElementById('token-banner').style.display = 'block';
+    document.getElementById('wcount').textContent = 'Token required to load works';
+  } else {
+    loadWorks();
+  }
+}
+
+async function loadWorks() {
+  try {
+    const res = await fetch(GH_API, {
+      headers: { 'Authorization': 'Bearer ' + getToken() }
+    });
+    const data = await res.json();
+    if (!data.sha) throw new Error('no sha');
+    sha = data.sha;
+    works = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    renderWorks();
+  } catch(e) {
+    document.getElementById('wlist').innerHTML = '<div class="loading-txt">Error loading — check token</div>';
+    document.getElementById('token-banner').style.display = 'block';
+  }
+}
+
+function renderWorks() {
+  const keys = Object.keys(works);
+  document.getElementById('wcount').textContent = keys.length + ' work' + (keys.length !== 1 ? 's' : '') + ' registered';
+  document.getElementById('wlist').innerHTML = keys.map(id => {
+    const w = works[id];
+    return `<div class="wcard">
+      <img class="wthumb" src="${RAW}/${w.photo}" onerror="this.style.display='none'">
+      <div class="winfo">
+        <div class="wid">${id}</div>
+        <div class="wtitle">${w.title}</div>
+        <div class="wmeta">${w.artist} · ${w.year} · ${w.owner}</div>
+      </div>
+      <div class="wact">
+        <span class="badge ${w.public?'pub':'prv'}" id="b-${id}">${w.public?'PUBLIC':'PRIVATE'}</span>
+        <div class="tog-row">
+          <span class="tog-lbl">Public</span>
+          <label class="tog">
+            <input type="checkbox" ${w.public?'checked':''} onchange="toggle('${id}',this.checked)">
+            <span class="tog-sl"></span>
+          </label>
+        </div>
+        <a href="/${id}" target="_blank" class="wlink">↗ passport</a>
+      </div>
+    </div>`;
+  }).join('') || '<div class="loading-txt">No works yet</div>';
+}
+
+async function toggle(id, val) {
+  works[id].public = val;
+  const b = document.getElementById('b-' + id);
+  b.textContent = val ? 'PUBLIC' : 'PRIVATE';
+  b.className = 'badge ' + (val ? 'pub' : 'prv');
+  const t = getToken();
+  if (!t) return;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(works, null, 2))));
+  const res = await fetch(GH_API, {
+    method: 'PUT',
+    headers: { 'Authorization': 'Bearer ' + t, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'Update visibility', content, sha })
+  });
+  const data = await res.json();
+  if (data.content) {
+    sha = data.content.sha;
+    const m = document.getElementById('saved-msg');
+    m.textContent = '✓ Saved';
+    m.style.display = 'block';
+    setTimeout(() => m.style.display = 'none', 3000);
+  }
+}
+
+if (localStorage.getItem(SESSION_KEY)) enterPanel();
+</script>
+</body>
 </html>
