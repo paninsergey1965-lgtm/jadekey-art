@@ -33,7 +33,9 @@
       "owner_city": "ÐÐ¾ÑÐºÐ²Ð°",
       "registered": "2026",
       "photo": "IMG_7861.jpeg",
-      "agate": "agate-jk000001.png"
+      "agate": "agate-jk000001.png",
+      "ton_tx": "adc37e4b50a7",
+      "ton_anchored_at": "2026-05-30"
     },
     "public": false
   }
