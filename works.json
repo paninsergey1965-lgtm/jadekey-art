@@ -36,7 +36,10 @@
       "agate": "agate-jk000001.png",
       "ton_tx": "adc37e4b5ab30df1c2dd9281250850d68d9f947f6a3f419335440852875f50a7",
       "ton_anchored_at": "2026-05-30",
-      "ton_explorer": "https://tonviewer.com/transaction/adc37e4b5ab30df1c2dd9281250850d68d9f947f6a3f419335440852875f50a7"
+      "ton_explorer": "https://tonviewer.com/transaction/adc37e4b5ab30df1c2dd9281250850d68d9f947f6a3f419335440852875f50a7",
+      "ton_tx_agate": "e517975761195e030e953e25391402c41ea17d652307f46403a4d3e5d1fb4d5a",
+      "ton_agate_hash": "0465d57ab5954ae5768587bbde1583232d64d1628902919eb1d4456a17303bcc",
+      "ton_explorer_agate": "https://tonviewer.com/transaction/e517975761195e030e953e25391402c41ea17d652307f46403a4d3e5d1fb4d5a"
     },
     "public": false
   }
