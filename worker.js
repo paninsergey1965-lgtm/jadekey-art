@@ -210,17 +210,17 @@ async function serveFile(filename) {
 function passportPage(id, w) {
   // Build TON anchor block if available
   const tonBlock = w.ton_tx ? (
-    '<div class="ton-section">' +
-    '<div class="ton-inner">' +
-    '<div class="ton-icon">&#x2B21;</div>' +
-    '<div class="ton-body">' +
-    '<div class="ton-label">Blockchain Anchor &middot; TON</div>' +
-    '<div class="ton-comment">' + (w.ton_agate_hash ? 'JadeKey:' + id + ':' + w.ton_agate_hash.slice(0,16) : 'JadeKey:' + id) + '</div>' +
-    '<div class="ton-date">' + (w.ton_anchored_at || '2026-05-30') + ' &middot; Immutable proof of existence</div>' +
-    '</div>' +
-    '<a href="' + (w.ton_explorer_agate || w.ton_explorer || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu') + '" target="_blank" class="ton-link">Verify &rarr;</a>' +
-    '</div></div>'
-  ) : '';
+    "<div class=\"ton-section\">" +
+    "<div class=\"ton-inner\">" +
+    "<div class=\"ton-icon\">&#x2B21;</div>" +
+    "<div class=\"ton-body\">" +
+    "<div class=\"ton-label\">Blockchain Anchor &middot; TON</div>" +
+    "<div class=\"ton-comment\">" + (w.ton_agate_hash ? "JadeKey:" + id + ":" + w.ton_agate_hash.slice(0,16) : "JadeKey:" + id) + "</div>" +
+    "<div class=\"ton-date\">" + (w.ton_anchored_at || "2026-05-30") + " &middot; Immutable proof of existence</div>" +
+    "</div>" +
+    "<a href=\"" + (w.ton_explorer_agate || w.ton_explorer || "https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu") + "\" target=\"_blank\" class=\"ton-link\">Verify &rarr;</a>" +
+    "</div></div>"
+  ) : "";
   const RAW = 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main';
   const photoUrl = `${RAW}/${w.photo}`;
   const agateUrl = `${RAW}/${w.agate}`;
