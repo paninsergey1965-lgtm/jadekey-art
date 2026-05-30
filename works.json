@@ -35,7 +35,8 @@
       "photo": "IMG_7861.jpeg",
       "agate": "agate-jk000001.png",
       "ton_tx": "adc37e4b50a7",
-      "ton_anchored_at": "2026-05-30"
+      "ton_anchored_at": "2026-05-30",
+      "ton_explorer": "https://tonviewer.com/transaction/adc37e4b50a7"
     },
     "public": false
   }
