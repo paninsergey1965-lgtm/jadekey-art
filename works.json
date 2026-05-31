@@ -5,12 +5,8 @@
       "city": "Москва",
       "type": "Private Collector",
       "type_ru": "Частный коллекционер",
-
-      "works": [
-        "JK-000001",
-        "JK-000002"
-      ]
-
+      "works": ["JK-000001", "JK-000002"]
+    }
   },
   "works": {
     "JK-000001": {
@@ -42,7 +38,6 @@
       "ton_agate_hash": "0465d57ab5954ae5768587bbde1583232d64d1628902919eb1d4456a17303bcc",
       "ton_explorer_agate": "https://tonviewer.com/transaction/e517975761195e030e953e25391402c41ea17d652307f46403a4d3e5d1fb4d5a"
     },
-  
     "JK-000002": {
       "client": "sergei-panin",
       "public": true,
@@ -73,3 +68,18 @@
     }
   }
 }
+  "ton_explorer": "https://tonviewer.com/transaction/52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
+      "for_sale": true,
+      "price_ton": 150
+    }
+  }
+}
+<<<<<<< HEAD
+=======
+737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
+      "for_sale": true,
+      "price_ton": 150
+    }
+  }
+}
+>>>>>>> a8e95fa (fix works.json)
