@@ -2,16 +2,15 @@
   "clients": {
     "sergei-panin": {
       "name": "Sergei Panin",
-      "city": "ÐÐ¾ÑÐºÐ²Ð°",
+      "city": "Москва",
       "type": "Private Collector",
       "type_ru": "Ð§Ð°ÑÑÐ½ÑÐ¹ ÐºÐ¾Ð»Ð»ÐµÐºÑÐ¸Ð¾Ð½ÐµÑ",
       "works": [
         "JK-000001",
         "JK-000002"
       ]
-    },
-    "public": false
-  },
+
+  }
   "works": {
     "JK-000001": {
       "client": "sergei-panin",
