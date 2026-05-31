@@ -218,7 +218,7 @@ function passportPage(id, w) {
     '<div style="flex:1">',
     '<div style="font-family:Space Mono,monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#29b6f6;margin-bottom:6px">BLOCKCHAIN ANCHOR &middot; TON</div>',
     '<div style="font-family:Space Mono,monospace;font-size:11px;color:#1a1714;letter-spacing:.05em;margin-bottom:4px;word-break:break-all">' + (w.ton_agate_hash ? 'JadeKey:' + id + ':' + w.ton_agate_hash.slice(0,16) : 'JadeKey:' + id) + '</div>',
-    '<div style="font-family:Space Mono,monospace;font-size:9px;color:#6b5f4e">' + (w.ton_anchored_at || '2026-05-30') + ' &middot; Immutable proof of existence</div>',
+    '<div style="font-family:Space Mono,monospace;font-size:9px;color:#6b5f4e">' + (w.ton_anchored_at || '2026-05-30') + ' &middot; Неизменяемое подтверждение подлинности</div>',
     '</div>',
     '<a href="' + (w.ton_explorer_agate || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu') + '" target="_blank" style="font-family:Space Mono,monospace;font-size:10px;color:#29b6f6;text-decoration:none;border:1px solid rgba(0,136,204,0.3);padding:6px 12px;white-space:nowrap">Verify &rarr;</a><br><a href="https://tonviewer.com/transaction/d0c026a759ff975c2ba239975b41cc5ccce2640249f33cbb798308a030fa7f21" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 12px;border:1px solid rgba(154,125,78,0.4);font-family:monospace;font-size:10px;color:#9a7d4e;text-decoration:none">Verify Owner &rarr;</a>',
     '</div></div>'
@@ -710,11 +710,11 @@ ${w.for_sale ? `
   <div class="agate-info">
     <div class="section-tag" data-en="Physical Authentication Key" data-ru="Физический ключ аутентификации">Physical Authentication Key</div>
     <div class="agate-title" data-en="Mineral PUF" data-ru="Минеральный PUF">Mineral PUF</div>
-    <div class="agate-subtitle">AGATE SLICE · PHYSICALLY UNCLONABLE FUNCTION</div>
+    <div class="agate-subtitle">СРЕЗ АГАТА · ФИЗИЧЕСКИ НЕКЛОНИРУЕМАЯ ФУНКЦИЯ</div>
     <div class="agate-desc" id="agate-desc">A unique agate specimen whose internal microstructure — formed over millions of years — serves as an unclonable physical identifier permanently linked to this artwork.</div>
     <div class="hash-block">
       <label>JadeKey ID</label>
-      <div class="hash-val">${id} · Verified & Registered · jadekey.art</div>
+      <div class="hash-val">${id} · Верифицировано и зарегистрировано · jadekey.art</div>
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fjadekey.art%2F${id}" style="display:block;margin-top:12px;width:80px;height:80px" alt="QR">
     </div>
   </div>
