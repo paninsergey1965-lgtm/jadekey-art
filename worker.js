@@ -629,7 +629,7 @@ body::after {
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('ru')">RU</button>
-    <button class="lang-btn print-btn" onclick="window.print()" style="margin-left:8px;background:rgba(154,125,78,0.15);border:1px solid rgba(154,125,78,0.4);color:#9a7d4e;cursor:pointer;">PDF</button>
+
   </div><a href="/cert/${id}" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;color:#b89a6e;text-decoration:none;padding:5px 10px;border:1px solid rgba(184,154,110,.3)">CERT</a>
 </header>
 
