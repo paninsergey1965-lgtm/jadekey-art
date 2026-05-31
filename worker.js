@@ -19,8 +19,6 @@ async function handle(req) {
 
   // Route: /admin
   if (path === "/admin") return serveFile("admin.html");
-  const certMatch = path.match(/^\/cert\/(JK-\d+)$/i);
-  if (certMatch) return serveCert(certMatch[1].toUpperCase());
 
   // Route: / — main page
   if (path === "/en") return serveFile("index-en.html");
