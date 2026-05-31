@@ -9,6 +9,9 @@ async function handle(req) {
   // Route: /JK-XXXXXX — passport page
   const jkMatch = path.match(/^\/(JK-\d+)$/i);
   if (jkMatch) return servePassport(jkMatch[1].toUpperCase());
+  // Route: /cert/JK-XXXXXX — printable certificate
+  const certMatch = path.match(/^\/cert\/(JK-\d+)$/i);
+  if (certMatch) return serveFile("cert.html");
 
   // Route: /clients — all clients list
   if (path === "/clients") return serveClientsList();
