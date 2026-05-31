@@ -5,7 +5,10 @@
       "city": "Москва",
       "type": "Private Collector",
       "type_ru": "Частный коллекционер",
-      "works": ["JK-000001", "JK-000002"]
+      "works": [
+        "JK-000001",
+        "JK-000002"
+      ]
     }
   },
   "works": {
@@ -68,18 +71,3 @@
     }
   }
 }
-  "ton_explorer": "https://tonviewer.com/transaction/52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
-      "for_sale": true,
-      "price_ton": 150
-    }
-  }
-}
-<<<<<<< HEAD
-=======
-737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
-      "for_sale": true,
-      "price_ton": 150
-    }
-  }
-}
->>>>>>> a8e95fa (fix works.json)
