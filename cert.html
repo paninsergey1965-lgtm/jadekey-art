@@ -471,12 +471,12 @@ function buildCert(id, w) {
         <div class="cert-row">
           <div class="cert-label">Художник</div>
           <div class="cert-val">${w.artist_full_ru || w.artist_full || w.artist || '—'} · ${w.artist_zh || ''}<br>
-            <span style="font-size:11px;color:var(--mid)">${w.artist_born || ''}–${w.artist_died || ''}</span>
+            <span style="font-size:11px;color:var(--mid)">${w.artist_born || ''}–${w.artist_died_ru || w.artist_died || ''}</span>
           </div>
         </div>
         <div class="cert-row">
           <div class="cert-label">Техника</div>
-          <div class="cert-val">${w.medium || '—'} · ${w.year || ''}</div>
+          <div class="cert-val">${w.medium_ru || w.medium || '—'} · ${w.year || ''}</div>
         </div>
         <div class="cert-row">
           <div class="cert-label">Владелец</div>
