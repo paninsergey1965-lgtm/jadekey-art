@@ -267,7 +267,7 @@ body {
   padding-top: 3.5mm;
   margin-bottom: 3mm;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 120px 1fr 1fr;
   gap: 6mm;
 }
 .cert-sig-col {}
@@ -514,13 +514,16 @@ function buildCert(id, w) {
 
     <!-- PUF description -->
     <div class="cert-puf">
-      <img src="${RAW}/${w.agate}" style="width:100%;max-width:160px;display:block;margin:0 auto 16px;border:1px solid rgba(154,125,78,0.3);" alt="Mineral PUF">
       Физический ключ аутентификации — уникальный срез агата, внутренняя микроструктура которого,
       формировавшаяся миллионы лет, навсегда связана с этим произведением и не может быть воспроизведена.
     </div>
 
     <!-- SIGNATURE BLOCK -->
     <div class="cert-sig-section">
+      <div class="cert-sig-col" style="align-items:center;justify-content:center">
+        <span class="cert-sig-label" style="align-self:flex-start">JadeKey · Агат</span>
+        <img src="${RAW}/${w.agate}" style="width:100px;height:100px;object-fit:contain;border:1px solid rgba(154,125,78,0.3);margin-top:2mm;" alt="Mineral PUF">
+      </div>
       <div class="cert-sig-col">
         <span class="cert-sig-label">Продавец / Галерея · Seller / Gallery</span>
         <div class="cert-sig-line"></div>
