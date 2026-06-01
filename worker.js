@@ -684,7 +684,7 @@ ${w.for_sale ? `
   </div>` : ''}
   <div class="artist-info" ${!artistPhotoUrl ? 'style="grid-column:1/3"' : ''}>
     <div class="section-tag" data-en="About the Artist" data-ru="О художнике">About the Artist</div>
-    <div class="artist-name">${w.artist_full || w.artist}</div>
+    <div class="artist-name" data-ru="${w.artist_full_ru || w.artist_full || w.artist}" data-en="${w.artist_full || w.artist}">${w.artist_full || w.artist}</div>
     <div class="artist-name-zh">${w.artist_zh}</div>
     <div class="artist-dates">${w.artist_born} — ${w.artist_died}</div>
     <div class="artist-bio" id="artist-bio">${w.artist_bio_en || ''}</div>
