@@ -657,7 +657,7 @@ ${w.for_sale ? `
       <div class="meta-item">
         <label data-en="Medium" data-ru="Техника">Medium</label>
         <div class="val">${w.medium}</div>
-        <div class="val-sub">${w.medium_zh}</div>
+        <div class="val-sub">${w.medium_ru || w.medium_zh}</div>
       </div>
       <div class="meta-item">
         <label data-en="Year" data-ru="Год">Year</label>

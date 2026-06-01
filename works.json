@@ -48,7 +48,8 @@
       "ton_explorer": "https://tonviewer.com/transaction/adc37e4b5ab30df1c2dd9281250850d68d9f947f6a3f419335440852875f50a7",
       "ton_tx_agate": "e517975761195e030e953e25391402c41ea17d652307f46403a4d3e5d1fb4d5a",
       "ton_agate_hash": "0465d57ab5954ae5768587bbde1583232d64d1628902919eb1d4456a17303bcc",
-      "ton_explorer_agate": "https://tonviewer.com/transaction/e517975761195e030e953e25391402c41ea17d652307f46403a4d3e5d1fb4d5a"
+      "ton_explorer_agate": "https://tonviewer.com/transaction/e517975761195e030e953e25391402c41ea17d652307f46403a4d3e5d1fb4d5a",
+      "medium_ru": "Тушь на бумаге, свиток"
     },
     "JK-000002": {
       "client": "sergei-panin",
@@ -76,7 +77,8 @@
       "ton_anchored_at": "2026-05-30",
       "ton_explorer": "https://tonviewer.com/transaction/52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
       "for_sale": true,
-      "price_ton": 150
+      "price_ton": 150,
+      "medium_ru": "Глазурованная керамика, эмалевая роспись"
     },
     "JK-000003": {
       "client": "kupol-gallery",
@@ -102,7 +104,8 @@
       "agate": "990879D3-3DD5-450A-8A8A-8C899DFE1F4B.png",
       "ton_tx": "2f638af0dbff629b59d28bd3cf7475eca12e1bd6e28a00d0db205c75a86df36e",
       "ton_anchored_at": "2026-06-01",
-      "ton_explorer": "https://tonviewer.com/transaction/2f638af0dbff629b59d28bd3cf7475eca12e1bd6e28a00d0db205c75a86df36e"
+      "ton_explorer": "https://tonviewer.com/transaction/2f638af0dbff629b59d28bd3cf7475eca12e1bd6e28a00d0db205c75a86df36e",
+      "medium_ru": "Холст, акрил"
     }
   }
 }
