@@ -746,6 +746,7 @@ ${tonBlock}
 <script>
 const bioEn = ${JSON.stringify(w.artist_bio_en || '')};
 const bioRu = ${JSON.stringify(w.artist_bio_ru || '')};
+const artistNameRu = ${JSON.stringify(w.artist_full_ru || '')};
 const agateEn = 'A unique agate specimen whose internal microstructure — formed over millions of years — serves as an unclonable physical identifier permanently linked to this artwork.';
 const agateRu = 'Уникальный образец агата, внутренняя микроструктура которого — формировавшаяся миллионы лет — служит неклонируемым физическим идентификатором, навсегда связанным с этим произведением.';
 
@@ -756,6 +757,7 @@ function setLang(lang) {
     el.textContent = el.getAttribute('data-' + lang);
   });
   document.getElementById('artist-bio').textContent = lang === 'en' ? bioEn : bioRu;
+  const nameEl = document.querySelector('.artist-name'); if(nameEl && lang === 'ru' && artistNameRu) nameEl.textContent = artistNameRu; else if(nameEl && lang === 'en') nameEl.textContent = ${JSON.stringify(w.artist_full || w.artist)};
   document.getElementById('agate-desc').textContent = lang === 'en' ? agateEn : agateRu;
   localStorage.setItem('jk-lang', lang);
 }
