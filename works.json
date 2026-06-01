@@ -99,7 +99,10 @@
       "owner_city": "Москва",
       "registered": "2026",
       "photo": "DA2A80A0-BFAD-4266-AA8D-E1979193E7B6.png",
-      "agate": "990879D3-3DD5-450A-8A8A-8C899DFE1F4B.png"
+      "agate": "990879D3-3DD5-450A-8A8A-8C899DFE1F4B.png",
+      "ton_tx": "2f638af0dbff629b59d28bd3cf7475eca12e1bd6e28a00d0db205c75a86df36e",
+      "ton_anchored_at": "2026-06-01",
+      "ton_explorer": "https://tonviewer.com/transaction/2f638af0dbff629b59d28bd3cf7475eca12e1bd6e28a00d0db205c75a86df36e"
     }
   }
 }
