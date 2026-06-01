@@ -9,6 +9,15 @@
         "JK-000001",
         "JK-000002"
       ]
+    },
+    "kupol-gallery": {
+      "name": "Галерея «Купол»",
+      "city": "Москва",
+      "type": "Gallery",
+      "type_ru": "Галерея",
+      "works": [
+        "JK-000003"
+      ]
     }
   },
   "works": {
@@ -68,6 +77,29 @@
       "ton_explorer": "https://tonviewer.com/transaction/52162cd969737536a229e5d7fe20d9190ca90007964b9f2f66d247672f48f4c1",
       "for_sale": true,
       "price_ton": 150
+    },
+    "JK-000003": {
+      "client": "kupol-gallery",
+      "public": true,
+      "artist": "Vova Perkin",
+      "artist_full": "Vova Perkin",
+      "artist_zh": "",
+      "artist_bio_en": "Vova Perkin is a Moscow-based artist working at the intersection of street art, comics and painting. His works are recognizable by their bold contrasting colors, sharp silhouettes and grotesque characters balancing between fairy tale and surrealism. He draws on Russian literature and mythology, reinterpreting them through irony and decorative graphics. His work has been shown in leading Russian galleries.",
+      "artist_bio_ru": "Вова Перкин — московский художник, работающий на пересечении уличного искусства, комикса и живописи. Его работы узнаваемы по контрастным цветам, резким силуэтам и гротескным персонажам, балансирующим между сказкой и сюрреализмом. Обращается к образам русской литературы и мифологии, переосмысляя их через иронию и декоративную графику. Выставляется в ведущих российских галереях.",
+      "artist_photo": "",
+      "artist_born": "Moscow",
+      "artist_died": "",
+      "title": "Кот Бегемот",
+      "title_zh": "",
+      "year": 2026,
+      "medium": "Canvas, acrylic",
+      "medium_zh": "Холст, акрил",
+      "tradition": "Contemporary Russian art",
+      "owner": "Галерея «Купол»",
+      "owner_city": "Москва",
+      "registered": "2026",
+      "photo": "DA2A80A0-BFAD-4266-AA8D-E1979193E7B6.png",
+      "agate": "990879D3-3DD5-450A-8A8A-8C899DFE1F4B.png"
     }
   }
 }
