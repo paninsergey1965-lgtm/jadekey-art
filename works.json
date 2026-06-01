@@ -106,7 +106,9 @@
       "ton_anchored_at": "2026-06-01",
       "ton_explorer": "https://tonviewer.com/transaction/2f638af0dbff629b59d28bd3cf7475eca12e1bd6e28a00d0db205c75a86df36e",
       "medium_ru": "Холст, акрил",
-      "artist_full_ru": "Вова Перкин"
+      "artist_full_ru": "Вова Перкин",
+      "owner_en": "Kupol-Gallery",
+      "owner_city_en": "Moscow"
     }
   }
 }

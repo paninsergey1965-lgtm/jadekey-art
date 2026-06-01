@@ -508,7 +508,7 @@ function buildCert(id, w) {
       </div>
       <div class="cert-chain-val" style="text-align:right;font-size:7.5px;color:var(--gold)">
         JadeKey:${id}:${(w.title||'').replace(/\s+/g,'-')}:<br>
-        ${(w.artist||'').replace(/\s+/g,'-')}:${(w.owner||'').replace(/\s+/g,'-')}:${w.year||''}
+        ${(w.artist||'').replace(/\s+/g,'-')}:${(w.owner_en||w.owner||'').replace(/\s+/g,'-')}:${(w.owner_city_en||w.owner_city||'').replace(/\s+/g,'-')}:${w.year||''}
       </div>
     </div>
 
