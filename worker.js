@@ -651,13 +651,13 @@ ${w.for_sale ? `
   <div class="artwork-info">
     <div class="section-tag" data-en="Certificate of Authenticity" data-ru="Сертификат подлинности">Certificate of Authenticity</div>
     <div class="artwork-title">${w.title}</div>
-    <div class="artwork-title-zh">${w.title_zh}</div>
+    <div class="artwork-title-zh"></div>
     <div class="divider"></div>
     <div class="meta-grid">
       <div class="meta-item">
         <label data-en="Medium" data-ru="Техника">Medium</label>
         <div class="val">${w.medium_ru || w.medium}</div>
-        <div class="val-sub">${w.medium_ru || w.medium_zh}</div>
+        <div class="val-sub">${w.medium_ru || w.medium_en || ""}</div>
       </div>
       <div class="meta-item">
         <label data-en="Year" data-ru="Год">Year</label>
@@ -680,13 +680,13 @@ ${w.for_sale ? `
   ${artistPhotoUrl ? `
   <div class="artist-photo-wrap">
     <img src="${artistPhotoUrl}" alt="${w.artist_full}">
-    <div class="artist-photo-caption">${w.artist_full} · ${w.artist_born} – ${w.artist_died}</div>
+    <div class="artist-photo-caption">${w.artist_full}${w.artist_born ? " · " + w.artist_born : ""}${w.artist_died ? " – " + w.artist_died : ""}</div>
   </div>` : ''}
   <div class="artist-info" ${!artistPhotoUrl ? 'style="grid-column:1/3"' : ''}>
     <div class="section-tag" data-en="About the Artist" data-ru="О художнике">About the Artist</div>
     <div class="artist-name" data-ru="${w.artist_full_ru || w.artist_full || w.artist}" data-en="${w.artist_full || w.artist}">${w.artist_full || w.artist}</div>
     <div class="artist-name-zh">${w.artist_zh}</div>
-    <div class="artist-dates">${w.artist_born} — ${w.artist_died_ru || w.artist_died}</div>
+    <div class="artist-dates">${w.artist_born ? w.artist_born + " — " : ""}${w.artist_died_ru || w.artist_died || ""}</div>
     <div class="artist-bio" id="artist-bio">${w.artist_bio_en || ''}</div>
   </div>
 </div>
