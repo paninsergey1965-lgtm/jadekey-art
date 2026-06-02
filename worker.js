@@ -65,7 +65,7 @@ async function serveClientsList() {
         <div class="cc-name">${c.name}</div>
         <div class="cc-city">${c.city}</div>
         <div class="cc-footer">
-          <span class="cc-count">${workCount} work${workCount!==1?'s':''} · ${publicCount} public</span>
+          <span class="cc-count">${workCount} work${''} · ${publicCount} публичных</span>
           <span class="cc-arrow">→</span>
         </div>
       </div>
@@ -74,7 +74,7 @@ async function serveClientsList() {
 
   return new Response(`<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JadeKey — Our Clients</title>
+<title>JadeKey — Коллекционеры</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -104,11 +104,11 @@ h1{font-size:clamp(32px,5vw,56px);font-weight:300;margin-bottom:8px}
 </style></head><body>
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
-  <a href="/" class="back">← Back</a>
+  <a href="/" class="back">← Назад</a>
 </nav>
 <div class="content">
-  <h1>Our Clients</h1>
-  <div class="sub">${Object.keys(clients).length} registered · JadeKey Authentication System</div>
+  <h1>Коллекционеры</h1>
+  <div class="sub">${Object.keys(clients).length} зарегистрировано · JadeKey</div>
   <div class="grid">${cards || '<p style="font-family:Space Mono,monospace;font-size:11px;color:#b89a6e">No clients yet</p>'}</div>
 </div>
 </body></html>`, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
