@@ -142,8 +142,8 @@ async function serveClient(slug) {
         <div class="wc-title">${w.title}</div>
         <div class="wc-meta">${w.artist} · ${w.year}</div>
         <div class="wc-footer">
-          <span class="wc-badge pub">PUBLIC</span>
-          <span class="wc-arrow">→ passport</span>
+          <span class="wc-badge pub">ПУБЛИЧНО</span>
+          <span class="wc-arrow">→ паспорт</span>
         </div>
       </div>
     </a>`;
