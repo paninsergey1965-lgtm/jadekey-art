@@ -626,11 +626,7 @@ body::after {
   <div class="header-right">
     ${w.client ? `<a href="/clients/${w.client}" class="back-link">← Коллекция</a>` : ''}
     <span class="passport-id">${id}</span>
-    <div class="lang-toggle">
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
-      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
-
-  </div><a href="/cert/${id}" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;color:#b89a6e;text-decoration:none;padding:5px 10px;border:1px solid rgba(184,154,110,.3)">CERT</a>
+<a href="/cert/${id}" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;color:#b89a6e;text-decoration:none;padding:5px 10px;border:1px solid rgba(184,154,110,.3)">CERT</a>
 </header>
 
 
