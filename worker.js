@@ -624,7 +624,7 @@ body::after {
 <header class="passport-header">
   <a href="/" class="header-logo">JADE<em>KEY</em></a>
   <div class="header-right">
-    ${w.client ? `<a href="/clients/${w.client}" class="back-link">← Collection</a>` : ''}
+    ${w.client ? `<a href="/clients/${w.client}" class="back-link">← Коллекция</a>` : ''}
     <span class="passport-id">${id}</span>
     <div class="lang-toggle">
       <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -761,7 +761,7 @@ function setLang(lang) {
   document.getElementById('agate-desc').textContent = lang === 'en' ? agateEn : agateRu;
   localStorage.setItem('jk-lang', lang);
 }
-const saved = localStorage.getItem('jk-lang') || 'ru';
+const saved = 'ru';
 if (saved && saved !== 'en') setLang(saved);
 </script>
 
