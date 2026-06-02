@@ -3,7 +3,7 @@
     "sergei-panin": {
       "name": "Sergei Panin",
       "city": "Москва",
-      "type": "Private Collector",
+      "type": "Частный коллекционер",
       "type_ru": "Частный коллекционер",
       "works": [
         "JK-000001",
@@ -13,7 +13,7 @@
     "kupol-gallery": {
       "name": "Галерея «Купол»",
       "city": "Москва",
-      "type": "Gallery",
+      "type": "Галерея",
       "type_ru": "Галерея",
       "works": [
         "JK-000003"
@@ -23,7 +23,7 @@
       "name": "Andrei Voronkov",
       "name_ru": "Андрей Воронков",
       "city": "Москва",
-      "type": "Private Collector",
+      "type": "Частный коллекционер",
       "type_ru": "Частный коллекционер",
       "works": [
         "JK-000004",
