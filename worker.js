@@ -42,7 +42,7 @@ async function servePassport(jkId) {
   const work = works[jkId];
 
   if (!work) return new Response(notFoundPage(jkId), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-  if (!work.public) return new Response(privatePage(jkId), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+  if (!work.публичных) return new Response(privatePage(jkId), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
   return new Response(passportPage(jkId, work), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
 }
 
@@ -53,10 +53,10 @@ async function serveClientsList() {
 
   const cards = Object.entries(clients).map(([slug, c]) => {
     const clientWorks = (c.works || []).map(id => works[id]).filter(Boolean);
-    const firstPublic = clientWorks.find(w => w.public);
+    const firstPublic = clientWorks.find(w => w.публичных);
     const thumb = firstPublic ? `${GITHUB_RAW}/${firstPublic.photo}` : '';
     const workCount = clientWorks.length;
-    const publicCount = clientWorks.filter(w => w.public).length;
+    const публичныхCount = clientWorks.filter(w => w.публичных).length;
 
     return `<a href="/clients/${slug}" class="cc">
       ${thumb ? `<img class="cc-img" src="${thumb}" alt="${c.name}">` : '<div class="cc-img cc-no-img"></div>'}
@@ -65,7 +65,7 @@ async function serveClientsList() {
         <div class="cc-name">${c.name}</div>
         <div class="cc-city">${c.city}</div>
         <div class="cc-footer">
-          <span class="cc-count">${workCount} work${''} · ${publicCount} публичных</span>
+          <span class="cc-count">${workCount} work${''} · ${публичныхCount} публичных</span>
           <span class="cc-arrow">→</span>
         </div>
       </div>
@@ -126,7 +126,7 @@ async function serveClient(slug) {
   const cards = clientWorks.map(id => {
     const w = works[id];
     if (!w) return '';
-    if (!w.public) return `<div class="wc wc-private">
+    if (!w.публичных) return `<div class="wc wc-private">
       <div class="wc-img-wrap"><div class="wc-private-icon">🔒</div></div>
       <div class="wc-body">
         <div class="wc-id">${id}</div>
