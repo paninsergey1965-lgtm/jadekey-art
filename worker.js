@@ -188,7 +188,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
 </style></head><body>
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
-  <a href="/clients" class="back">← Our Clients</a>
+  <a href="/clients" class="back">← Коллекционеры</a>
 </nav>
 <div class="header">
   <div class="client-type">${client.type}</div>
