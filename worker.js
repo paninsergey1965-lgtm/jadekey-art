@@ -130,7 +130,7 @@ async function serveClient(slug) {
       <div class="wc-img-wrap"><div class="wc-private-icon">🔒</div></div>
       <div class="wc-body">
         <div class="wc-id">${id}</div>
-        <div class="wc-title" style="font-style:italic;color:rgba(244,239,230,.3)">Private work</div>
+        <div class="wc-title" style="font-style:italic;color:rgba(244,239,230,.3)">Закрытая работа</div>
         <div class="wc-meta">Access restricted by owner</div>
       </div>
     </div>`;
