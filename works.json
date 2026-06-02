@@ -18,6 +18,16 @@
       "works": [
         "JK-000003"
       ]
+    },
+    "andrei-voronkov": {
+      "name": "Andrei Voronkov",
+      "name_ru": "Андрей Воронков",
+      "city": "Москва",
+      "type": "Private Collector",
+      "type_ru": "Частный коллекционер",
+      "works": [
+        "JK-000004"
+      ]
     }
   },
   "works": {
@@ -111,6 +121,32 @@
       "owner_city_en": "Moscow",
       "title_en": "Kot-Begemot",
       "artist_died_ru": "наст.вр."
+    },
+    "JK-000004": {
+      "client": "andrei-voronkov",
+      "public": true,
+      "artist": "Natasha",
+      "artist_full": "Natasha",
+      "artist_full_ru": "Наташа",
+      "artist_bio_en": "Contemporary Russian artist working in mixed media.",
+      "artist_bio_ru": "Современный российский художник, работающий в смешанной технике.",
+      "artist_photo": "",
+      "artist_born": "",
+      "artist_died": "present",
+      "artist_died_ru": "наст.вр.",
+      "title": "Жопа мира",
+      "title_en": "The World's Ass",
+      "year": 2026,
+      "medium": "Смешанная техника",
+      "medium_en": "Mixed media",
+      "tradition": "Contemporary Russian art",
+      "owner": "Андрей Воронков",
+      "owner_en": "Andrei Voronkov",
+      "owner_city": "Москва",
+      "owner_city_en": "Moscow",
+      "registered": "2026",
+      "photo": "15EEBF9C-5E01-4BC4-80CC-B5133F676850.png",
+      "agate": "9A4B3EE6-8203-4E8C-92BA-B23DDA5784FE.png"
     }
   }
 }
