@@ -227,7 +227,13 @@
       "ton_anchored_at": "2026-06-04",
       "ton_explorer": "https://tonviewer.com/transaction/63abf61b259b1d9b186aa25343452e4b3182e62a4f03b0c2a3ea8fc5fafc1eac",
       "for_sale": true,
-      "price_ton": 2800
+      "price_ton": 2800,
+      "ton_photo_hash": "9cabe0bb85799493e8257fa1023008d626099083a93056a7d663587a265b100e",
+      "ton_tx_photo": "87ca313fa9099c7b72ff33b330b41b10c1061285fe14e1736d6c05ee136d2b74",
+      "ton_explorer_photo": "https://tonviewer.com/transaction/87ca313fa9099c7b72ff33b330b41b10c1061285fe14e1736d6c05ee136d2b74",
+      "ton_agate_hash": "ead63acaace4610961df458b0a34f10312a29a504f55822201a16b2b91906673",
+      "ton_tx_agate": "1d0b29788292671efc09c0ed3ef9270c94faf2c372a3e949783cef16a26c27c5",
+      "ton_explorer_agate": "https://tonviewer.com/transaction/1d0b29788292671efc09c0ed3ef9270c94faf2c372a3e949783cef16a26c27c5"
     }
   }
 }
