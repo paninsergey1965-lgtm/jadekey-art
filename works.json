@@ -225,7 +225,9 @@
       "agate": "E43956AE-385B-4433-88E6-930C30DFD51A.png",
       "ton_tx": "63abf61b259b1d9b186aa25343452e4b3182e62a4f03b0c2a3ea8fc5fafc1eac",
       "ton_anchored_at": "2026-06-04",
-      "ton_explorer": "https://tonviewer.com/transaction/63abf61b259b1d9b186aa25343452e4b3182e62a4f03b0c2a3ea8fc5fafc1eac"
+      "ton_explorer": "https://tonviewer.com/transaction/63abf61b259b1d9b186aa25343452e4b3182e62a4f03b0c2a3ea8fc5fafc1eac",
+      "for_sale": true,
+      "price_ton": 2800
     }
   }
 }
