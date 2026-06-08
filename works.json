@@ -37,6 +37,14 @@
       "works": [
         "JK-000006"
       ]
+    },
+    "otdelnov": {
+      "name": "Михаил Отдельнов",
+      "type": "Коллекционер",
+      "city": "Москва",
+      "works": [
+        "JK-000007"
+      ]
     }
   },
   "works": {
@@ -234,6 +242,34 @@
       "ton_agate_hash": "ead63acaace4610961df458b0a34f10312a29a504f55822201a16b2b91906673",
       "ton_tx_agate": "1d0b29788292671efc09c0ed3ef9270c94faf2c372a3e949783cef16a26c27c5",
       "ton_explorer_agate": "https://tonviewer.com/transaction/1d0b29788292671efc09c0ed3ef9270c94faf2c372a3e949783cef16a26c27c5"
+    },
+    "JK-000007": {
+      "client": "otdelnov",
+      "public": true,
+      "artist": "Дмитрий Шагин",
+      "artist_full": "Дмитрий Владимирович Шагин",
+      "artist_full_ru": "Дмитрий Владимирович Шагин",
+      "artist_zh": "",
+      "artist_bio_en": "Soviet and Russian artist, co-founder of the Mitki movement. Born in Leningrad in 1957. Works held in the Russian Museum and major private collections worldwide.",
+      "artist_bio_ru": "Советский и российский художник, один из основателей движения «Митьки». Родился в Ленинграде в 1957 году. Работы хранятся в Русском музее и крупных частных коллекциях.",
+      "artist_photo": "IMG_0458.jpeg",
+      "artist_born": "1957",
+      "artist_died": "present",
+      "artist_died_ru": "наст.вр.",
+      "title": "Митьки пишут письмо олигархам",
+      "title_en": "Mitki Write a Letter to the Oligarchs",
+      "year": 2004,
+      "medium": "Холст, масло",
+      "medium_en": "Oil on canvas",
+      "tradition": "Contemporary Russian art",
+      "owner": "Михаил Отдельнов",
+      "owner_en": "Mikhail Otdelnov",
+      "owner_city": "Москва",
+      "owner_city_en": "Moscow",
+      "registered": "2026",
+      "photo": "180A8662-D22A-46E8-83EE-8C26DF88F5E6.png",
+      "agate": "84734F37-0980-43AA-B5DC-AFABDBCCE6B3.png",
+      "for_sale": true
     }
   }
 }
