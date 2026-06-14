@@ -94,7 +94,7 @@ h1{font-size:clamp(32px,5vw,56px);font-weight:300;margin-bottom:8px}
 .cc-arrow{color:rgba(184,154,110,.4);font-size:16px}
 .cc:hover .cc-arrow{color:#b89a6e}
 @media(max-width:700px){.grid{grid-template-columns:1fr}.content{padding:40px 20px}nav{padding:16px 20px}}
-</style></head><body>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
   <a href="/" class="back">← Назад</a>
@@ -178,7 +178,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
 .wc-arrow{font-family:'Space Mono',monospace;font-size:9px;color:rgba(184,154,110,.4);letter-spacing:.1em}
 .wc:hover .wc-arrow{color:#b89a6e}
 @media(max-width:700px){.grid{grid-template-columns:1fr}.header{padding:40px 20px 32px}.content{padding:32px 20px 60px}nav{padding:16px 20px}}
-</style></head><body>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
   <a href="/clients" class="back">← Коллекционеры</a>
@@ -419,7 +419,7 @@ body::after {
   @page { size: A4; margin: 10mm; }
 }
 </style>
-</head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head>
 <body>
 
 <header class="passport-header">
@@ -585,7 +585,7 @@ h1{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#c4a882;mar
 .id{font-size:24px;color:#f5f0e8;margin:24px 0 8px;letter-spacing:.1em}
 p{font-size:13px;color:#666;line-height:1.8}
 a{color:#c4a882;text-decoration:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:40px;display:block}
-</style></head><body>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
 <div class="seal"><div class="seal-in">JK<br>✓</div></div>
 <h1>Зарегистрировано и верифицировано</h1>
 <div class="id">${id}</div>
@@ -602,7 +602,7 @@ h1{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#c4a882;mar
 .id{font-size:24px;color:#555;margin:24px 0 8px;letter-spacing:.1em}
 p{font-size:13px;color:#666;line-height:1.8}
 a{color:#c4a882;text-decoration:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:40px;display:block}
-</style></head><body>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
 <h1>Не найдено</h1>
 <div class="id">${id}</div>
 <p>Этот идентификатор не зарегистрирован в системе JadeKey.</p>
