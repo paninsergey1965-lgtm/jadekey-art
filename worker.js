@@ -435,16 +435,6 @@ body::after {
   </div>
 </header>
 
-${w.for_sale ? `
-<div style='background:#8b2218;color:#f2ece0;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;'>
-  <div>
-    <div style='font-family:Space Mono,monospace;font-size:10px;letter-spacing:.3em;margin-bottom:6px'>ПРОДАЁТСЯ · FOR SALE</div>
-    <div style='font-size:28px;font-weight:300'>${w.price_ton} TON</div>
-  </div>
-  <a href='ton://transfer/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu?amount=${w.price_ton*1000000000}&text=JadeKey:${id}' style='background:#f2ece0;color:#8b2218;padding:14px 28px;text-decoration:none;font-family:Space Mono,monospace;font-size:11px;letter-spacing:.2em;'>КУПИТЬ →</a>
-</div>
-` : ''}
-
 <div class="artwork-section">
   <div class="artwork-photo">
     <img src="${photoUrl}" alt="${w.title}">
@@ -504,15 +494,6 @@ ${w.for_sale ? `
   </div>
 </div>
 
-${w.for_sale ? `
-<div style="background:var(--pale);border-bottom:1px solid rgba(154,125,78,0.2);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
-  <div>
-    <div style="font-family:Space Mono,monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:6px" data-en="For Sale" data-ru="Продаётся">Продаётся</div>
-    <div style="font-size:28px;font-weight:400">${w.price_ton} TON</div>
-  </div>
-  <a href="https://app.tonkeeper.com/transfer/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu?amount=${w.price_ton*1000000000}&text=Buy ${id}" style="font-family:Space Mono,monospace;font-size:11px;letter-spacing:.15em;padding:14px 28px;background:var(--ink);color:var(--bg);text-decoration:none;display:inline-block" target="_blank" data-en="Buy with TON" data-ru="Купить за TON">Купить за TON →</a>
-</div>
-` : ''}
 
 <div class="agate-section">
   <div class="agate-photo">
