@@ -1,77 +1,81 @@
-const GITHUB_RAW = "https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main";
+(() => {
+  var __defProp = Object.defineProperty;
+  var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
-addEventListener("fetch", e => e.respondWith(handle(e.request)));
-
-async function handle(req) {
-  const url = new URL(req.url);
-  const path = url.pathname.replace(/\/$/, "") || "/";
-
-  const jkMatch = path.match(/^\/(JK-\d+)$/i);
-  if (jkMatch) return servePassport(jkMatch[1].toUpperCase());
-  const certMatch = path.match(/^\/cert\/(JK-\d+)$/i);
-  if (certMatch) return serveFile("cert.html");
-
-  if (path === "/clients") return serveClientsList();
-
-  const clientMatch = path.match(/^\/clients\/([a-z0-9-]+)$/i);
-  if (clientMatch) return serveClient(clientMatch[1]);
-
-  if (path === "/admin") return serveFile("admin.html");
-
-  if (path === "/oferta") return new Response(OFERTA_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-  if (path === "/refund") return new Response(REFUND_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-  if (path === "/privacy") return new Response(PRIVACY_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-
-  if (path === "/en") return serveFile("index-en.html");
-  if (path === "/") return serveFile("index.html");
-
-  return new Response("Not found", { status: 404 });
-}
-
-async function loadDB() {
-  const res = await fetch(`${GITHUB_RAW}/works.json?t=${Date.now()}`);
-  return await res.json();
-}
-
-async function servePassport(jkId) {
-  const db = await loadDB();
-  const works = db.works || db;
-  const work = works[jkId];
-
-  if (!work) return new Response(notFoundPage(jkId), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-  if (!work.public) return new Response(privatePage(jkId), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-  return new Response(passportPage(jkId, work), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-}
-
-async function serveClientsList() {
-  const db = await loadDB();
-  const clients = db.clients || {};
-  const works = db.works || {};
-
-  const cards = Object.entries(clients).map(([slug, c]) => {
-    const clientWorks = (c.works || []).map(id => works[id]).filter(Boolean);
-    const firstPublic = clientWorks.find(w => w.public);
-    const thumb = firstPublic ? `${GITHUB_RAW}/${firstPublic.photo}` : '';
-    const workCount = clientWorks.length;
-    const publicCount = clientWorks.filter(w => w.public).length;
-
-    return `<a href="/clients/${slug}" class="cc">
+  // worker.js
+  var GITHUB_RAW = "https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main";
+  addEventListener("fetch", (e) => e.respondWith(handle(e.request)));
+  async function handle(req) {
+    const url = new URL(req.url);
+    const path = url.pathname.replace(/\/$/, "") || "/";
+    const jkMatch = path.match(/^\/(JK-\d+)$/i);
+    if (jkMatch)
+      return servePassport(jkMatch[1].toUpperCase());
+    const certMatch = path.match(/^\/cert\/(JK-\d+)$/i);
+    if (certMatch)
+      return serveFile("cert.html");
+    if (path === "/clients")
+      return serveClientsList();
+    const clientMatch = path.match(/^\/clients\/([a-z0-9-]+)$/i);
+    if (clientMatch)
+      return serveClient(clientMatch[1]);
+    if (path === "/admin")
+      return serveFile("admin.html");
+    if (path === "/oferta")
+      return new Response(OFERTA_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+    if (path === "/refund")
+      return new Response(REFUND_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+    if (path === "/privacy")
+      return new Response(PRIVACY_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+    if (path === "/en")
+      return serveFile("index-en.html");
+    if (path === "/")
+      return serveFile("index.html");
+    return new Response("Not found", { status: 404 });
+  }
+  __name(handle, "handle");
+  async function loadDB() {
+    const res = await fetch(`${GITHUB_RAW}/works.json?t=${Date.now()}`);
+    return await res.json();
+  }
+  __name(loadDB, "loadDB");
+  async function servePassport(jkId) {
+    const db = await loadDB();
+    const works = db.works || db;
+    const work = works[jkId];
+    if (!work)
+      return new Response(notFoundPage(jkId), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+    if (!work.public)
+      return new Response(privatePage(jkId), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+    return new Response(passportPage(jkId, work), { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+  }
+  __name(servePassport, "servePassport");
+  async function serveClientsList() {
+    const db = await loadDB();
+    const clients = db.clients || {};
+    const works = db.works || {};
+    const cards = Object.entries(clients).map(([slug, c]) => {
+      const clientWorks = (c.works || []).map((id) => works[id]).filter(Boolean);
+      const firstPublic = clientWorks.find((w) => w.public);
+      const thumb = firstPublic ? `${GITHUB_RAW}/${firstPublic.photo}` : "";
+      const workCount = clientWorks.length;
+      const publicCount = clientWorks.filter((w) => w.public).length;
+      return `<a href="/clients/${slug}" class="cc">
       ${thumb ? `<img class="cc-img" src="${thumb}" alt="${c.name}">` : '<div class="cc-img cc-no-img"></div>'}
       <div class="cc-body">
         <div class="cc-type">${c.type}</div>
         <div class="cc-name">${c.name}</div>
         <div class="cc-city">${c.city}</div>
         <div class="cc-footer">
-          <span class="cc-count">${workCount} работ · ${publicCount} публичных</span>
-          <span class="cc-arrow">→</span>
+          <span class="cc-count">${workCount} \u0440\u0430\u0431\u043E\u0442 \xB7 ${publicCount} \u043F\u0443\u0431\u043B\u0438\u0447\u043D\u044B\u0445</span>
+          <span class="cc-arrow">\u2192</span>
         </div>
       </div>
     </a>`;
-  }).join('');
-
-  return new Response(`<!DOCTYPE html><html lang="ru"><head>
+    }).join("");
+    return new Response(`<!DOCTYPE html><html lang="ru"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JadeKey — Коллекционеры</title>
+<title>JadeKey \u2014 \u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440\u044B</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -98,57 +102,57 @@ h1{font-size:clamp(32px,5vw,56px);font-weight:300;margin-bottom:8px}
 .cc-arrow{color:rgba(184,154,110,.4);font-size:16px}
 .cc:hover .cc-arrow{color:#b89a6e}
 @media(max-width:700px){.grid{grid-template-columns:1fr}.content{padding:40px 20px}nav{padding:16px 20px}}
-</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script></head><body>
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
-  <a href="/" class="back">← Назад</a>
+  <a href="/" class="back">\u2190 \u041D\u0430\u0437\u0430\u0434</a>
 </nav>
 <div class="content">
-  <h1>Коллекционеры</h1>
-  <div class="sub">${Object.keys(clients).length} зарегистрировано · JadeKey</div>
-  <div class="grid">${cards || '<p style="font-family:Space Mono,monospace;font-size:11px;color:#b89a6e">Нет клиентов</p>'}</div>
+  <h1>\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440\u044B</h1>
+  <div class="sub">${Object.keys(clients).length} \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E \xB7 JadeKey</div>
+  <div class="grid">${cards || '<p style="font-family:Space Mono,monospace;font-size:11px;color:#b89a6e">\u041D\u0435\u0442 \u043A\u043B\u0438\u0435\u043D\u0442\u043E\u0432</p>'}</div>
 </div>
 </body></html>`, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-}
-
-async function serveClient(slug) {
-  const db = await loadDB();
-  const clients = db.clients || {};
-  const works = db.works || {};
-  const client = clients[slug];
-
-  if (!client) return new Response("Client not found", { status: 404 });
-
-  const clientWorks = (client.works || []);
-  const cards = clientWorks.map(id => {
-    const w = works[id];
-    if (!w) return '';
-    if (!w.public) return `<div class="wc wc-private">
-      <div class="wc-img-wrap"><div class="wc-private-icon">🔒</div></div>
+  }
+  __name(serveClientsList, "serveClientsList");
+  async function serveClient(slug) {
+    const db = await loadDB();
+    const clients = db.clients || {};
+    const works = db.works || {};
+    const client = clients[slug];
+    if (!client)
+      return new Response("Client not found", { status: 404 });
+    const clientWorks = client.works || [];
+    const cards = clientWorks.map((id) => {
+      const w = works[id];
+      if (!w)
+        return "";
+      if (!w.public)
+        return `<div class="wc wc-private">
+      <div class="wc-img-wrap"><div class="wc-private-icon">\u{1F512}</div></div>
       <div class="wc-body">
         <div class="wc-id">${id}</div>
-        <div class="wc-title" style="font-style:italic;color:rgba(244,239,230,.3)">Закрытая работа</div>
-        <div class="wc-meta">Доступ ограничен владельцем</div>
+        <div class="wc-title" style="font-style:italic;color:rgba(244,239,230,.3)">\u0417\u0430\u043A\u0440\u044B\u0442\u0430\u044F \u0440\u0430\u0431\u043E\u0442\u0430</div>
+        <div class="wc-meta">\u0414\u043E\u0441\u0442\u0443\u043F \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D \u0432\u043B\u0430\u0434\u0435\u043B\u044C\u0446\u0435\u043C</div>
       </div>
     </div>`;
-    const img = `${GITHUB_RAW}/${w.photo}`;
-    return `<a href="/${id}" class="wc">
+      const img = `${GITHUB_RAW}/${w.photo}`;
+      return `<a href="/${id}" class="wc">
       <img class="wc-img" src="${img}" alt="${w.title}">
       <div class="wc-body">
         <div class="wc-id">${id}</div>
         <div class="wc-title">${w.title}</div>
-        <div class="wc-meta">${w.artist} · ${w.year}</div>
+        <div class="wc-meta">${w.artist} \xB7 ${w.year}</div>
         <div class="wc-footer">
-          <span class="wc-badge pub">ПУБЛИЧНО</span>
-          <span class="wc-arrow">→ паспорт</span>
+          <span class="wc-badge pub">\u041F\u0423\u0411\u041B\u0418\u0427\u041D\u041E</span>
+          <span class="wc-arrow">\u2192 \u043F\u0430\u0441\u043F\u043E\u0440\u0442</span>
         </div>
       </div>
     </a>`;
-  }).join('');
-
-  return new Response(`<!DOCTYPE html><html lang="ru"><head>
+    }).join("");
+    return new Response(`<!DOCTYPE html><html lang="ru"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JadeKey — ${client.name}</title>
+<title>JadeKey \u2014 ${client.name}</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -182,10 +186,10 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
 .wc-arrow{font-family:'Space Mono',monospace;font-size:9px;color:rgba(184,154,110,.4);letter-spacing:.1em}
 .wc:hover .wc-arrow{color:#b89a6e}
 @media(max-width:700px){.grid{grid-template-columns:1fr}.header{padding:40px 20px 32px}.content{padding:32px 20px 60px}nav{padding:16px 20px}}
-</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script></head><body>
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
-  <a href="/clients" class="back">← Коллекционеры</a>
+  <a href="/clients" class="back">\u2190 \u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440\u044B</a>
 </nav>
 <div class="header">
   <div class="client-type">${client.type}</div>
@@ -193,42 +197,41 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
   <div class="client-city">${client.city}</div>
 </div>
 <div class="content">
-  <div class="works-label">${clientWorks.length} зарегистрированных работ</div>
+  <div class="works-label">${clientWorks.length} \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0445 \u0440\u0430\u0431\u043E\u0442</div>
   <div class="grid">${cards}</div>
 </div>
 </body></html>`, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-}
-
-async function serveFile(filename) {
-  const r = await fetch(`${GITHUB_RAW}/${filename}`);
-  const h = await r.text();
-  return new Response(h, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
-}
-
-function passportPage(id, w) {
-  const tonBlock = w.ton_tx ? [
-    '<div style="padding:32px 40px;border-bottom:1px solid rgba(154,125,78,0.2);background:rgba(26,23,20,0.02)">',
-    '<div style="display:flex;align-items:center;gap:24px;max-width:800px">',
-    '<div style="width:44px;height:44px;background:rgba(0,136,204,0.1);border:1px solid rgba(0,136,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:#29b6f6">&#x2B21;</div>',
-    '<div style="flex:1">',
-    '<div style="font-family:Space Mono,monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#29b6f6;margin-bottom:6px">BLOCKCHAIN ANCHOR &middot; TON</div>',
-    '<div style="font-family:Space Mono,monospace;font-size:11px;color:#1a1714;letter-spacing:.05em;margin-bottom:4px;word-break:break-all">' + (w.ton_agate_hash ? 'JadeKey:' + id + ':' + w.ton_agate_hash.slice(0,16) : 'JadeKey:' + id) + '</div>',
-    '<div style="font-family:Space Mono,monospace;font-size:9px;color:#6b5f4e">' + (w.ton_anchored_at || '2026-05-30') + ' &middot; Неизменяемое подтверждение подлинности</div>',
-    '</div>',
-    '<a href="' + (w.ton_explorer_agate || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu') + '" target="_blank" style="font-family:Space Mono,monospace;font-size:10px;color:#29b6f6;text-decoration:none;border:1px solid rgba(0,136,204,0.3);padding:6px 12px;white-space:nowrap">Verify &rarr;</a><br><a href="' + (w.ton_explorer || 'https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu') + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 12px;border:1px solid rgba(154,125,78,0.4);font-family:monospace;font-size:10px;color:#9a7d4e;text-decoration:none">Verify Owner &rarr;</a>',
-    '</div></div>'
-  ].join('') : '';
-  const RAW = 'https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main';
-  const photoUrl = `${RAW}/${w.photo}`;
-  const agateUrl = `${RAW}/${w.agate}`;
-  const artistPhotoUrl = w.artist_photo ? `${RAW}/${w.artist_photo}` : '';
-
-  return `<!DOCTYPE html>
+  }
+  __name(serveClient, "serveClient");
+  async function serveFile(filename) {
+    const r = await fetch(`${GITHUB_RAW}/${filename}`);
+    const h = await r.text();
+    return new Response(h, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+  }
+  __name(serveFile, "serveFile");
+  function passportPage(id, w) {
+    const tonBlock = w.ton_tx ? [
+      '<div style="padding:32px 40px;border-bottom:1px solid rgba(154,125,78,0.2);background:rgba(26,23,20,0.02)">',
+      '<div style="display:flex;align-items:center;gap:24px;max-width:800px">',
+      '<div style="width:44px;height:44px;background:rgba(0,136,204,0.1);border:1px solid rgba(0,136,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:#29b6f6">&#x2B21;</div>',
+      '<div style="flex:1">',
+      '<div style="font-family:Space Mono,monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#29b6f6;margin-bottom:6px">BLOCKCHAIN ANCHOR &middot; TON</div>',
+      '<div style="font-family:Space Mono,monospace;font-size:11px;color:#1a1714;letter-spacing:.05em;margin-bottom:4px;word-break:break-all">' + (w.ton_agate_hash ? "JadeKey:" + id + ":" + w.ton_agate_hash.slice(0, 16) : "JadeKey:" + id) + "</div>",
+      '<div style="font-family:Space Mono,monospace;font-size:9px;color:#6b5f4e">' + (w.ton_anchored_at || "2026-05-30") + " &middot; \u041D\u0435\u0438\u0437\u043C\u0435\u043D\u044F\u0435\u043C\u043E\u0435 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435 \u043F\u043E\u0434\u043B\u0438\u043D\u043D\u043E\u0441\u0442\u0438</div>",
+      "</div>",
+      '<a href="' + (w.ton_explorer_agate || "https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu") + '" target="_blank" style="font-family:Space Mono,monospace;font-size:10px;color:#29b6f6;text-decoration:none;border:1px solid rgba(0,136,204,0.3);padding:6px 12px;white-space:nowrap">Verify &rarr;</a><br><a href="' + (w.ton_explorer || "https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu") + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 12px;border:1px solid rgba(154,125,78,0.4);font-family:monospace;font-size:10px;color:#9a7d4e;text-decoration:none">Verify Owner &rarr;</a>',
+      "</div></div>"
+    ].join("") : "";
+    const RAW = "https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main";
+    const photoUrl = `${RAW}/${w.photo}`;
+    const agateUrl = `${RAW}/${w.agate}`;
+    const artistPhotoUrl = w.artist_photo ? `${RAW}/${w.artist_photo}` : "";
+    return `<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JadeKey — ${id} · ${w.title}</title>
+<title>JadeKey \u2014 ${id} \xB7 ${w.title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cinzel:wght@400;500&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
@@ -423,13 +426,13 @@ body::after {
   @page { size: A4; margin: 10mm; }
 }
 </style>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script></head>
 <body>
 
 <header class="passport-header">
   <a href="/" class="header-logo">JADE<em>KEY</em></a>
   <div class="header-right">
-    ${w.client ? `<a href="/clients/${w.client}" class="back-link">← Коллекция</a>` : ''}
+    ${w.client ? `<a href="/clients/${w.client}" class="back-link">\u2190 \u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u044F</a>` : ""}
     <span class="passport-id">${id}</span>
     <a href="/cert/${id}" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;color:#b89a6e;text-decoration:none;padding:5px 10px;border:1px solid rgba(184,154,110,.3)">CERT</a>
   </div>
@@ -440,26 +443,26 @@ body::after {
     <img src="${photoUrl}" alt="${w.title}">
   </div>
   <div class="artwork-info">
-    <div class="section-tag" data-en="Certificate of Authenticity" data-ru="Сертификат подлинности">Сертификат подлинности</div>
+    <div class="section-tag" data-en="Certificate of Authenticity" data-ru="\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442 \u043F\u043E\u0434\u043B\u0438\u043D\u043D\u043E\u0441\u0442\u0438">\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442 \u043F\u043E\u0434\u043B\u0438\u043D\u043D\u043E\u0441\u0442\u0438</div>
     <div class="artwork-title">${w.title}</div>
     <div class="artwork-title-zh"></div>
     <div class="divider"></div>
     <div class="meta-grid">
       <div class="meta-item">
-        <label data-en="Medium" data-ru="Техника">Техника</label>
+        <label data-en="Medium" data-ru="\u0422\u0435\u0445\u043D\u0438\u043A\u0430">\u0422\u0435\u0445\u043D\u0438\u043A\u0430</label>
         <div class="val">${w.medium_ru || w.medium}</div>
         <div class="val-sub">${w.medium_en || ""}</div>
       </div>
       <div class="meta-item">
-        <label data-en="Year" data-ru="Год">Год</label>
+        <label data-en="Year" data-ru="\u0413\u043E\u0434">\u0413\u043E\u0434</label>
         <div class="val">${w.year}</div>
       </div>
       <div class="meta-item">
-        <label data-en="Tradition" data-ru="Традиция">Традиция</label>
+        <label data-en="Tradition" data-ru="\u0422\u0440\u0430\u0434\u0438\u0446\u0438\u044F">\u0422\u0440\u0430\u0434\u0438\u0446\u0438\u044F</label>
         <div class="val">${w.tradition}</div>
       </div>
       <div class="meta-item">
-        <label data-en="Registered" data-ru="Зарегистрировано">Зарегистрировано</label>
+        <label data-en="Registered" data-ru="\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E">\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E</label>
         <div class="val">${w.registered}</div>
       </div>
     </div>
@@ -470,25 +473,25 @@ body::after {
   ${artistPhotoUrl ? `
   <div class="artist-photo-wrap">
     <img src="${artistPhotoUrl}" alt="${w.artist_full}">
-    <div class="artist-photo-caption">${w.artist_full}${w.artist_born ? " · " + w.artist_born : ""}${w.artist_died ? " – " + w.artist_died : ""}</div>
-  </div>` : ''}
-  <div class="artist-info" ${!artistPhotoUrl ? 'style="grid-column:1/3"' : ''}>
-    <div class="section-tag" data-en="About the Artist" data-ru="О художнике">О художнике</div>
+    <div class="artist-photo-caption">${w.artist_full}${w.artist_born ? " \xB7 " + w.artist_born : ""}${w.artist_died ? " \u2013 " + w.artist_died : ""}</div>
+  </div>` : ""}
+  <div class="artist-info" ${!artistPhotoUrl ? 'style="grid-column:1/3"' : ""}>
+    <div class="section-tag" data-en="About the Artist" data-ru="\u041E \u0445\u0443\u0434\u043E\u0436\u043D\u0438\u043A\u0435">\u041E \u0445\u0443\u0434\u043E\u0436\u043D\u0438\u043A\u0435</div>
     <div class="artist-name" data-ru="${w.artist_full_ru || w.artist_full || w.artist}" data-en="${w.artist_full || w.artist}">${w.artist_full_ru || w.artist_full || w.artist}</div>
-    ${w.artist_zh ? `<div class="artist-name-zh">${w.artist_zh}</div>` : ''}
-    <div class="artist-dates">${w.artist_born ? w.artist_born + " — " : ""}${w.artist_died_ru || w.artist_died || ""}</div>
-    <div class="artist-bio" id="artist-bio">${w.artist_bio_ru || w.artist_bio_en || ''}</div>
+    ${w.artist_zh ? `<div class="artist-name-zh">${w.artist_zh}</div>` : ""}
+    <div class="artist-dates">${w.artist_born ? w.artist_born + " \u2014 " : ""}${w.artist_died_ru || w.artist_died || ""}</div>
+    <div class="artist-bio" id="artist-bio">${w.artist_bio_ru || w.artist_bio_en || ""}</div>
   </div>
 </div>
 
 <div class="owner-strip">
   <div>
-    <div class="owner-label" data-en="Collector" data-ru="Коллекционер">Коллекционер</div>
+    <div class="owner-label" data-en="Collector" data-ru="\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440">\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440</div>
     <div class="owner-name">${w.owner}</div>
     <div class="owner-city">${w.owner_city}</div>
   </div>
   <div class="reg-date">
-    <div class="owner-label" data-en="Registered" data-ru="Дата регистрации">Дата регистрации</div>
+    <div class="owner-label" data-en="Registered" data-ru="\u0414\u0430\u0442\u0430 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438">\u0414\u0430\u0442\u0430 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438</div>
     <div>${w.registered}</div>
     <div style="margin-top:2px;font-size:9px;letter-spacing:.1em">jadekey.art</div>
   </div>
@@ -500,13 +503,13 @@ body::after {
     <img src="${agateUrl}" alt="JadeKey Mineral PUF ${id}">
   </div>
   <div class="agate-info">
-    <div class="section-tag" data-en="Physical Authentication Key" data-ru="Физический ключ аутентификации">Физический ключ аутентификации</div>
-    <div class="agate-title" data-en="Mineral PUF" data-ru="Минеральный PUF">Минеральный PUF</div>
-    <div class="agate-subtitle">СРЕЗ АГАТА · ФИЗИЧЕСКИ НЕКЛОНИРУЕМАЯ ФУНКЦИЯ</div>
-    <div class="agate-desc" id="agate-desc">Уникальный образец агата, внутренняя микроструктура которого — формировавшаяся миллионы лет — служит неклонируемым физическим идентификатором, навсегда связанным с этим произведением.</div>
+    <div class="section-tag" data-en="Physical Authentication Key" data-ru="\u0424\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u043A\u043B\u044E\u0447 \u0430\u0443\u0442\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u0438">\u0424\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u043A\u043B\u044E\u0447 \u0430\u0443\u0442\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u0438</div>
+    <div class="agate-title" data-en="Mineral PUF" data-ru="\u041C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u044B\u0439 PUF">\u041C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u044B\u0439 PUF</div>
+    <div class="agate-subtitle">\u0421\u0420\u0415\u0417 \u0410\u0413\u0410\u0422\u0410 \xB7 \u0424\u0418\u0417\u0418\u0427\u0415\u0421\u041A\u0418 \u041D\u0415\u041A\u041B\u041E\u041D\u0418\u0420\u0423\u0415\u041C\u0410\u042F \u0424\u0423\u041D\u041A\u0426\u0418\u042F</div>
+    <div class="agate-desc" id="agate-desc">\u0423\u043D\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439 \u043E\u0431\u0440\u0430\u0437\u0435\u0446 \u0430\u0433\u0430\u0442\u0430, \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F \u043C\u0438\u043A\u0440\u043E\u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E \u2014 \u0444\u043E\u0440\u043C\u0438\u0440\u043E\u0432\u0430\u0432\u0448\u0430\u044F\u0441\u044F \u043C\u0438\u043B\u043B\u0438\u043E\u043D\u044B \u043B\u0435\u0442 \u2014 \u0441\u043B\u0443\u0436\u0438\u0442 \u043D\u0435\u043A\u043B\u043E\u043D\u0438\u0440\u0443\u0435\u043C\u044B\u043C \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438\u043C \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u043E\u043C, \u043D\u0430\u0432\u0441\u0435\u0433\u0434\u0430 \u0441\u0432\u044F\u0437\u0430\u043D\u043D\u044B\u043C \u0441 \u044D\u0442\u0438\u043C \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u0435\u043C.</div>
     <div class="hash-block">
       <label>JadeKey ID</label>
-      <div class="hash-val">${id} · Верифицировано и зарегистрировано · jadekey.art</div>
+      <div class="hash-val">${id} \xB7 \u0412\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043E \u0438 \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E \xB7 jadekey.art</div>
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fjadekey.art%2F${id}" style="display:block;margin-top:12px;width:80px;height:80px" alt="QR">
     </div>
   </div>
@@ -517,27 +520,27 @@ ${tonBlock}
 <footer class="passport-footer">
   <div class="seal-group">
     <div class="seal-circle">
-      <div class="seal-inner">JK<br>✓</div>
+      <div class="seal-inner">JK<br>\u2713</div>
     </div>
     <div class="seal-text">
       <strong>${id}</strong>
-      <span data-en="Authenticated by JadeKey" data-ru="Верифицировано JadeKey">Верифицировано JadeKey</span>
+      <span data-en="Authenticated by JadeKey" data-ru="\u0412\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043E JadeKey">\u0412\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043E JadeKey</span>
     </div>
   </div>
-  <div class="disclaimer" id="disc" style="padding:24px 40px;background:var(--ink);border-top:1px solid rgba(154,125,78,0.2);text-align:center"><p id="disc-text" style="font-family:Space Mono,monospace;font-size:9px;color:rgba(242,236,224,0.35);letter-spacing:0.08em;line-height:1.8;max-width:700px;margin:0 auto"><span data-en="JadeKey registers the physical identifier of an object. The authenticity of the artwork is confirmed by the owner and the author. JadeKey does not guarantee the accuracy of the information provided and bears no responsibility for the accuracy of information declared by users or third parties." data-ru="JadeKey регистрирует физический идентификатор объекта. Подлинность произведения искусства подтверждается владельцем и автором. JadeKey не гарантирует достоверность предоставленных сведений и не несёт ответственности за точность информации, заявленной пользователями или третьими лицами.">JadeKey регистрирует физический идентификатор объекта. Подлинность произведения искусства подтверждается владельцем и автором. JadeKey не гарантирует достоверность предоставленных сведений и не несёт ответственности за точность информации, заявленной пользователями или третьими лицами.</span></p></div>
+  <div class="disclaimer" id="disc" style="padding:24px 40px;background:var(--ink);border-top:1px solid rgba(154,125,78,0.2);text-align:center"><p id="disc-text" style="font-family:Space Mono,monospace;font-size:9px;color:rgba(242,236,224,0.35);letter-spacing:0.08em;line-height:1.8;max-width:700px;margin:0 auto"><span data-en="JadeKey registers the physical identifier of an object. The authenticity of the artwork is confirmed by the owner and the author. JadeKey does not guarantee the accuracy of the information provided and bears no responsibility for the accuracy of information declared by users or third parties." data-ru="JadeKey \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u0443\u0435\u0442 \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043E\u0431\u044A\u0435\u043A\u0442\u0430. \u041F\u043E\u0434\u043B\u0438\u043D\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u0438\u0441\u043A\u0443\u0441\u0441\u0442\u0432\u0430 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0435\u0442\u0441\u044F \u0432\u043B\u0430\u0434\u0435\u043B\u044C\u0446\u0435\u043C \u0438 \u0430\u0432\u0442\u043E\u0440\u043E\u043C. JadeKey \u043D\u0435 \u0433\u0430\u0440\u0430\u043D\u0442\u0438\u0440\u0443\u0435\u0442 \u0434\u043E\u0441\u0442\u043E\u0432\u0435\u0440\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0445 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u0439 \u0438 \u043D\u0435 \u043D\u0435\u0441\u0451\u0442 \u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0441\u0442\u0438 \u0437\u0430 \u0442\u043E\u0447\u043D\u043E\u0441\u0442\u044C \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438, \u0437\u0430\u044F\u0432\u043B\u0435\u043D\u043D\u043E\u0439 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F\u043C\u0438 \u0438\u043B\u0438 \u0442\u0440\u0435\u0442\u044C\u0438\u043C\u0438 \u043B\u0438\u0446\u0430\u043C\u0438.">JadeKey \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u0443\u0435\u0442 \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043E\u0431\u044A\u0435\u043A\u0442\u0430. \u041F\u043E\u0434\u043B\u0438\u043D\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u0438\u0441\u043A\u0443\u0441\u0441\u0442\u0432\u0430 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0435\u0442\u0441\u044F \u0432\u043B\u0430\u0434\u0435\u043B\u044C\u0446\u0435\u043C \u0438 \u0430\u0432\u0442\u043E\u0440\u043E\u043C. JadeKey \u043D\u0435 \u0433\u0430\u0440\u0430\u043D\u0442\u0438\u0440\u0443\u0435\u0442 \u0434\u043E\u0441\u0442\u043E\u0432\u0435\u0440\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0445 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u0439 \u0438 \u043D\u0435 \u043D\u0435\u0441\u0451\u0442 \u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0441\u0442\u0438 \u0437\u0430 \u0442\u043E\u0447\u043D\u043E\u0441\u0442\u044C \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438, \u0437\u0430\u044F\u0432\u043B\u0435\u043D\u043D\u043E\u0439 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F\u043C\u0438 \u0438\u043B\u0438 \u0442\u0440\u0435\u0442\u044C\u0438\u043C\u0438 \u043B\u0438\u0446\u0430\u043C\u0438.</span></p></div>
   <div class="footer-right">
-    <div>© 2026 JadeKey</div>
+    <div>\xA9 2026 JadeKey</div>
     <div>Physical Authentication System</div>
     <div>jadekey.art</div>
   </div>
 </footer>
 
 <script>
-const bioEn = ${JSON.stringify(w.artist_bio_en || '')};
-const bioRu = ${JSON.stringify(w.artist_bio_ru || '')};
-const artistNameRu = ${JSON.stringify(w.artist_full_ru || '')};
-const agateEn = 'A unique agate specimen whose internal microstructure — formed over millions of years — serves as an unclonable physical identifier permanently linked to this artwork.';
-const agateRu = 'Уникальный образец агата, внутренняя микроструктура которого — формировавшаяся миллионы лет — служит неклонируемым физическим идентификатором, навсегда связанным с этим произведением.';
+const bioEn = ${JSON.stringify(w.artist_bio_en || "")};
+const bioRu = ${JSON.stringify(w.artist_bio_ru || "")};
+const artistNameRu = ${JSON.stringify(w.artist_full_ru || "")};
+const agateEn = 'A unique agate specimen whose internal microstructure \u2014 formed over millions of years \u2014 serves as an unclonable physical identifier permanently linked to this artwork.';
+const agateRu = '\u0423\u043D\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439 \u043E\u0431\u0440\u0430\u0437\u0435\u0446 \u0430\u0433\u0430\u0442\u0430, \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F \u043C\u0438\u043A\u0440\u043E\u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E \u2014 \u0444\u043E\u0440\u043C\u0438\u0440\u043E\u0432\u0430\u0432\u0448\u0430\u044F\u0441\u044F \u043C\u0438\u043B\u043B\u0438\u043E\u043D\u044B \u043B\u0435\u0442 \u2014 \u0441\u043B\u0443\u0436\u0438\u0442 \u043D\u0435\u043A\u043B\u043E\u043D\u0438\u0440\u0443\u0435\u043C\u044B\u043C \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438\u043C \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u043E\u043C, \u043D\u0430\u0432\u0441\u0435\u0433\u0434\u0430 \u0441\u0432\u044F\u0437\u0430\u043D\u043D\u044B\u043C \u0441 \u044D\u0442\u0438\u043C \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u0435\u043C.';
 
 function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -554,14 +557,14 @@ function setLang(lang) {
 }
 const saved = localStorage.getItem('jk-lang') || 'ru';
 if (saved === 'en') setLang('en');
-</script>
+<\/script>
 
 </body>
 </html>`;
-}
-
-function privatePage(id) {
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JadeKey — ${id}</title>
+  }
+  __name(passportPage, "passportPage");
+  function privatePage(id) {
+    return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JadeKey \u2014 ${id}</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
 <style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0e0e0c;color:#f5f0e8;font-family:'Space Mono',monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px}
 .seal{width:80px;height:80px;border:2px solid #c0392b;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 32px}
@@ -570,32 +573,32 @@ h1{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#c4a882;mar
 .id{font-size:24px;color:#f5f0e8;margin:24px 0 8px;letter-spacing:.1em}
 p{font-size:13px;color:#666;line-height:1.8}
 a{color:#c4a882;text-decoration:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:40px;display:block}
-</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
-<div class="seal"><div class="seal-in">JK<br>✓</div></div>
-<h1>Зарегистрировано и верифицировано</h1>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script></head><body>
+<div class="seal"><div class="seal-in">JK<br>\u2713</div></div>
+<h1>\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E \u0438 \u0432\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043E</h1>
 <div class="id">${id}</div>
-<p>Это произведение зарегистрировано в системе JadeKey.<br>Доступ ограничен владельцем.</p>
-<a href="/">← jadekey.art</a>
+<p>\u042D\u0442\u043E \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u0435 \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E \u0432 \u0441\u0438\u0441\u0442\u0435\u043C\u0435 JadeKey.<br>\u0414\u043E\u0441\u0442\u0443\u043F \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D \u0432\u043B\u0430\u0434\u0435\u043B\u044C\u0446\u0435\u043C.</p>
+<a href="/">\u2190 jadekey.art</a>
 </body></html>`;
-}
-
-function notFoundPage(id) {
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JadeKey — Not Found</title>
+  }
+  __name(privatePage, "privatePage");
+  function notFoundPage(id) {
+    return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JadeKey \u2014 Not Found</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
 <style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0e0e0c;color:#f5f0e8;font-family:'Space Mono',monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px}
 h1{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#c4a882;margin-bottom:16px}
 .id{font-size:24px;color:#555;margin:24px 0 8px;letter-spacing:.1em}
 p{font-size:13px;color:#666;line-height:1.8}
 a{color:#c4a882;text-decoration:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:40px;display:block}
-</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");</script></head><body>
-<h1>Не найдено</h1>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PBJZ1WQNN8"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PBJZ1WQNN8");<\/script></head><body>
+<h1>\u041D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E</h1>
 <div class="id">${id}</div>
-<p>Этот идентификатор не зарегистрирован в системе JadeKey.</p>
-<a href="/">← jadekey.art</a>
+<p>\u042D\u0442\u043E\u0442 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043D\u0435 \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D \u0432 \u0441\u0438\u0441\u0442\u0435\u043C\u0435 JadeKey.</p>
+<a href="/">\u2190 jadekey.art</a>
 </body></html>`;
-}
-
-const LEGAL_STYLE = `
+  }
+  __name(notFoundPage, "notFoundPage");
+  var LEGAL_STYLE = `
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0e0d0b;color:#f5f0e8;font-family:'Cormorant Garamond',serif;line-height:1.7;min-height:100vh}
 .wrap{max-width:760px;margin:0 auto;padding:64px 32px 96px}
@@ -612,144 +615,143 @@ a{color:#9a7d4e}
 a:hover{color:#f5f0e8}
 .req{background:rgba(154,125,78,0.06);border:1px solid rgba(154,125,78,0.15);padding:20px;border-radius:4px;margin-top:40px;font-family:monospace;font-size:13px;line-height:1.8;color:rgba(245,240,232,0.6)}
 `;
-
-function legalNav() {
-  return `<nav>
+  function legalNav() {
+    return `<nav>
     <a href="/" class="logo">JADE<em>KEY</em></a>
-    <a href="/" class="back">← jadekey.art</a>
+    <a href="/" class="back">\u2190 jadekey.art</a>
   </nav>`;
-}
-
-const OFERTA_HTML = `<!DOCTYPE html><html lang="ru"><head>
+  }
+  __name(legalNav, "legalNav");
+  var OFERTA_HTML = `<!DOCTYPE html><html lang="ru"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Публичная оферта — JadeKey</title>
+<title>\u041F\u0443\u0431\u043B\u0438\u0447\u043D\u0430\u044F \u043E\u0444\u0435\u0440\u0442\u0430 \u2014 JadeKey</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 <style>${LEGAL_STYLE}</style></head><body>
 ${legalNav()}
 <div class="wrap">
-<h1>Публичная оферта на оказание услуг JadeKey</h1>
-<p class="meta">Редакция действует с 16 июня 2026 года</p>
+<h1>\u041F\u0443\u0431\u043B\u0438\u0447\u043D\u0430\u044F \u043E\u0444\u0435\u0440\u0442\u0430 \u043D\u0430 \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u0435 \u0443\u0441\u043B\u0443\u0433 JadeKey</h1>
+<p class="meta">\u0420\u0435\u0434\u0430\u043A\u0446\u0438\u044F \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0441 16 \u0438\u044E\u043D\u044F 2026 \u0433\u043E\u0434\u0430</p>
 
-<p>Индивидуальный предприниматель Панин Сергей Николаевич (ИНН 771501067019, ОГРНИП 324774600501998), далее — «Исполнитель», публикует настоящий документ, являющийся публичной офертой (предложением) в адрес любого физического или юридического лица, далее — «Заказчик», заключить договор на условиях, изложенных ниже.</p>
-<p>Акцептом оферты (полным и безусловным согласием на её условия) считается оплата Заказчиком услуги через форму на сайте jadekey.art, либо подача заявки на регистрацию работы с последующей оплатой.</p>
+<p>\u0418\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u044B\u0439 \u043F\u0440\u0435\u0434\u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C \u041F\u0430\u043D\u0438\u043D \u0421\u0435\u0440\u0433\u0435\u0439 \u041D\u0438\u043A\u043E\u043B\u0430\u0435\u0432\u0438\u0447 (\u0418\u041D\u041D 771501067019, \u041E\u0413\u0420\u041D\u0418\u041F 324774600501998), \u0434\u0430\u043B\u0435\u0435 \u2014 \xAB\u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\xBB, \u043F\u0443\u0431\u043B\u0438\u043A\u0443\u0435\u0442 \u043D\u0430\u0441\u0442\u043E\u044F\u0449\u0438\u0439 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442, \u044F\u0432\u043B\u044F\u044E\u0449\u0438\u0439\u0441\u044F \u043F\u0443\u0431\u043B\u0438\u0447\u043D\u043E\u0439 \u043E\u0444\u0435\u0440\u0442\u043E\u0439 (\u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435\u043C) \u0432 \u0430\u0434\u0440\u0435\u0441 \u043B\u044E\u0431\u043E\u0433\u043E \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E \u0438\u043B\u0438 \u044E\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E \u043B\u0438\u0446\u0430, \u0434\u0430\u043B\u0435\u0435 \u2014 \xAB\u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\xBB, \u0437\u0430\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0434\u043E\u0433\u043E\u0432\u043E\u0440 \u043D\u0430 \u0443\u0441\u043B\u043E\u0432\u0438\u044F\u0445, \u0438\u0437\u043B\u043E\u0436\u0435\u043D\u043D\u044B\u0445 \u043D\u0438\u0436\u0435.</p>
+<p>\u0410\u043A\u0446\u0435\u043F\u0442\u043E\u043C \u043E\u0444\u0435\u0440\u0442\u044B (\u043F\u043E\u043B\u043D\u044B\u043C \u0438 \u0431\u0435\u0437\u0443\u0441\u043B\u043E\u0432\u043D\u044B\u043C \u0441\u043E\u0433\u043B\u0430\u0441\u0438\u0435\u043C \u043D\u0430 \u0435\u0451 \u0443\u0441\u043B\u043E\u0432\u0438\u044F) \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044F \u043E\u043F\u043B\u0430\u0442\u0430 \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u043E\u043C \u0443\u0441\u043B\u0443\u0433\u0438 \u0447\u0435\u0440\u0435\u0437 \u0444\u043E\u0440\u043C\u0443 \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 jadekey.art, \u043B\u0438\u0431\u043E \u043F\u043E\u0434\u0430\u0447\u0430 \u0437\u0430\u044F\u0432\u043A\u0438 \u043D\u0430 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044E \u0440\u0430\u0431\u043E\u0442\u044B \u0441 \u043F\u043E\u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0439 \u043E\u043F\u043B\u0430\u0442\u043E\u0439.</p>
 
-<h2>1. Предмет договора</h2>
-<p>Исполнитель оказывает Заказчику услугу по физико-цифровой аутентификации произведения искусства или иного коллекционного предмета (далее — «Работа»), включающую: присвоение Работе уникального минерального идентификатора (срез природного минерала, агат или нефрит), фотофиксацию Работы и идентификатора, формирование цифрового паспорта Работы на сайте jadekey.art, запись хэша идентификатора и реквизитов Работы в распределённый реестр блокчейн-сети TON.</p>
+<h2>1. \u041F\u0440\u0435\u0434\u043C\u0435\u0442 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430</h2>
+<p>\u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u0443 \u0443\u0441\u043B\u0443\u0433\u0443 \u043F\u043E \u0444\u0438\u0437\u0438\u043A\u043E-\u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0439 \u0430\u0443\u0442\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u0438 \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u0438\u0441\u043A\u0443\u0441\u0441\u0442\u0432\u0430 \u0438\u043B\u0438 \u0438\u043D\u043E\u0433\u043E \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u043D\u043E\u0433\u043E \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u0430 (\u0434\u0430\u043B\u0435\u0435 \u2014 \xAB\u0420\u0430\u0431\u043E\u0442\u0430\xBB), \u0432\u043A\u043B\u044E\u0447\u0430\u044E\u0449\u0443\u044E: \u043F\u0440\u0438\u0441\u0432\u043E\u0435\u043D\u0438\u0435 \u0420\u0430\u0431\u043E\u0442\u0435 \u0443\u043D\u0438\u043A\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430 (\u0441\u0440\u0435\u0437 \u043F\u0440\u0438\u0440\u043E\u0434\u043D\u043E\u0433\u043E \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u0430, \u0430\u0433\u0430\u0442 \u0438\u043B\u0438 \u043D\u0435\u0444\u0440\u0438\u0442), \u0444\u043E\u0442\u043E\u0444\u0438\u043A\u0441\u0430\u0446\u0438\u044E \u0420\u0430\u0431\u043E\u0442\u044B \u0438 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430, \u0444\u043E\u0440\u043C\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0433\u043E \u043F\u0430\u0441\u043F\u043E\u0440\u0442\u0430 \u0420\u0430\u0431\u043E\u0442\u044B \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 jadekey.art, \u0437\u0430\u043F\u0438\u0441\u044C \u0445\u044D\u0448\u0430 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430 \u0438 \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u043E\u0432 \u0420\u0430\u0431\u043E\u0442\u044B \u0432 \u0440\u0430\u0441\u043F\u0440\u0435\u0434\u0435\u043B\u0451\u043D\u043D\u044B\u0439 \u0440\u0435\u0435\u0441\u0442\u0440 \u0431\u043B\u043E\u043A\u0447\u0435\u0439\u043D-\u0441\u0435\u0442\u0438 TON.</p>
 
-<h2>2. Порядок оказания услуги</h2>
-<p>Заказчик предоставляет Работу и сведения о ней (название, автор, год создания, владелец) через форму на сайте или по согласованию с Исполнителем напрямую. Исполнитель производит фотофиксацию, подбор и закрепление минерального идентификатора, формирование цифрового паспорта и блокчейн-запись. Срок оказания услуги согласовывается индивидуально и обычно не превышает 14 рабочих дней с момента получения Работы и полной оплаты.</p>
+<h2>2. \u041F\u043E\u0440\u044F\u0434\u043E\u043A \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438</h2>
+<p>\u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u0442 \u0420\u0430\u0431\u043E\u0442\u0443 \u0438 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u043E \u043D\u0435\u0439 (\u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435, \u0430\u0432\u0442\u043E\u0440, \u0433\u043E\u0434 \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u044F, \u0432\u043B\u0430\u0434\u0435\u043B\u0435\u0446) \u0447\u0435\u0440\u0435\u0437 \u0444\u043E\u0440\u043C\u0443 \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 \u0438\u043B\u0438 \u043F\u043E \u0441\u043E\u0433\u043B\u0430\u0441\u043E\u0432\u0430\u043D\u0438\u044E \u0441 \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u0435\u043C \u043D\u0430\u043F\u0440\u044F\u043C\u0443\u044E. \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442 \u0444\u043E\u0442\u043E\u0444\u0438\u043A\u0441\u0430\u0446\u0438\u044E, \u043F\u043E\u0434\u0431\u043E\u0440 \u0438 \u0437\u0430\u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0438\u0435 \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430, \u0444\u043E\u0440\u043C\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0433\u043E \u043F\u0430\u0441\u043F\u043E\u0440\u0442\u0430 \u0438 \u0431\u043B\u043E\u043A\u0447\u0435\u0439\u043D-\u0437\u0430\u043F\u0438\u0441\u044C. \u0421\u0440\u043E\u043A \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438 \u0441\u043E\u0433\u043B\u0430\u0441\u043E\u0432\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0438\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u043E \u0438 \u043E\u0431\u044B\u0447\u043D\u043E \u043D\u0435 \u043F\u0440\u0435\u0432\u044B\u0448\u0430\u0435\u0442 14 \u0440\u0430\u0431\u043E\u0447\u0438\u0445 \u0434\u043D\u0435\u0439 \u0441 \u043C\u043E\u043C\u0435\u043D\u0442\u0430 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F \u0420\u0430\u0431\u043E\u0442\u044B \u0438 \u043F\u043E\u043B\u043D\u043E\u0439 \u043E\u043F\u043B\u0430\u0442\u044B.</p>
 
-<h2>3. Стоимость услуги</h2>
-<p>Стоимость услуги определяется индивидуально в зависимости от типа Работы, её размера и сложности и согласовывается с Заказчиком до момента оплаты. Актуальная стоимость указывается Исполнителем при оформлении заявки или направляется Заказчику дополнительно после согласования деталей.</p>
+<h2>3. \u0421\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u0443\u0441\u043B\u0443\u0433\u0438</h2>
+<p>\u0421\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u0443\u0441\u043B\u0443\u0433\u0438 \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u0442\u0441\u044F \u0438\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u043E \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438 \u043E\u0442 \u0442\u0438\u043F\u0430 \u0420\u0430\u0431\u043E\u0442\u044B, \u0435\u0451 \u0440\u0430\u0437\u043C\u0435\u0440\u0430 \u0438 \u0441\u043B\u043E\u0436\u043D\u043E\u0441\u0442\u0438 \u0438 \u0441\u043E\u0433\u043B\u0430\u0441\u043E\u0432\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0441 \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u043E\u043C \u0434\u043E \u043C\u043E\u043C\u0435\u043D\u0442\u0430 \u043E\u043F\u043B\u0430\u0442\u044B. \u0410\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u0430\u044F \u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u0435\u043C \u043F\u0440\u0438 \u043E\u0444\u043E\u0440\u043C\u043B\u0435\u043D\u0438\u0438 \u0437\u0430\u044F\u0432\u043A\u0438 \u0438\u043B\u0438 \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u0443 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043F\u043E\u0441\u043B\u0435 \u0441\u043E\u0433\u043B\u0430\u0441\u043E\u0432\u0430\u043D\u0438\u044F \u0434\u0435\u0442\u0430\u043B\u0435\u0439.</p>
 
-<h2>4. Порядок оплаты</h2>
-<p>Оплата производится в российских рублях безналичным способом через платёжную форму на сайте jadekey.art с использованием банковской карты или Системы быстрых платежей. Услуга считается оплаченной с момента поступления денежных средств на счёт Исполнителя.</p>
+<h2>4. \u041F\u043E\u0440\u044F\u0434\u043E\u043A \u043E\u043F\u043B\u0430\u0442\u044B</h2>
+<p>\u041E\u043F\u043B\u0430\u0442\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F \u0432 \u0440\u043E\u0441\u0441\u0438\u0439\u0441\u043A\u0438\u0445 \u0440\u0443\u0431\u043B\u044F\u0445 \u0431\u0435\u0437\u043D\u0430\u043B\u0438\u0447\u043D\u044B\u043C \u0441\u043F\u043E\u0441\u043E\u0431\u043E\u043C \u0447\u0435\u0440\u0435\u0437 \u043F\u043B\u0430\u0442\u0451\u0436\u043D\u0443\u044E \u0444\u043E\u0440\u043C\u0443 \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 jadekey.art \u0441 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0435\u043C \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u043E\u0439 \u043A\u0430\u0440\u0442\u044B \u0438\u043B\u0438 \u0421\u0438\u0441\u0442\u0435\u043C\u044B \u0431\u044B\u0441\u0442\u0440\u044B\u0445 \u043F\u043B\u0430\u0442\u0435\u0436\u0435\u0439. \u0423\u0441\u043B\u0443\u0433\u0430 \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044F \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u043E\u0439 \u0441 \u043C\u043E\u043C\u0435\u043D\u0442\u0430 \u043F\u043E\u0441\u0442\u0443\u043F\u043B\u0435\u043D\u0438\u044F \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432 \u043D\u0430 \u0441\u0447\u0451\u0442 \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044F.</p>
 
-<h2>5. Права и обязанности сторон</h2>
-<p>Исполнитель обязуется оказать услугу добросовестно и в согласованные сроки, обеспечить сохранность Работы на период оказания услуги, предоставить Заказчику доступ к цифровому паспорту Работы и подтверждение блокчейн-записи. Заказчик обязуется предоставить достоверные сведения о Работе и своевременно произвести оплату.</p>
+<h2>5. \u041F\u0440\u0430\u0432\u0430 \u0438 \u043E\u0431\u044F\u0437\u0430\u043D\u043D\u043E\u0441\u0442\u0438 \u0441\u0442\u043E\u0440\u043E\u043D</h2>
+<p>\u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u043E\u0431\u044F\u0437\u0443\u0435\u0442\u0441\u044F \u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0443\u0441\u043B\u0443\u0433\u0443 \u0434\u043E\u0431\u0440\u043E\u0441\u043E\u0432\u0435\u0441\u0442\u043D\u043E \u0438 \u0432 \u0441\u043E\u0433\u043B\u0430\u0441\u043E\u0432\u0430\u043D\u043D\u044B\u0435 \u0441\u0440\u043E\u043A\u0438, \u043E\u0431\u0435\u0441\u043F\u0435\u0447\u0438\u0442\u044C \u0441\u043E\u0445\u0440\u0430\u043D\u043D\u043E\u0441\u0442\u044C \u0420\u0430\u0431\u043E\u0442\u044B \u043D\u0430 \u043F\u0435\u0440\u0438\u043E\u0434 \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438, \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u0443 \u0434\u043E\u0441\u0442\u0443\u043F \u043A \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u043C\u0443 \u043F\u0430\u0441\u043F\u043E\u0440\u0442\u0443 \u0420\u0430\u0431\u043E\u0442\u044B \u0438 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435 \u0431\u043B\u043E\u043A\u0447\u0435\u0439\u043D-\u0437\u0430\u043F\u0438\u0441\u0438. \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A \u043E\u0431\u044F\u0437\u0443\u0435\u0442\u0441\u044F \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0434\u043E\u0441\u0442\u043E\u0432\u0435\u0440\u043D\u044B\u0435 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u043E \u0420\u0430\u0431\u043E\u0442\u0435 \u0438 \u0441\u0432\u043E\u0435\u0432\u0440\u0435\u043C\u0435\u043D\u043D\u043E \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043E\u043F\u043B\u0430\u0442\u0443.</p>
 
-<h2>6. Возврат денежных средств</h2>
-<p>Условия возврата денежных средств изложены в отдельном документе — <a href="/refund">Политике возврата</a>, являющейся неотъемлемой частью настоящей оферты.</p>
+<h2>6. \u0412\u043E\u0437\u0432\u0440\u0430\u0442 \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432</h2>
+<p>\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430 \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432 \u0438\u0437\u043B\u043E\u0436\u0435\u043D\u044B \u0432 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u043E\u043C \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0435 \u2014 <a href="/refund">\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0435 \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430</a>, \u044F\u0432\u043B\u044F\u044E\u0449\u0435\u0439\u0441\u044F \u043D\u0435\u043E\u0442\u044A\u0435\u043C\u043B\u0435\u043C\u043E\u0439 \u0447\u0430\u0441\u0442\u044C\u044E \u043D\u0430\u0441\u0442\u043E\u044F\u0449\u0435\u0439 \u043E\u0444\u0435\u0440\u0442\u044B.</p>
 
-<h2>7. Обработка персональных данных</h2>
-<p>Оформляя заявку или производя оплату, Заказчик соглашается с условиями обработки персональных данных, изложенными в <a href="/privacy">Политике обработки персональных данных</a>.</p>
+<h2>7. \u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0430 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445</h2>
+<p>\u041E\u0444\u043E\u0440\u043C\u043B\u044F\u044F \u0437\u0430\u044F\u0432\u043A\u0443 \u0438\u043B\u0438 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u044F \u043E\u043F\u043B\u0430\u0442\u0443, \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A \u0441\u043E\u0433\u043B\u0430\u0448\u0430\u0435\u0442\u0441\u044F \u0441 \u0443\u0441\u043B\u043E\u0432\u0438\u044F\u043C\u0438 \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445, \u0438\u0437\u043B\u043E\u0436\u0435\u043D\u043D\u044B\u043C\u0438 \u0432 <a href="/privacy">\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0435 \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445</a>.</p>
 
-<h2>8. Ответственность сторон</h2>
-<p>Исполнитель не несёт ответственности за обстоятельства, возникшие вследствие предоставления Заказчиком недостоверных сведений о Работе. Минеральный идентификатор подтверждает физическую связь конкретного экземпляра минерала с записью в цифровом паспорте и блокчейн-реестре; Исполнитель не выступает экспертом по атрибуции авторства произведения и не несёт ответственности за подлинность авторства, заявленного Заказчиком.</p>
+<h2>8. \u041E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0441\u0442\u044C \u0441\u0442\u043E\u0440\u043E\u043D</h2>
+<p>\u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u043D\u0435 \u043D\u0435\u0441\u0451\u0442 \u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0441\u0442\u0438 \u0437\u0430 \u043E\u0431\u0441\u0442\u043E\u044F\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u0430, \u0432\u043E\u0437\u043D\u0438\u043A\u0448\u0438\u0435 \u0432\u0441\u043B\u0435\u0434\u0441\u0442\u0432\u0438\u0435 \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u0438\u044F \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u043E\u043C \u043D\u0435\u0434\u043E\u0441\u0442\u043E\u0432\u0435\u0440\u043D\u044B\u0445 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u0439 \u043E \u0420\u0430\u0431\u043E\u0442\u0435. \u041C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u044B\u0439 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0435\u0442 \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0443\u044E \u0441\u0432\u044F\u0437\u044C \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0433\u043E \u044D\u043A\u0437\u0435\u043C\u043F\u043B\u044F\u0440\u0430 \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u0430 \u0441 \u0437\u0430\u043F\u0438\u0441\u044C\u044E \u0432 \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u043C \u043F\u0430\u0441\u043F\u043E\u0440\u0442\u0435 \u0438 \u0431\u043B\u043E\u043A\u0447\u0435\u0439\u043D-\u0440\u0435\u0435\u0441\u0442\u0440\u0435; \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u043D\u0435 \u0432\u044B\u0441\u0442\u0443\u043F\u0430\u0435\u0442 \u044D\u043A\u0441\u043F\u0435\u0440\u0442\u043E\u043C \u043F\u043E \u0430\u0442\u0440\u0438\u0431\u0443\u0446\u0438\u0438 \u0430\u0432\u0442\u043E\u0440\u0441\u0442\u0432\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u0438 \u043D\u0435 \u043D\u0435\u0441\u0451\u0442 \u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0441\u0442\u0438 \u0437\u0430 \u043F\u043E\u0434\u043B\u0438\u043D\u043D\u043E\u0441\u0442\u044C \u0430\u0432\u0442\u043E\u0440\u0441\u0442\u0432\u0430, \u0437\u0430\u044F\u0432\u043B\u0435\u043D\u043D\u043E\u0433\u043E \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u043E\u043C.</p>
 
-<h2>9. Срок действия оферты</h2>
-<p>Оферта действует до момента её отзыва или замены новой редакцией. Действующая редакция всегда доступна на странице jadekey.art/oferta.</p>
+<h2>9. \u0421\u0440\u043E\u043A \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F \u043E\u0444\u0435\u0440\u0442\u044B</h2>
+<p>\u041E\u0444\u0435\u0440\u0442\u0430 \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0434\u043E \u043C\u043E\u043C\u0435\u043D\u0442\u0430 \u0435\u0451 \u043E\u0442\u0437\u044B\u0432\u0430 \u0438\u043B\u0438 \u0437\u0430\u043C\u0435\u043D\u044B \u043D\u043E\u0432\u043E\u0439 \u0440\u0435\u0434\u0430\u043A\u0446\u0438\u0435\u0439. \u0414\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0449\u0430\u044F \u0440\u0435\u0434\u0430\u043A\u0446\u0438\u044F \u0432\u0441\u0435\u0433\u0434\u0430 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u0430 \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435 jadekey.art/oferta.</p>
 
-<h2>10. Реквизиты Исполнителя</h2>
+<h2>10. \u0420\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044F</h2>
 <div class="req">
-  Индивидуальный предприниматель Панин Сергей Николаевич<br>
-  ИНН: 771501067019<br>
-  ОГРНИП: 324774600501998<br>
-  Адрес регистрации: 121170, г. Москва, Кутузовский проспект, д. 41, кв. 55<br>
-  Электронная почта: <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a>
+  \u0418\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u044B\u0439 \u043F\u0440\u0435\u0434\u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C \u041F\u0430\u043D\u0438\u043D \u0421\u0435\u0440\u0433\u0435\u0439 \u041D\u0438\u043A\u043E\u043B\u0430\u0435\u0432\u0438\u0447<br>
+  \u0418\u041D\u041D: 771501067019<br>
+  \u041E\u0413\u0420\u041D\u0418\u041F: 324774600501998<br>
+  \u0410\u0434\u0440\u0435\u0441 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438: 121170, \u0433. \u041C\u043E\u0441\u043A\u0432\u0430, \u041A\u0443\u0442\u0443\u0437\u043E\u0432\u0441\u043A\u0438\u0439 \u043F\u0440\u043E\u0441\u043F\u0435\u043A\u0442, \u0434. 41, \u043A\u0432. 55<br>
+  \u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u0447\u0442\u0430: <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a>
 </div>
 </div>
 </body></html>`;
-
-const REFUND_HTML = `<!DOCTYPE html><html lang="ru"><head>
+  var REFUND_HTML = `<!DOCTYPE html><html lang="ru"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Политика возврата — JadeKey</title>
+<title>\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430 \u2014 JadeKey</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 <style>${LEGAL_STYLE}</style></head><body>
 ${legalNav()}
 <div class="wrap">
-<h1>Политика возврата денежных средств</h1>
-<p class="meta">Редакция действует с 16 июня 2026 года</p>
+<h1>\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430 \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432</h1>
+<p class="meta">\u0420\u0435\u0434\u0430\u043A\u0446\u0438\u044F \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0441 16 \u0438\u044E\u043D\u044F 2026 \u0433\u043E\u0434\u0430</p>
 
-<p>Настоящая политика определяет порядок и условия возврата денежных средств, уплаченных Заказчиком за услуги ИП Панина Сергея Николаевича (далее — «Исполнитель») через сайт jadekey.art, и является неотъемлемой частью <a href="/oferta">публичной оферты</a>.</p>
+<p>\u041D\u0430\u0441\u0442\u043E\u044F\u0449\u0430\u044F \u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u0442 \u043F\u043E\u0440\u044F\u0434\u043E\u043A \u0438 \u0443\u0441\u043B\u043E\u0432\u0438\u044F \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430 \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432, \u0443\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0445 \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u043E\u043C \u0437\u0430 \u0443\u0441\u043B\u0443\u0433\u0438 \u0418\u041F \u041F\u0430\u043D\u0438\u043D\u0430 \u0421\u0435\u0440\u0433\u0435\u044F \u041D\u0438\u043A\u043E\u043B\u0430\u0435\u0432\u0438\u0447\u0430 (\u0434\u0430\u043B\u0435\u0435 \u2014 \xAB\u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\xBB) \u0447\u0435\u0440\u0435\u0437 \u0441\u0430\u0439\u0442 jadekey.art, \u0438 \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u043D\u0435\u043E\u0442\u044A\u0435\u043C\u043B\u0435\u043C\u043E\u0439 \u0447\u0430\u0441\u0442\u044C\u044E <a href="/oferta">\u043F\u0443\u0431\u043B\u0438\u0447\u043D\u043E\u0439 \u043E\u0444\u0435\u0440\u0442\u044B</a>.</p>
 
-<h2>1. Возврат до начала оказания услуги</h2>
-<p>Если оплата произведена, но Исполнитель не приступил к фотофиксации Работы и закреплению минерального идентификатора, Заказчик вправе отказаться от услуги и получить полный возврат уплаченной суммы.</p>
+<h2>1. \u0412\u043E\u0437\u0432\u0440\u0430\u0442 \u0434\u043E \u043D\u0430\u0447\u0430\u043B\u0430 \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438</h2>
+<p>\u0415\u0441\u043B\u0438 \u043E\u043F\u043B\u0430\u0442\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0430, \u043D\u043E \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u043D\u0435 \u043F\u0440\u0438\u0441\u0442\u0443\u043F\u0438\u043B \u043A \u0444\u043E\u0442\u043E\u0444\u0438\u043A\u0441\u0430\u0446\u0438\u0438 \u0420\u0430\u0431\u043E\u0442\u044B \u0438 \u0437\u0430\u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0438\u044E \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430, \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A \u0432\u043F\u0440\u0430\u0432\u0435 \u043E\u0442\u043A\u0430\u0437\u0430\u0442\u044C\u0441\u044F \u043E\u0442 \u0443\u0441\u043B\u0443\u0433\u0438 \u0438 \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043F\u043E\u043B\u043D\u044B\u0439 \u0432\u043E\u0437\u0432\u0440\u0430\u0442 \u0443\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u043E\u0439 \u0441\u0443\u043C\u043C\u044B.</p>
 
-<h2>2. Возврат после начала оказания услуги</h2>
-<p>Если Исполнитель уже произвёл фотофиксацию Работы, подбор минерального идентификатора или иные подготовительные действия, но цифровой паспорт и блокчейн-запись ещё не сформированы, возврат производится за вычетом фактически понесённых Исполнителем расходов и трудозатрат.</p>
+<h2>2. \u0412\u043E\u0437\u0432\u0440\u0430\u0442 \u043F\u043E\u0441\u043B\u0435 \u043D\u0430\u0447\u0430\u043B\u0430 \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438</h2>
+<p>\u0415\u0441\u043B\u0438 \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u0443\u0436\u0435 \u043F\u0440\u043E\u0438\u0437\u0432\u0451\u043B \u0444\u043E\u0442\u043E\u0444\u0438\u043A\u0441\u0430\u0446\u0438\u044E \u0420\u0430\u0431\u043E\u0442\u044B, \u043F\u043E\u0434\u0431\u043E\u0440 \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430 \u0438\u043B\u0438 \u0438\u043D\u044B\u0435 \u043F\u043E\u0434\u0433\u043E\u0442\u043E\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F, \u043D\u043E \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0439 \u043F\u0430\u0441\u043F\u043E\u0440\u0442 \u0438 \u0431\u043B\u043E\u043A\u0447\u0435\u0439\u043D-\u0437\u0430\u043F\u0438\u0441\u044C \u0435\u0449\u0451 \u043D\u0435 \u0441\u0444\u043E\u0440\u043C\u0438\u0440\u043E\u0432\u0430\u043D\u044B, \u0432\u043E\u0437\u0432\u0440\u0430\u0442 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F \u0437\u0430 \u0432\u044B\u0447\u0435\u0442\u043E\u043C \u0444\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438 \u043F\u043E\u043D\u0435\u0441\u0451\u043D\u043D\u044B\u0445 \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u0435\u043C \u0440\u0430\u0441\u0445\u043E\u0434\u043E\u0432 \u0438 \u0442\u0440\u0443\u0434\u043E\u0437\u0430\u0442\u0440\u0430\u0442.</p>
 
-<h2>3. Невозможность возврата после завершения услуги</h2>
-<p>После формирования цифрового паспорта Работы и записи в блокчейн-реестр TON услуга считается оказанной в полном объёме. Возврат денежных средств на этом этапе не производится, за исключением случаев, предусмотренных законодательством Российской Федерации.</p>
+<h2>3. \u041D\u0435\u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u044C \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430 \u043F\u043E\u0441\u043B\u0435 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438</h2>
+<p>\u041F\u043E\u0441\u043B\u0435 \u0444\u043E\u0440\u043C\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0433\u043E \u043F\u0430\u0441\u043F\u043E\u0440\u0442\u0430 \u0420\u0430\u0431\u043E\u0442\u044B \u0438 \u0437\u0430\u043F\u0438\u0441\u0438 \u0432 \u0431\u043B\u043E\u043A\u0447\u0435\u0439\u043D-\u0440\u0435\u0435\u0441\u0442\u0440 TON \u0443\u0441\u043B\u0443\u0433\u0430 \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044F \u043E\u043A\u0430\u0437\u0430\u043D\u043D\u043E\u0439 \u0432 \u043F\u043E\u043B\u043D\u043E\u043C \u043E\u0431\u044A\u0451\u043C\u0435. \u0412\u043E\u0437\u0432\u0440\u0430\u0442 \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432 \u043D\u0430 \u044D\u0442\u043E\u043C \u044D\u0442\u0430\u043F\u0435 \u043D\u0435 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F, \u0437\u0430 \u0438\u0441\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u043C \u0441\u043B\u0443\u0447\u0430\u0435\u0432, \u043F\u0440\u0435\u0434\u0443\u0441\u043C\u043E\u0442\u0440\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043A\u043E\u043D\u043E\u0434\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E\u043C \u0420\u043E\u0441\u0441\u0438\u0439\u0441\u043A\u043E\u0439 \u0424\u0435\u0434\u0435\u0440\u0430\u0446\u0438\u0438.</p>
 
-<h2>4. Технический сбой платежа</h2>
-<p>В случае ошибочного или задвоенного списания денежных средств вследствие технического сбоя платёжной системы Исполнитель производит полный возврат излишне уплаченной суммы в течение 10 рабочих дней с момента обращения Заказчика.</p>
+<h2>4. \u0422\u0435\u0445\u043D\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0441\u0431\u043E\u0439 \u043F\u043B\u0430\u0442\u0435\u0436\u0430</h2>
+<p>\u0412 \u0441\u043B\u0443\u0447\u0430\u0435 \u043E\u0448\u0438\u0431\u043E\u0447\u043D\u043E\u0433\u043E \u0438\u043B\u0438 \u0437\u0430\u0434\u0432\u043E\u0435\u043D\u043D\u043E\u0433\u043E \u0441\u043F\u0438\u0441\u0430\u043D\u0438\u044F \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432 \u0432\u0441\u043B\u0435\u0434\u0441\u0442\u0432\u0438\u0435 \u0442\u0435\u0445\u043D\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E \u0441\u0431\u043E\u044F \u043F\u043B\u0430\u0442\u0451\u0436\u043D\u043E\u0439 \u0441\u0438\u0441\u0442\u0435\u043C\u044B \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442 \u043F\u043E\u043B\u043D\u044B\u0439 \u0432\u043E\u0437\u0432\u0440\u0430\u0442 \u0438\u0437\u043B\u0438\u0448\u043D\u0435 \u0443\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u043E\u0439 \u0441\u0443\u043C\u043C\u044B \u0432 \u0442\u0435\u0447\u0435\u043D\u0438\u0435 10 \u0440\u0430\u0431\u043E\u0447\u0438\u0445 \u0434\u043D\u0435\u0439 \u0441 \u043C\u043E\u043C\u0435\u043D\u0442\u0430 \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u044F \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u0430.</p>
 
-<h2>5. Порядок обращения за возвратом</h2>
-<p>Для оформления возврата Заказчику необходимо направить обращение на адрес <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a> с указанием номера платежа, даты оплаты и причины обращения. Исполнитель рассматривает обращение в течение 5 рабочих дней.</p>
+<h2>5. \u041F\u043E\u0440\u044F\u0434\u043E\u043A \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u044F \u0437\u0430 \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u043E\u043C</h2>
+<p>\u0414\u043B\u044F \u043E\u0444\u043E\u0440\u043C\u043B\u0435\u043D\u0438\u044F \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430 \u0417\u0430\u043A\u0430\u0437\u0447\u0438\u043A\u0443 \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u043D\u0430\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u0435 \u043D\u0430 \u0430\u0434\u0440\u0435\u0441 <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a> \u0441 \u0443\u043A\u0430\u0437\u0430\u043D\u0438\u0435\u043C \u043D\u043E\u043C\u0435\u0440\u0430 \u043F\u043B\u0430\u0442\u0435\u0436\u0430, \u0434\u0430\u0442\u044B \u043E\u043F\u043B\u0430\u0442\u044B \u0438 \u043F\u0440\u0438\u0447\u0438\u043D\u044B \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u044F. \u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C \u0440\u0430\u0441\u0441\u043C\u0430\u0442\u0440\u0438\u0432\u0430\u0435\u0442 \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u0435 \u0432 \u0442\u0435\u0447\u0435\u043D\u0438\u0435 5 \u0440\u0430\u0431\u043E\u0447\u0438\u0445 \u0434\u043D\u0435\u0439.</p>
 
-<h2>6. Срок возврата</h2>
-<p>При положительном решении денежные средства возвращаются на тот же платёжный инструмент, с которого была произведена оплата, в срок до 10 рабочих дней с момента принятия решения о возврате.</p>
+<h2>6. \u0421\u0440\u043E\u043A \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430</h2>
+<p>\u041F\u0440\u0438 \u043F\u043E\u043B\u043E\u0436\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u043C \u0440\u0435\u0448\u0435\u043D\u0438\u0438 \u0434\u0435\u043D\u0435\u0436\u043D\u044B\u0435 \u0441\u0440\u0435\u0434\u0441\u0442\u0432\u0430 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u044E\u0442\u0441\u044F \u043D\u0430 \u0442\u043E\u0442 \u0436\u0435 \u043F\u043B\u0430\u0442\u0451\u0436\u043D\u044B\u0439 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442, \u0441 \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E \u0431\u044B\u043B\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0430 \u043E\u043F\u043B\u0430\u0442\u0430, \u0432 \u0441\u0440\u043E\u043A \u0434\u043E 10 \u0440\u0430\u0431\u043E\u0447\u0438\u0445 \u0434\u043D\u0435\u0439 \u0441 \u043C\u043E\u043C\u0435\u043D\u0442\u0430 \u043F\u0440\u0438\u043D\u044F\u0442\u0438\u044F \u0440\u0435\u0448\u0435\u043D\u0438\u044F \u043E \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0435.</p>
 
 <div class="req">
-  Индивидуальный предприниматель Панин Сергей Николаевич<br>
-  ИНН: 771501067019<br>
-  ОГРНИП: 324774600501998<br>
-  Электронная почта: <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a>
+  \u0418\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u044B\u0439 \u043F\u0440\u0435\u0434\u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C \u041F\u0430\u043D\u0438\u043D \u0421\u0435\u0440\u0433\u0435\u0439 \u041D\u0438\u043A\u043E\u043B\u0430\u0435\u0432\u0438\u0447<br>
+  \u0418\u041D\u041D: 771501067019<br>
+  \u041E\u0413\u0420\u041D\u0418\u041F: 324774600501998<br>
+  \u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u0447\u0442\u0430: <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a>
 </div>
 </div>
 </body></html>`;
-
-const PRIVACY_HTML = `<!DOCTYPE html><html lang="ru"><head>
+  var PRIVACY_HTML = `<!DOCTYPE html><html lang="ru"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Политика обработки персональных данных — JadeKey</title>
+<title>\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445 \u2014 JadeKey</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 <style>${LEGAL_STYLE}</style></head><body>
 ${legalNav()}
 <div class="wrap">
-<h1>Политика обработки персональных данных</h1>
-<p class="meta">Редакция действует с 16 июня 2026 года</p>
+<h1>\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445</h1>
+<p class="meta">\u0420\u0435\u0434\u0430\u043A\u0446\u0438\u044F \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0441 16 \u0438\u044E\u043D\u044F 2026 \u0433\u043E\u0434\u0430</p>
 
-<p>Настоящая Политика определяет порядок обработки персональных данных и меры по обеспечению их безопасности, принимаемые Индивидуальным предпринимателем Паниным Сергеем Николаевичем (далее — «Оператор») в соответствии с требованиями Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных».</p>
+<p>\u041D\u0430\u0441\u0442\u043E\u044F\u0449\u0430\u044F \u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u0442 \u043F\u043E\u0440\u044F\u0434\u043E\u043A \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445 \u0438 \u043C\u0435\u0440\u044B \u043F\u043E \u043E\u0431\u0435\u0441\u043F\u0435\u0447\u0435\u043D\u0438\u044E \u0438\u0445 \u0431\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u043E\u0441\u0442\u0438, \u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0435\u043C\u044B\u0435 \u0418\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u044B\u043C \u043F\u0440\u0435\u0434\u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u0435\u043C \u041F\u0430\u043D\u0438\u043D\u044B\u043C \u0421\u0435\u0440\u0433\u0435\u0435\u043C \u041D\u0438\u043A\u043E\u043B\u0430\u0435\u0432\u0438\u0447\u0435\u043C (\u0434\u0430\u043B\u0435\u0435 \u2014 \xAB\u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\xBB) \u0432 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0438 \u0441 \u0442\u0440\u0435\u0431\u043E\u0432\u0430\u043D\u0438\u044F\u043C\u0438 \u0424\u0435\u0434\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0437\u0430\u043A\u043E\u043D\u0430 \u043E\u0442 27.07.2006 \u2116 152-\u0424\u0417 \xAB\u041E \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445\xBB.</p>
 
-<h2>1. Состав обрабатываемых данных</h2>
-<p>Оператор обрабатывает персональные данные, предоставленные пользователем сайта jadekey.art при заполнении формы заявки или оплаты услуги: имя, контактный телефон и/или адрес электронной почты, сведения о Работе и роли пользователя (коллекционер, художник, галерея, аукционный дом).</p>
+<h2>1. \u0421\u043E\u0441\u0442\u0430\u0432 \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u0435\u043C\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445</h2>
+<p>\u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440 \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u0435\u0442 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435, \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0435 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u043C \u0441\u0430\u0439\u0442\u0430 jadekey.art \u043F\u0440\u0438 \u0437\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0438 \u0444\u043E\u0440\u043C\u044B \u0437\u0430\u044F\u0432\u043A\u0438 \u0438\u043B\u0438 \u043E\u043F\u043B\u0430\u0442\u044B \u0443\u0441\u043B\u0443\u0433\u0438: \u0438\u043C\u044F, \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u043D\u044B\u0439 \u0442\u0435\u043B\u0435\u0444\u043E\u043D \u0438/\u0438\u043B\u0438 \u0430\u0434\u0440\u0435\u0441 \u044D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u043E\u0439 \u043F\u043E\u0447\u0442\u044B, \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u043E \u0420\u0430\u0431\u043E\u0442\u0435 \u0438 \u0440\u043E\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F (\u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440, \u0445\u0443\u0434\u043E\u0436\u043D\u0438\u043A, \u0433\u0430\u043B\u0435\u0440\u0435\u044F, \u0430\u0443\u043A\u0446\u0438\u043E\u043D\u043D\u044B\u0439 \u0434\u043E\u043C).</p>
 
-<h2>2. Цели обработки</h2>
-<p>Персональные данные обрабатываются в целях: связи с пользователем для согласования условий оказания услуги, оформления цифрового паспорта Работы, обработки платежа через платёжную систему, исполнения обязательств по договору публичной оферты.</p>
+<h2>2. \u0426\u0435\u043B\u0438 \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438</h2>
+<p>\u041F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435 \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u044E\u0442\u0441\u044F \u0432 \u0446\u0435\u043B\u044F\u0445: \u0441\u0432\u044F\u0437\u0438 \u0441 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u043C \u0434\u043B\u044F \u0441\u043E\u0433\u043B\u0430\u0441\u043E\u0432\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u043E\u0432\u0438\u0439 \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438, \u043E\u0444\u043E\u0440\u043C\u043B\u0435\u043D\u0438\u044F \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0433\u043E \u043F\u0430\u0441\u043F\u043E\u0440\u0442\u0430 \u0420\u0430\u0431\u043E\u0442\u044B, \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u043F\u043B\u0430\u0442\u0435\u0436\u0430 \u0447\u0435\u0440\u0435\u0437 \u043F\u043B\u0430\u0442\u0451\u0436\u043D\u0443\u044E \u0441\u0438\u0441\u0442\u0435\u043C\u0443, \u0438\u0441\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432 \u043F\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0443 \u043F\u0443\u0431\u043B\u0438\u0447\u043D\u043E\u0439 \u043E\u0444\u0435\u0440\u0442\u044B.</p>
 
-<h2>3. Правовые основания обработки</h2>
-<p>Обработка осуществляется с согласия пользователя, выраженного путём заполнения формы на сайте и/или совершения оплаты, а также в целях исполнения договора, стороной которого является пользователь.</p>
+<h2>3. \u041F\u0440\u0430\u0432\u043E\u0432\u044B\u0435 \u043E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u044F \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438</h2>
+<p>\u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0430 \u043E\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u0441 \u0441\u043E\u0433\u043B\u0430\u0441\u0438\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F, \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u043D\u043E\u0433\u043E \u043F\u0443\u0442\u0451\u043C \u0437\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F \u0444\u043E\u0440\u043C\u044B \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 \u0438/\u0438\u043B\u0438 \u0441\u043E\u0432\u0435\u0440\u0448\u0435\u043D\u0438\u044F \u043E\u043F\u043B\u0430\u0442\u044B, \u0430 \u0442\u0430\u043A\u0436\u0435 \u0432 \u0446\u0435\u043B\u044F\u0445 \u0438\u0441\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430, \u0441\u0442\u043E\u0440\u043E\u043D\u043E\u0439 \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C.</p>
 
-<h2>4. Передача данных третьим лицам</h2>
-<p>Для обработки платежей Оператор передаёт необходимый минимум данных платёжным системам в объёме, необходимом для проведения платежа. Иным третьим лицам персональные данные не передаются, за исключением случаев, предусмотренных законодательством Российской Федерации.</p>
+<h2>4. \u041F\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u0434\u0430\u043D\u043D\u044B\u0445 \u0442\u0440\u0435\u0442\u044C\u0438\u043C \u043B\u0438\u0446\u0430\u043C</h2>
+<p>\u0414\u043B\u044F \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u043F\u043B\u0430\u0442\u0435\u0436\u0435\u0439 \u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440 \u043F\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u044B\u0439 \u043C\u0438\u043D\u0438\u043C\u0443\u043C \u0434\u0430\u043D\u043D\u044B\u0445 \u043F\u043B\u0430\u0442\u0451\u0436\u043D\u044B\u043C \u0441\u0438\u0441\u0442\u0435\u043C\u0430\u043C \u0432 \u043E\u0431\u044A\u0451\u043C\u0435, \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E\u043C \u0434\u043B\u044F \u043F\u0440\u043E\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u043F\u043B\u0430\u0442\u0435\u0436\u0430. \u0418\u043D\u044B\u043C \u0442\u0440\u0435\u0442\u044C\u0438\u043C \u043B\u0438\u0446\u0430\u043C \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435 \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u044E\u0442\u0441\u044F, \u0437\u0430 \u0438\u0441\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u043C \u0441\u043B\u0443\u0447\u0430\u0435\u0432, \u043F\u0440\u0435\u0434\u0443\u0441\u043C\u043E\u0442\u0440\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043A\u043E\u043D\u043E\u0434\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E\u043C \u0420\u043E\u0441\u0441\u0438\u0439\u0441\u043A\u043E\u0439 \u0424\u0435\u0434\u0435\u0440\u0430\u0446\u0438\u0438.</p>
 
-<h2>5. Срок обработки и хранения</h2>
-<p>Персональные данные хранятся в течение срока, необходимого для оказания услуги и исполнения обязательств сторон, а также в течение сроков, установленных законодательством для хранения документов бухгалтерского и налогового учёта.</p>
+<h2>5. \u0421\u0440\u043E\u043A \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u0438 \u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F</h2>
+<p>\u041F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435 \u0445\u0440\u0430\u043D\u044F\u0442\u0441\u044F \u0432 \u0442\u0435\u0447\u0435\u043D\u0438\u0435 \u0441\u0440\u043E\u043A\u0430, \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E\u0433\u043E \u0434\u043B\u044F \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438 \u0438 \u0438\u0441\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432 \u0441\u0442\u043E\u0440\u043E\u043D, \u0430 \u0442\u0430\u043A\u0436\u0435 \u0432 \u0442\u0435\u0447\u0435\u043D\u0438\u0435 \u0441\u0440\u043E\u043A\u043E\u0432, \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043A\u043E\u043D\u043E\u0434\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E\u043C \u0434\u043B\u044F \u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u0431\u0443\u0445\u0433\u0430\u043B\u0442\u0435\u0440\u0441\u043A\u043E\u0433\u043E \u0438 \u043D\u0430\u043B\u043E\u0433\u043E\u0432\u043E\u0433\u043E \u0443\u0447\u0451\u0442\u0430.</p>
 
-<h2>6. Права пользователя</h2>
-<p>Пользователь вправе в любой момент отозвать согласие на обработку персональных данных, запросить сведения об обрабатываемых данных, потребовать их уточнения, блокирования или уничтожения, направив обращение на адрес электронной почты Оператора.</p>
+<h2>6. \u041F\u0440\u0430\u0432\u0430 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F</h2>
+<p>\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0432\u043F\u0440\u0430\u0432\u0435 \u0432 \u043B\u044E\u0431\u043E\u0439 \u043C\u043E\u043C\u0435\u043D\u0442 \u043E\u0442\u043E\u0437\u0432\u0430\u0442\u044C \u0441\u043E\u0433\u043B\u0430\u0441\u0438\u0435 \u043D\u0430 \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0443 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445, \u0437\u0430\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u043E\u0431 \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u0435\u043C\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445, \u043F\u043E\u0442\u0440\u0435\u0431\u043E\u0432\u0430\u0442\u044C \u0438\u0445 \u0443\u0442\u043E\u0447\u043D\u0435\u043D\u0438\u044F, \u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u0438\u043B\u0438 \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D\u0438\u044F, \u043D\u0430\u043F\u0440\u0430\u0432\u0438\u0432 \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u0435 \u043D\u0430 \u0430\u0434\u0440\u0435\u0441 \u044D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u043E\u0439 \u043F\u043E\u0447\u0442\u044B \u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\u0430.</p>
 
-<h2>7. Меры защиты данных</h2>
-<p>Оператор применяет организационные и технические меры для защиты персональных данных от неправомерного доступа, изменения, раскрытия или уничтожения, включая ограничение доступа к данным и использование защищённых каналов передачи информации (HTTPS).</p>
+<h2>7. \u041C\u0435\u0440\u044B \u0437\u0430\u0449\u0438\u0442\u044B \u0434\u0430\u043D\u043D\u044B\u0445</h2>
+<p>\u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440 \u043F\u0440\u0438\u043C\u0435\u043D\u044F\u0435\u0442 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u043E\u043D\u043D\u044B\u0435 \u0438 \u0442\u0435\u0445\u043D\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u043C\u0435\u0440\u044B \u0434\u043B\u044F \u0437\u0430\u0449\u0438\u0442\u044B \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445 \u043E\u0442 \u043D\u0435\u043F\u0440\u0430\u0432\u043E\u043C\u0435\u0440\u043D\u043E\u0433\u043E \u0434\u043E\u0441\u0442\u0443\u043F\u0430, \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F, \u0440\u0430\u0441\u043A\u0440\u044B\u0442\u0438\u044F \u0438\u043B\u0438 \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D\u0438\u044F, \u0432\u043A\u043B\u044E\u0447\u0430\u044F \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u0441\u0442\u0443\u043F\u0430 \u043A \u0434\u0430\u043D\u043D\u044B\u043C \u0438 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0435 \u0437\u0430\u0449\u0438\u0449\u0451\u043D\u043D\u044B\u0445 \u043A\u0430\u043D\u0430\u043B\u043E\u0432 \u043F\u0435\u0440\u0435\u0434\u0430\u0447\u0438 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438 (HTTPS).</p>
 
-<h2>8. Контакты по вопросам обработки данных</h2>
+<h2>8. \u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B \u043F\u043E \u0432\u043E\u043F\u0440\u043E\u0441\u0430\u043C \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438 \u0434\u0430\u043D\u043D\u044B\u0445</h2>
 <div class="req">
-  Индивидуальный предприниматель Панин Сергей Николаевич<br>
-  ИНН: 771501067019<br>
-  ОГРНИП: 324774600501998<br>
-  Адрес регистрации: 121170, г. Москва, Кутузовский проспект, д. 41, кв. 55<br>
-  Электронная почта: <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a>
+  \u0418\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u044B\u0439 \u043F\u0440\u0435\u0434\u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C \u041F\u0430\u043D\u0438\u043D \u0421\u0435\u0440\u0433\u0435\u0439 \u041D\u0438\u043A\u043E\u043B\u0430\u0435\u0432\u0438\u0447<br>
+  \u0418\u041D\u041D: 771501067019<br>
+  \u041E\u0413\u0420\u041D\u0418\u041F: 324774600501998<br>
+  \u0410\u0434\u0440\u0435\u0441 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438: 121170, \u0433. \u041C\u043E\u0441\u043A\u0432\u0430, \u041A\u0443\u0442\u0443\u0437\u043E\u0432\u0441\u043A\u0438\u0439 \u043F\u0440\u043E\u0441\u043F\u0435\u043A\u0442, \u0434. 41, \u043A\u0432. 55<br>
+  \u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u0447\u0442\u0430: <a href="mailto:JadeKey1965@gmail.com">JadeKey1965@gmail.com</a>
 </div>
 </div>
 </body></html>`;
+})();
+//# sourceMappingURL=worker.js.map
