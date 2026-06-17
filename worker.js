@@ -14,6 +14,10 @@
     const certMatch = path.match(/^\/cert\/(JK-\d+)$/i);
     if (certMatch)
       return serveFile("cert.html");
+    if (path === "/api/payment/init" && req.method === "POST")
+      return paymentInit(req);
+    if (path === "/api/payment/webhook" && req.method === "POST")
+      return paymentWebhook(req);
     if (path === "/clients")
       return serveClientsList();
     const clientMatch = path.match(/^\/clients\/([a-z0-9-]+)$/i);
@@ -39,6 +43,92 @@
     return await res.json();
   }
   __name(loadDB, "loadDB");
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  __name(sha256Hex, "sha256Hex");
+  async function tkassaToken(params, password) {
+    const data = Object.assign({}, params, { Password: password });
+    const keys = Object.keys(data).filter((k) => typeof data[k] !== "object").sort();
+    const concat = keys.map((k) => String(data[k])).join("");
+    return await sha256Hex(concat);
+  }
+  __name(tkassaToken, "tkassaToken");
+  async function sendTelegram(text) {
+    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+    try {
+      await fetch("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: "HTML" })
+      });
+    } catch (e) {}
+  }
+  __name(sendTelegram, "sendTelegram");
+  async function paymentInit(req) {
+    try {
+      const body = await req.json();
+      const id = (body.id || "").toUpperCase();
+      const email = body.email || "";
+      const db = await loadDB();
+      const works = db.works || db;
+      const work = works[id];
+      if (!work || !work.price_rub)
+        return new Response(JSON.stringify({ error: "no_price" }), { status: 400, headers: { "Content-Type": "application/json" } });
+      const amount = Math.round(Number(work.price_rub) * 100);
+      const orderId = id + "-" + Date.now();
+      const params = {
+        TerminalKey: TKASSA_TERMINAL_KEY,
+        Amount: amount,
+        OrderId: orderId,
+        Description: "JadeKey " + id,
+        NotificationURL: "https://jadekey.art/api/payment/webhook",
+        SuccessURL: "https://jadekey.art/" + id + "?paid=1",
+        FailURL: "https://jadekey.art/" + id + "?paid=0"
+      };
+      const token = await tkassaToken(params, TKASSA_PASSWORD);
+      const receipt = {
+        Email: email || undefined,
+        Taxation: "usn_income",
+        Items: [{ Name: "JadeKey " + id, Price: amount, Quantity: 1, Amount: amount, Tax: "none" }]
+      };
+      const payload = Object.assign({}, params, { Token: token, Receipt: receipt });
+      const resp = await fetch("https://securepay.tinkoff.ru/v2/Init", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await resp.json();
+      if (result.Success)
+        return new Response(JSON.stringify({ paymentUrl: result.PaymentURL }), { headers: { "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: result.Message || "init_failed", details: result.Details || "" }), { status: 400, headers: { "Content-Type": "application/json" } });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: String(e) }), { status: 500, headers: { "Content-Type": "application/json" } });
+    }
+  }
+  __name(paymentInit, "paymentInit");
+  async function paymentWebhook(req) {
+    try {
+      const body = await req.json();
+      const received = Object.assign({}, body);
+      const receivedToken = received.Token;
+      delete received.Token;
+      const expected = await tkassaToken(received, TKASSA_PASSWORD);
+      if (expected !== receivedToken)
+        return new Response("token mismatch", { status: 400 });
+      if (body.Success && body.Status === "CONFIRMED") {
+        const rub = (Number(body.Amount) / 100).toFixed(2);
+        await sendTelegram(
+          "\u2705 \u041E\u043F\u043B\u0430\u0442\u0430 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0430\n\u0417\u0430\u043A\u0430\u0437: " + body.OrderId + "\n\u0421\u0443\u043C\u043C\u0430: " + rub + " \u20BD\nPaymentId: " + body.PaymentId
+        );
+      }
+      return new Response("OK", { status: 200 });
+    } catch (e) {
+      return new Response("OK", { status: 200 });
+    }
+  }
+  __name(paymentWebhook, "paymentWebhook");
   async function servePassport(jkId) {
     const db = await loadDB();
     const works = db.works || db;
@@ -220,6 +310,16 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
       '<div style="font-family:Space Mono,monospace;font-size:9px;color:#6b5f4e">' + (w.ton_anchored_at || "2026-05-30") + " &middot; \u041D\u0435\u0438\u0437\u043C\u0435\u043D\u044F\u0435\u043C\u043E\u0435 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435 \u043F\u043E\u0434\u043B\u0438\u043D\u043D\u043E\u0441\u0442\u0438</div>",
       "</div>",
       '<a href="' + (w.ton_explorer_agate || "https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu") + '" target="_blank" style="font-family:Space Mono,monospace;font-size:10px;color:#29b6f6;text-decoration:none;border:1px solid rgba(0,136,204,0.3);padding:6px 12px;white-space:nowrap">Verify &rarr;</a><br><a href="' + (w.ton_explorer || "https://tonviewer.com/UQCSHtvmlLI8uWI0SpP0Nuwbf5Yth4MrW9sPhwW7jnyBEKCu") + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 12px;border:1px solid rgba(154,125,78,0.4);font-family:monospace;font-size:10px;color:#9a7d4e;text-decoration:none">Verify Owner &rarr;</a>',
+      "</div></div>"
+    ].join("") : "";
+    const paymentBlock = w.price_rub ? [
+      '<div style="padding:32px 40px;border-bottom:1px solid rgba(154,125,78,0.2);background:rgba(139,34,24,0.04)">',
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:800px;flex-wrap:wrap">',
+      '<div>',
+      '<div style="font-family:Space Mono,monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#8b2218;margin-bottom:6px">\u041F\u0420\u041E\u0414\u0410\u0451\u0442\u0421\u0421\u042F</div>',
+      '<div style="font-size:28px;font-style:italic">' + Number(w.price_rub).toLocaleString("ru-RU") + " \u20BD</div>",
+      "</div>",
+      '<button id="buyBtn" onclick="startPayment(\'' + id + '\')" style="font-family:Space Mono,monospace;font-size:11px;letter-spacing:.1em;color:#f2ece0;background:#8b2218;border:none;padding:14px 28px;cursor:pointer;text-transform:uppercase">\u041A\u0443\u043F\u0438\u0442\u044C</button>',
       "</div></div>"
     ].join("") : "";
     const RAW = "https://raw.githubusercontent.com/paninsergey1965-lgtm/jadekey-art/main";
@@ -515,6 +615,8 @@ body::after {
   </div>
 </div>
 
+${paymentBlock}
+
 ${tonBlock}
 
 <footer class="passport-footer">
@@ -554,6 +656,20 @@ function setLang(lang) {
   else if(nameEl && lang === 'en') nameEl.textContent = ${JSON.stringify(w.artist_full || w.artist)};
   document.getElementById('agate-desc').textContent = lang === 'en' ? agateEn : agateRu;
   localStorage.setItem('jk-lang', lang);
+}
+function startPayment(id) {
+  const email = prompt('Email \u0434\u043B\u044F \u043A\u0432\u0438\u0442\u0430\u043D\u0446\u0438\u0438:');
+  if (!email) return;
+  const btn = document.getElementById('buyBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '\u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0430...'; }
+  fetch('/api/payment/init', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ id: id, email: email })
+  }).then(r => r.json()).then(data => {
+    if (data.paymentUrl) { location.href = data.paymentUrl; }
+    else { alert('\u041E\u0448\u0438\u0431\u043A\u0430: ' + (data.error || '\u043D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u0430\u044F')); if (btn) { btn.disabled = false; btn.textContent = '\u041A\u0443\u043F\u0438\u0442\u044C'; } }
+  }).catch(e => { alert('\u041E\u0448\u0438\u0431\u043A\u0430 \u0441\u0435\u0442\u0438'); if (btn) { btn.disabled = false; btn.textContent = '\u041A\u0443\u043F\u0438\u0442\u044C'; } });
 }
 const saved = localStorage.getItem('jk-lang') || 'ru';
 if (saved === 'en') setLang('en');
