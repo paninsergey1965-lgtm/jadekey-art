@@ -25,6 +25,8 @@
       return serveClient(clientMatch[1]);
     if (path === "/admin")
       return serveFile("admin.html");
+    if (path === "/uslugi")
+      return new Response(USLUGI_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
     if (path === "/oferta")
       return new Response(OFERTA_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
     if (path === "/refund")
@@ -738,6 +740,53 @@ a:hover{color:#f5f0e8}
   </nav>`;
   }
   __name(legalNav, "legalNav");
+  var USLUGI_HTML = `<!DOCTYPE html><html lang="ru"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>\u0423\u0441\u043B\u0443\u0433\u0438 \u0438 \u0446\u0435\u043D\u044B \u2014 JadeKey</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
+<style>${LEGAL_STYLE}
+.price-card{border:1px solid rgba(154,125,78,0.25);background:rgba(154,125,78,0.05);padding:32px;margin-top:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.price-name{font-size:20px;font-weight:400;margin-bottom:6px}
+.price-desc{font-family:'Space Mono',monospace;font-size:12px;color:rgba(245,240,232,0.5);max-width:420px}
+.price-amount{font-size:28px;font-style:italic;white-space:nowrap}
+.order-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:#f2ece0;background:#8b2218;border:none;padding:14px 28px;cursor:pointer;text-transform:uppercase;white-space:nowrap}
+</style></head><body>
+${legalNav()}
+<div class="wrap">
+<h1>\u0423\u0441\u043B\u0443\u0433\u0438 \u0438 \u0446\u0435\u043D\u044B</h1>
+<p class="meta">\u0418\u041F \u041F\u0430\u043D\u0438\u043D \u0421.\u041D. \u00B7 \u0410\u0443\u0442\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u044F \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u0439 \u0438\u0441\u043A\u0443\u0441\u0441\u0442\u0432\u0430</p>
+<p>JadeKey \u043F\u0440\u043E\u0432\u043E\u0434\u0438\u0442 \u0444\u0438\u0437\u0438\u043A\u043E-\u0446\u0438\u0444\u0440\u043E\u0432\u0443\u044E \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u044E \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u0438\u0441\u043A\u0443\u0441\u0441\u0442\u0432\u0430: \u043F\u0440\u0438\u0432\u044F\u0437\u043A\u0443 \u0440\u0430\u0431\u043E\u0442\u044B \u043A \u0443\u043D\u0438\u043A\u0430\u043B\u044C\u043D\u043E\u0439 \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0439 \u043C\u0438\u043C\u0440\u043E\u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0435 (\u0430\u0433\u0430\u0442 \u0438\u043B\u0438 \u043D\u0435\u0444\u0440\u0438\u0442), \u0444\u043E\u0442\u043E\u0444\u0438\u043A\u0441\u0430\u0446\u0438\u044E, \u0444\u043E\u0440\u043C\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0433\u043E \u043F\u0430\u0441\u043F\u043E\u0440\u0442\u0430 \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 jadekey.art \u0438 \u0437\u0430\u043F\u0438\u0441\u044C \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u0432 \u0440\u0430\u0441\u043F\u0440\u0435\u0434\u0435\u043B\u0451\u043D\u043D\u044B\u0439 \u0440\u0435\u0435\u0441\u0442\u0440. \u041E\u043F\u043B\u0430\u0442\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F \u0432 \u0440\u0443\u0431\u043B\u044F\u0445, \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u043E\u0439 \u043A\u0430\u0440\u0442\u043E\u0439, \u0447\u0435\u0440\u0435\u0437 \u0441\u0430\u0439\u0442. \u0423\u0441\u043B\u043E\u0432\u0438\u044F \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433\u0438 \u2014 \u0432 <a href="/oferta">\u043F\u0443\u0431\u043B\u0438\u0447\u043D\u043E\u0439 \u043E\u0444\u0435\u0440\u0442\u0435</a>.</p>
+
+<div class="price-card">
+  <div>
+    <div class="price-name">\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u044F \u043F\u0430\u0440\u0442\u0438\u0438 \u0440\u0430\u0431\u043E\u0442 (\u0434\u043E 10 \u0448\u0442.)</div>
+    <div class="price-desc">\u041F\u0440\u0438\u0432\u044F\u0437\u043A\u0430 \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430, \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0439 \u043F\u0430\u0441\u043F\u043E\u0440\u0442 \u0438 \u0440\u0435\u0435\u0441\u0442\u0440\u043E\u0432\u0430\u044F \u0437\u0430\u043F\u0438\u0441\u044C \u0434\u043B\u044F \u043A\u0430\u0436\u0434\u043E\u0439 \u0440\u0430\u0431\u043E\u0442\u044B \u0432 \u043F\u0430\u0440\u0442\u0438\u0438</div>
+  </div>
+  <div style="text-align:right">
+    <div class="price-amount">20\u00A0000\u00A0\u20BD</div>
+    <button class="order-btn" onclick="orderUslugi()" id="orderBtn" style="margin-top:12px">\u0437\u0430\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u0430\u0441\u043F\u043E\u0440\u0442 jadekey</button>
+  </div>
+</div>
+
+<p style="margin-top:32px;font-size:14px;color:rgba(245,240,232,0.5)">\u0418\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u044B\u0435 \u043E\u0431\u044A\u0451\u043C\u044B \u0438 \u0440\u0430\u0437\u043E\u0432\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B \u2014 <a href="mailto:JadeKey1965@gmail.com">\u043D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u043D\u0430\u043C</a>.</p>
+</div>
+<script>
+function orderUslugi() {
+  var email = prompt('Email \u0434\u043B\u044F \u0437\u0430\u043A\u0430\u0437\u0430:');
+  if (!email) return;
+  var btn = document.getElementById('orderBtn');
+  btn.disabled = true; btn.textContent = '\u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0430...';
+  fetch('/api/payment/init', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ id: 'USLUGI-PAKET10', email: email })
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if (data.paymentUrl) { location.href = data.paymentUrl; }
+    else { alert('\u041E\u0448\u0438\u0431\u043A\u0430: ' + (data.error || '\u043D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u0430\u044F')); btn.disabled = false; btn.textContent = '\u0437\u0430\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u0430\u0441\u043F\u043E\u0440\u0442 jadekey'; }
+  }).catch(function(){ alert('\u041E\u0448\u0438\u0431\u043A\u0430 \u0441\u0435\u0442\u0438'); btn.disabled = false; btn.textContent = '\u0437\u0430\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u0430\u0441\u043F\u043E\u0440\u0442 jadekey'; });
+}
+</script>
+</body></html>`;
   var OFERTA_HTML = `<!DOCTYPE html><html lang="ru"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>\u041F\u0443\u0431\u043B\u0438\u0447\u043D\u0430\u044F \u043E\u0444\u0435\u0440\u0442\u0430 \u2014 JadeKey</title>
