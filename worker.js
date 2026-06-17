@@ -79,7 +79,7 @@
       const amount = Math.round(Number(work.price_rub) * 100);
       const orderId = id + "-" + Date.now();
       const params = {
-        TerminalKey: TKASSA_TERMINAL_KEY,
+        TerminalKey: TBANK_PROD_TERMINAL_KEY,
         Amount: amount,
         OrderId: orderId,
         Description: "JadeKey " + id,
@@ -87,7 +87,7 @@
         SuccessURL: "https://jadekey.art/" + id + "?paid=1",
         FailURL: "https://jadekey.art/" + id + "?paid=0"
       };
-      const token = await tkassaToken(params, TKASSA_PASSWORD);
+      const token = await tkassaToken(params, TBANK_PROD_PASSWORD);
       const receipt = {
         Email: email || undefined,
         Taxation: "usn_income",
@@ -114,7 +114,7 @@
       const received = Object.assign({}, body);
       const receivedToken = received.Token;
       delete received.Token;
-      const expected = await tkassaToken(received, TKASSA_PASSWORD);
+      const expected = await tkassaToken(received, TBANK_PROD_PASSWORD);
       if (expected !== receivedToken)
         return new Response("token mismatch", { status: 400 });
       if (body.Success && body.Status === "CONFIRMED") {
