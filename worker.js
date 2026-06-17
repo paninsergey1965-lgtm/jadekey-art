@@ -296,7 +296,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
   }
   __name(serveClient, "serveClient");
   async function serveFile(filename) {
-    const r = await fetch(`${GITHUB_RAW}/${filename}`);
+    const r = await fetch(`${GITHUB_RAW}/${filename}?t=${Date.now()}`);
     const h = await r.text();
     return new Response(h, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
   }
