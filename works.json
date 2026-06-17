@@ -245,6 +245,7 @@
     },
     "JK-000007": {
       "client": "otdelnov",
+      "price_rub": 10,
       "public": true,
       "artist": "Дмитрий Шагин",
       "artist_full": "Дмитрий Владимирович Шагин",
