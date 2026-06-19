@@ -69,68 +69,55 @@
   }
   __name(sendTelegram, "sendTelegram");
   async function paymentInit(req) {
-    try {
-      const body = await req.json();
-      const id = (body.id || "").toUpperCase();
-      const email = body.email || "";
-      const db = await loadDB();
-      const works = db.works || db;
-      const work = works[id];
-      if (!work || !work.price_rub)
-        return new Response(JSON.stringify({ error: "no_price" }), { status: 400, headers: { "Content-Type": "application/json" } });
-      const amount = Math.round(Number(work.price_rub) * 100);
-      const orderId = id + "-" + Date.now();
-      const params = {
-        TerminalKey: TBANK_PROD_TERMINAL_KEY,
-        Amount: amount,
-        OrderId: orderId,
-        Description: "JadeKey " + id,
-        NotificationURL: "https://jadekey.art/api/payment/webhook",
-        SuccessURL: "https://jadekey.art/" + id + "?paid=1",
-        FailURL: "https://jadekey.art/" + id + "?paid=0"
-      };
-      const token = await tkassaToken(params, TBANK_PROD_PASSWORD);
-      const receipt = {
-        Email: email || undefined,
-        Taxation: "usn_income",
-        Items: [{ Name: "JadeKey " + id, Price: amount, Quantity: 1, Amount: amount, Tax: "none" }]
-      };
-      const payload = Object.assign({}, params, { Token: token, Receipt: receipt });
-      const resp = await fetch("https://securepay.tinkoff.ru/v2/Init", {
+  try {
+    const body = await req.json();
+    const { name, email, phone } = body;
+    const pkg = body.package || body.id || "Passport JadeKey";
+    const prices = { "Passport JadeKey": 15000, "Passport + Certificate": 22000, "Full Package": 35000 };
+    const amount = prices[pkg] || 15000;
+    const payment = await fetch("https://api.yookassa.ru/v3/payments", {
+      method: "POST",
+      headers: {
+        "Authorization": "Basic " + btoa(YOOKASSA_SHOP_ID + ":" + YOOKASSA_SECRET_KEY),
+        "Content-Type": "application/json",
+        "Idempotence-Key": crypto.randomUUID()
+      },
+      body: JSON.stringify({
+        amount: { value: amount.toFixed(2), currency: "RUB" },
+        confirmation: { type: "redirect", return_url: "https://jadekey.art/uslugi?status=success" },
+        capture: true,
+        description: "JadeKey: " + pkg + " | " + (name||"") + " " + (email||""),
+        metadata: { name, email, phone, package: pkg },
+        receipt: { customer: { email: email || "client@jadekey.art" }, items: [{ description: pkg, quantity: "1.00", amount: { value: amount.toFixed(2), currency: "RUB" }, vat_code: 1, payment_subject: "service", payment_mode: "full_payment" }] }
+      })
+    });
+    const data = await payment.json();
+    if (data.confirmation && data.confirmation.confirmation_url) {
+      return new Response(JSON.stringify({ paymentUrl: data.confirmation.confirmation_url }), { headers: { "Content-Type": "application/json" } });
+    }
+    return new Response(JSON.stringify({ error: data }), { status: 500, headers: { "Content-Type": "application/json" } });
+  } catch(e) {
+    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { "Content-Type": "application/json" } });
+  }
+}
+  async function paymentWebhook(req) {
+  try {
+    const body = await req.json();
+    const { event, object } = body;
+    if (event === "payment.succeeded") {
+      const { amount, metadata, id } = object;
+      const msg = "OK YooKassa\n" + amount.value + " RUB\n" + (metadata.package||"") + "\n" + (metadata.name||"") + "\n" + (metadata.email||"") + "\n" + id;
+      await fetch("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg })
       });
-      const result = await resp.json();
-      if (result.Success)
-        return new Response(JSON.stringify({ paymentUrl: result.PaymentURL }), { headers: { "Content-Type": "application/json" } });
-      return new Response(JSON.stringify({ error: result.Message || "init_failed", details: result.Details || "" }), { status: 400, headers: { "Content-Type": "application/json" } });
-    } catch (e) {
-      return new Response(JSON.stringify({ error: String(e) }), { status: 500, headers: { "Content-Type": "application/json" } });
     }
+    return new Response("ok", { status: 200 });
+  } catch(e) {
+    return new Response("error", { status: 500 });
   }
-  __name(paymentInit, "paymentInit");
-  async function paymentWebhook(req) {
-    try {
-      const body = await req.json();
-      const received = Object.assign({}, body);
-      const receivedToken = received.Token;
-      delete received.Token;
-      const expected = await tkassaToken(received, TBANK_PROD_PASSWORD);
-      if (expected !== receivedToken)
-        return new Response("token mismatch", { status: 400 });
-      if (body.Success && body.Status === "CONFIRMED") {
-        const rub = (Number(body.Amount) / 100).toFixed(2);
-        await sendTelegram(
-          "\u2705 \u041E\u043F\u043B\u0430\u0442\u0430 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0430\n\u0417\u0430\u043A\u0430\u0437: " + body.OrderId + "\n\u0421\u0443\u043C\u043C\u0430: " + rub + " \u20BD\nPaymentId: " + body.PaymentId
-        );
-      }
-      return new Response("OK", { status: 200 });
-    } catch (e) {
-      return new Response("OK", { status: 200 });
-    }
-  }
-  __name(paymentWebhook, "paymentWebhook");
+}
   async function servePassport(jkId) {
     const db = await loadDB();
     const works = db.works || db;
