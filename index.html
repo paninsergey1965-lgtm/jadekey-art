@@ -362,6 +362,9 @@ footer {
   color: rgba(245,240,232,0.25); text-decoration: none;
 }
 .footer-links a:hover { color: var(--gold); }
+.footer-legal{font-family:monospace;font-size:9px;letter-spacing:.05em;line-height:1.8;color:rgba(245,240,232,0.18);border-top:1px solid rgba(154,125,78,0.08);padding-top:16px;width:100%}
+.footer-legal a{color:rgba(245,240,232,0.3);text-decoration:none}
+.footer-legal a:hover{color:var(--gold)}
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -389,7 +392,7 @@ footer {
 
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
-  <a href="#" onclick="toggleLang();return false;" id="lang-btn" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.35);text-decoration:none;margin-right:12px">EN</a><a href="#form" class="nav-cta" data-en="Leave a Request">Оставить заявку</a>
+  <a href="/uslugi" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.6);text-decoration:none;margin-right:12px" data-en="Services & Prices">Услуги и цены</a><a href="#" onclick="toggleLang();return false;" id="lang-btn" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.35);text-decoration:none;margin-right:12px">EN</a><a href="#form" class="nav-cta" data-en="Leave a Request">Оставить заявку</a>
 </nav>
 
 <!-- HERO -->
@@ -582,6 +585,10 @@ footer {
     <a href="/clients" data-en="Clients">Клиенты</a>
     <a href="mailto:JadeKey1965@gmail.com" data-en="Contact">Контакт</a>
   </div>
+  <div class="footer-legal">
+    ИП Панин Сергей Николаевич - ИНН 771501067019 - ОГРНИП 324774600501998 - Москва<br>
+    <a href="/oferta">Публичная оферта</a> - <a href="/refund">Возврат средств</a> - <a href="/privacy">Персональные данные</a>
+  </div>
 </footer>
 
 <script>
@@ -612,19 +619,6 @@ document.getElementById('jk-form').addEventListener('submit', function(e) {
 </script>
 
 <section style="padding:80px 40px;background:rgba(154,125,78,0.06);border-top:1px solid rgba(154,125,78,0.15);border-bottom:1px solid rgba(154,125,78,0.15)"><div style="max-width:900px;margin:0 auto"><div style="font-family:monospace;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:#8b2218;margin-bottom:24px" data-en="Our Clients">Наши клиенты</div><h2 style="font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px" data-en="Collectors and galleries<br>already with us">Коллекционеры и галереи<br>которые уже с нами</h2><p style="font-size:18px;color:rgba(245,240,232,0.5);margin-bottom:48px;max-width:560px" data-en="Every artwork receives a mineral key, digital passport and TON blockchain record. Forever.">Каждая работа получает минеральный ключ, цифровой паспорт и запись в блокчейне TON. Навсегда.</p><div style="border:1px solid rgba(154,125,78,0.2);padding:32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><div style="font-family:monospace;font-size:9px;letter-spacing:.25em;color:#8b2218;margin-bottom:8px">JK-000001 · 2026</div><div style="font-size:24px;font-weight:300;font-style:italic;margin-bottom:4px">Mountain Landscape</div><div style="font-size:13px;color:rgba(245,240,232,0.4);font-family:monospace">Cuckoo · Sergei Panin · Москва · TON ✓</div></div><a href="/JK-000001" style="font-family:monospace;font-size:10px;letter-spacing:.2em;color:#9a7d4e;text-decoration:none;border:1px solid rgba(154,125,78,0.3);padding:12px 24px;white-space:nowrap" data-en="Open Passport →">Открыть паспорт →</a></div><a href="/clients" style="font-family:monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,0.4);text-decoration:none" data-en="All clients →">Все клиенты →</a></div></section><script>
-var isEN=false;
-function toggleLang(){
-isEN=!isEN;
-var btn=document.getElementById("lang-btn");
-if(btn)btn.textContent=isEN?"RU":"EN";
-document.querySelectorAll("[data-placeholder-en]").forEach(function(el){if(isEN){if(!el.dataset.placeholderRu)el.dataset.placeholderRu=el.placeholder;el.placeholder=el.dataset.placeholderEn;}else{if(el.dataset.placeholderRu)el.placeholder=el.dataset.placeholderRu;}});
-document.querySelectorAll("[data-en]").forEach(function(el){
-if(isEN){if(!el.dataset.ru)el.dataset.ru=el.innerHTML;el.innerHTML=el.dataset.en;}else{if(el.dataset.ru)el.innerHTML=el.dataset.ru;}
-});
-}
-</script></body>
-</html>
-font-family:monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,0.4);text-decoration:none" data-en="All clients →">Все клиенты →</a></div></section><script>
 var isEN=false;
 function toggleLang(){
 isEN=!isEN;
