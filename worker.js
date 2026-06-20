@@ -73,7 +73,7 @@
     const body = await req.json();
     const { name, email, phone } = body;
     const pkg = body.package || body.id || "Passport JadeKey";
-    const prices = { "Passport JadeKey": 15000, "Passport + Certificate": 22000, "Full Package": 35000 };
+    const prices = { "Passport JadeKey": 15000, "Passport + Certificate": 22000, "Full Package": 35000, "USLUGI-PAKET10": 20000 };
     const customAmount = parseFloat(body.amount);
     const amount = (customAmount && customAmount > 0) ? customAmount : (prices[pkg] || 15000);
     const payment = await fetch("https://api.yookassa.ru/v3/payments", {
