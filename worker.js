@@ -752,7 +752,7 @@ ${legalNav()}
   </div>
   <div style="text-align:right">
     <div class="price-amount">20 000 ₽</div>
-    <button class="order-btn" onclick="orderUslugi()">Оформить</button>
+    <button class="order-btn" id="orderBtn" onclick="orderUslugi()">Оформить</button>
   </div>
 </div>
   <div class="price-table" style="margin-top:32px">
