@@ -747,9 +747,14 @@ ${legalNav()}
 
 <div class="price-card">
   <div>
-    <div class="price-name">\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u044F \u043F\u0430\u0440\u0442\u0438\u0438 \u0440\u0430\u0431\u043E\u0442 (\u0434\u043E 10 \u0448\u0442.)</div>
-    <div class="price-desc">\u041F\u0440\u0438\u0432\u044F\u0437\u043A\u0430 \u043C\u0438\u043D\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430, \u0446\u0438\u0444\u0440\u043E\u0432\u043E\u0439 \u043F\u0430\u0441\u043F\u043E\u0440\u0442 \u0438 \u0440\u0435\u0435\u0441\u0442\u0440\u043E\u0432\u0430\u044F \u0437\u0430\u043F\u0438\u0441\u044C \u0434\u043B\u044F \u043A\u0430\u0436\u0434\u043E\u0439 \u0440\u0430\u0431\u043E\u0442\u044B \u0432 \u043F\u0430\u0440\u0442\u0438\u0438</div>
+    <div class="price-name">Пакет «Цифровая идентификация»</div>
+    <div class="price-desc">Цифровой паспорт &middot; Регистрация JK-XXXXXX &middot; Блокчейн TON &middot; QR-верификация &middot; Сертификат владельца &middot; Доступ к сертифицированному сканеру кристаллов &middot; 5 работ (4 000 ₽ за единицу)</div>
   </div>
+  <div style="text-align:right">
+    <div class="price-amount">20 000 ₽</div>
+    <button class="order-btn" onclick="orderUslugi()">Оформить</button>
+  </div>
+</div>
   <div style="text-align:right">
     <div class="price-amount">20\u00A0000\u00A0\u20BD</div>
     <button class="order-btn" onclick="orderUslugi()" id="orderBtn" style="margin-top:12px">\u0437\u0430\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u0430\u0441\u043F\u043E\u0440\u0442 jadekey</button>
