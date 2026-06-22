@@ -755,10 +755,13 @@ ${legalNav()}
     <button class="order-btn" onclick="orderUslugi()">Оформить</button>
   </div>
 </div>
-  <div style="text-align:right">
-    <div class="price-amount">20\u00A0000\u00A0\u20BD</div>
-    <button class="order-btn" onclick="orderUslugi()" id="orderBtn" style="margin-top:12px">\u0437\u0430\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u0430\u0441\u043F\u043E\u0440\u0442 jadekey</button>
-  </div>
+  <div class="price-table" style="margin-top:32px">
+<table style="width:100%;border-collapse:collapse;font-size:15px">
+<tr style="border-bottom:1px solid rgba(245,240,232,0.15)"><td style="padding:10px 0;color:rgba(245,240,232,0.9)">Пакет 5 работ</td><td style="text-align:right;padding:10px 0;color:#9a7d4e">20 000 ₽</td></tr>
+<tr style="border-bottom:1px solid rgba(245,240,232,0.15)"><td style="padding:10px 0;color:rgba(245,240,232,0.9)">Одна работа</td><td style="text-align:right;padding:10px 0;color:#9a7d4e">5 000 ₽</td></tr>
+<tr><td style="padding:10px 0;color:rgba(245,240,232,0.9)">Пакет 10 работ</td><td style="text-align:right;padding:10px 0;color:#9a7d4e">35 000 ₽</td></tr>
+</table>
+<p style="font-size:13px;color:rgba(245,240,232,0.5);margin-top:12px">Индивидуальные объёмы — по договорённости</p>
 </div>
 
 <p style="margin-top:32px;font-size:14px;color:rgba(245,240,232,0.5)">\u0418\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u044B\u0435 \u043E\u0431\u044A\u0451\u043C\u044B \u0438 \u0440\u0430\u0437\u043E\u0432\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B \u2014 <a href="mailto:JadeKey1965@gmail.com">\u043D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u043D\u0430\u043C</a>.</p>
