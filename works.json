@@ -45,6 +45,15 @@
       "works": [
         "JK-000007"
       ]
+    },
+    "pavel-trunkin": {
+      "name": "Павел Трункин",
+      "city": "Москва",
+      "type": "Частный коллекционер",
+      "type_ru": "Частный коллекционер",
+      "works": [
+        "JK-000008"
+      ]
     }
   },
   "works": {
@@ -279,6 +288,32 @@
       "ton_agate_hash": "1fb7857377e849567bca9d935055687498d4313bcdf143f7ee14c1c01e94d579",
       "ton_tx_agate": "e9975e621311b83a86a62cea088ea7d2dc5acd91498c2b11495fe616d55f4148",
       "ton_explorer_agate": "https://tonviewer.com/transaction/e9975e621311b83a86a62cea088ea7d2dc5acd91498c2b11495fe616d55f4148"
+    },
+    "JK-000008": {
+      "client": "pavel-trunkin",
+      "public": true,
+      "artist": "Arup Jensen",
+      "artist_full": "Arup Jensen",
+      "artist_full_ru": "Аруп Йенсен",
+      "artist_bio_en": "Danish marine painter (1906-1956), born in Copenhagen. Studied at the Royal Academy of Fine Arts. Specialized in harbor and coastal scenes, particularly views of Copenhagen port with fishing cutters and steamships.",
+      "artist_bio_ru": "Датский художник-маринист (1906-1956), родился в Копенгагене. Учился в Королевской академии изящных искусств. Специализировался на гаванных и прибрежных пейзажах, в особенности видах порта Копенгагена с рыболовными куттерами и пароходами.",
+      "artist_photo": "",
+      "artist_born": "1906",
+      "artist_died": "1956",
+      "title": "Морской пейзаж",
+      "title_en": "Marine Landscape",
+      "medium": "Холст, масло",
+      "medium_en": "Oil on canvas",
+      "tradition": "Danish marine painting · 20th century",
+      "owner": "Павел Трункин",
+      "owner_en": "Pavel Trunkin",
+      "owner_city": "Москва",
+      "owner_city_en": "Moscow",
+      "size": "140 × 95 см (ориентировочно)",
+      "size_en": "140 x 95 cm (approx.)",
+      "registered": "2026",
+      "photo": "059F4395-B4E5-4D47-B20B-2F2942A96F55.png",
+      "agate": "IMG_4682.jpeg"
     }
   }
 }
