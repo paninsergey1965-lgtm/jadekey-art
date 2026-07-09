@@ -178,7 +178,7 @@ async function loadWorks() {
     const data = await res.json();
     sha = data.sha; if (!data.sha) throw new Error('no sha');
     sha = data.sha;
-    const parsed = JSON.parse(atob(data.content.replace(/\n/g, ''))); sha = data.sha; works = parsed.works || parsed;
+    const parsed = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))))); sha = data.sha; works = parsed.works || parsed;
     renderWorks();
   } catch(e) {
     document.getElementById('wlist').innerHTML = '<div class="loading-txt">Error loading — check token</div>';
