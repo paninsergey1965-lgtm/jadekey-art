@@ -13,7 +13,7 @@
       return servePassport(jkMatch[1].toUpperCase());
     const certMatch = path.match(/^\/cert\/(JK-\d+)$/i);
     if (certMatch)
-      return serveFile("cert.html");
+      return handleCertGate(req, certMatch[1].toUpperCase());
     if (path === "/api/payment/init" && req.method === "POST")
       return paymentInit(req);
     if (path === "/api/payment/webhook" && req.method === "POST")
@@ -24,7 +24,7 @@
     if (clientMatch)
       return serveClient(clientMatch[1]);
     if (path === "/admin")
-      return serveFile("admin.html");
+      return handleCertGate(req, "admin");
     if (path === "/uslugi")
       return new Response(USLUGI_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
     if (path === "/oferta")
@@ -283,7 +283,39 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 4
 </body></html>`, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
   }
   __name(serveClient, "serveClient");
-  async function serveFile(filename) {
+  
+async function handleCertGate(req, target) {
+  const cookie = req.headers.get("Cookie") || "";
+  const authed = cookie.includes("jk_admin=1");
+  const fileToServe = target === "admin" ? "admin.html" : "cert.html";
+  if (authed) return serveFile(fileToServe);
+  const url = new URL(req.url);
+  if (req.method === "POST") {
+    const form = await req.formData();
+    if (form.get("password") === CERT_PASSWORD) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          "Location": url.pathname,
+          "Set-Cookie": "jk_admin=1; Path=/; HttpOnly; Secure; Max-Age=86400"
+        }
+      });
+    }
+  }
+  return new Response(GATE_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+}
+
+var GATE_HTML = "<!DOCTYPE html><html lang=\"ru\"><head><meta charset=\"UTF-8\">" +
+"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">" +
+"<style>body{background:#0e0d0b;color:#f5f0e8;font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}" +
+"form{background:#1a1714;padding:40px;border:1px solid rgba(154,125,78,.3);text-align:center}" +
+"input{padding:12px;margin:16px 0;width:220px;font-size:16px}" +
+"button{padding:12px 24px;background:#9a7d4e;color:#0e0d0b;border:none;cursor:pointer;font-size:14px;text-transform:uppercase;letter-spacing:.1em}</style></head>" +
+"<body><form method=\"POST\"><div>\u0414\u043e\u0441\u0442\u0443\u043f \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d</div>" +
+"<input type=\"password\" name=\"password\" placeholder=\"\u041f\u0430\u0440\u043e\u043b\u044c\" autofocus><br>" +
+"<button type=\"submit\">\u0412\u043e\u0439\u0442\u0438</button></form></body></html>";
+
+async function serveFile(filename) {
     const r = await fetch(`${GITHUB_RAW}/${filename}?t=${Date.now()}`);
     const h = await r.text();
     return new Response(h, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
