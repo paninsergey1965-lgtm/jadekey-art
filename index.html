@@ -392,7 +392,7 @@ footer {
 
 <nav>
   <a href="/" class="logo">JADE<em>KEY</em></a>
-  <a href="/uslugi" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.6);text-decoration:none;margin-right:12px" data-en="Services & Prices">Услуги и цены</a><a href="#" onclick="toggleLang();return false;" id="lang-btn" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.35);text-decoration:none;margin-right:12px">EN</a><a href="#form" class="nav-cta" data-en="Leave a Request">Оставить заявку</a>
+  <a href="/uslugi" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.6);text-decoration:none;margin-right:12px" data-en="Services & Prices">Услуги и цены</a><a href="#" onclick="toggleLang();return false;" id="lang-btn" style="font-family:monospace;font-size:10px;letter-spacing:.15em;color:rgba(245,240,232,0.35);text-decoration:none;margin-right:12px">EN</a><a href="#" id="scanBtn" class="nav-cta" style="margin-right:12px" data-en="Scan a Stone">Сканировать камень</a><a href="#form" class="nav-cta" data-en="Leave a Request">Оставить заявку</a>
 </nav>
 
 <!-- HERO -->
@@ -629,5 +629,25 @@ document.querySelectorAll("[data-en]").forEach(function(el){
 if(isEN){if(!el.dataset.ru)el.dataset.ru=el.innerHTML;el.innerHTML=el.dataset.en;}else{if(el.dataset.ru)el.innerHTML=el.dataset.ru;}
 });
 }
-</script></body>
+</script>
+<div id="qrModal" style="display:none;position:fixed;inset:0;background:rgba(14,13,11,0.92);z-index:1000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px">
+<div style="background:#f5f0e8;color:#0e0d0b;padding:40px;max-width:320px">
+<div style="font-family:monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#8b2218;margin-bottom:20px">Сканер JadeKey</div>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://jadekeytech.com" alt="QR" style="display:block;margin:0 auto 20px">
+<p style="font-family:monospace;font-size:12px;line-height:1.6;margin-bottom:24px">Наведите камеру телефона на QR-код, чтобы открыть сканер</p>
+<button onclick="document.getElementById('qrModal').style.display='none'" style="font-family:monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;background:#0e0d0b;color:#f5f0e8;border:none;padding:12px 24px;cursor:pointer">Закрыть</button>
+</div>
+</div>
+<script>
+document.getElementById('scanBtn').addEventListener('click', function(e) {
+e.preventDefault();
+var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent) || navigator.maxTouchPoints > 0;
+if (isMobile) {
+window.location = 'https://jadekeytech.com';
+} else {
+document.getElementById('qrModal').style.display = 'flex';
+}
+});
+</script>
+</body>
 </html>
