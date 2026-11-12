@@ -959,9 +959,7 @@ ${legalNav()}
     { id: "geode-agate", name: "Розовый агат с жеодой", size: "около 8 см", price: 4300, img: "stone-n2.jpg", stock: 1,
       text: "Крупный срез с насыщенным малиновым рисунком и сквозной жеодой в центре. Самый яркий камень коллекции." },
     { id: "crystal-pendant", name: "Агат-кулон с кристаллами", size: "4 × 5 см", price: 3700, img: "stone-n3.jpg", stock: 1,
-      text: "Прямоугольная пластина с гранёными краями и розовыми кристаллами внутри, с отверстием для шнурка или цепочки." },
-    { id: "lapis-mini", name: "Лазурит, мини", size: "1,5 × 1,5 см", price: 100, img: "stone-n7.jpg", stock: 1,
-      text: "Маленькая квадратная пластина лазурита: синий, золотистый и вкрапления пирита." }
+      text: "Прямоугольная пластина с гранёными краями и розовыми кристаллами внутри, с отверстием для шнурка или цепочки." }
   ];
   var SHOP_DELIVERY = { pickup: "Самовывоз, Москва", cdek: "СДЭК по России (оплата доставки при получении)" };
   function shopEsc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]); }
@@ -1152,10 +1150,6 @@ ${buy}</div></section>`);
     SHOP_BASE = base;
     const url = new URL(req.url);
     if (path === "/api/pay" && req.method === "POST") return shopPay(req, url.origin);
-    if (path === "/tgtest" && url.searchParams.get("k") === "24d88af9ab299bd0") {
-      const r = await fetch("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: "Тест JadeKey Shop: новый ключ работает" }) });
-      return new Response(r.ok ? "OK — сообщение отправлено" : "Ошибка " + r.status, { headers: { "Content-Type": "text/plain;charset=UTF-8" } });
-    }
     if (path === "/" ) return shopCatalog();
     const m = path.match(/^\/p\/([a-z0-9-]+)$/);
     if (m) return shopProduct(m[1]);
