@@ -1152,13 +1152,6 @@ ${buy}</div></section>`);
     SHOP_BASE = base;
     const url = new URL(req.url);
     if (path === "/api/pay" && req.method === "POST") return shopPay(req, url.origin);
-    if (path === "/tgtest" && url.searchParams.get("k") === "c7376d2dc3d70138") {
-      try {
-        const r = await fetch("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: "Тест JadeKey Shop: уведомления работают" }) });
-        const t = await r.text();
-        return new Response(r.status + " " + t.replace(/"(first_name|last_name|username)":"[^"]*"/g, '"$1":"…"').slice(0, 300), { headers: { "Content-Type": "text/plain;charset=UTF-8" } });
-      } catch (e) { return new Response("ERR " + e.message); }
-    }
     if (path === "/" ) return shopCatalog();
     const m = path.match(/^\/p\/([a-z0-9-]+)$/);
     if (m) return shopProduct(m[1]);
