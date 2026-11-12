@@ -8,6 +8,10 @@
   async function handle(req) {
     const url = new URL(req.url);
     const path = url.pathname.replace(/\/$/, "") || "/";
+    if (/(^|\.)jadekey\.shop$/.test(url.hostname))
+      return handleShop(req, path, "");
+    if (path === "/shop" || path.startsWith("/shop/"))
+      return handleShop(req, path.slice(5) || "/", "/shop");
     const jkMatch = path.match(/^\/(JK-\d+)$/i);
     if (jkMatch)
       return servePassport(jkMatch[1].toUpperCase());
@@ -108,10 +112,11 @@
     if (event === "payment.succeeded") {
       const { amount, metadata, id } = object;
       const msg = "OK YooKassa\n" + amount.value + " RUB\n" + (metadata.package||"") + "\n" + (metadata.name||"") + "\n" + (metadata.email||"") + "\n" + id;
+      const extra = metadata.shop ? "\nТел: " + (metadata.phone||"") + "\nДоставка: " + (metadata.delivery||"") + "\nАдрес: " + (metadata.address||"") + "\nКомментарий: " + (metadata.comment||"") : "";
       await fetch("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg })
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg + (typeof extra === "string" ? extra : "") })
       });
     }
     return new Response("ok", { status: 200 });
@@ -946,5 +951,213 @@ ${legalNav()}
 </div>
 </div>
 </body></html>`;
+  // ===== JadeKey Shop (jadekey.shop, preview: jadekey.art/shop) =====
+  var SHOP_IMG = "https://jadekey.tech/img/";
+  var SHOP_ITEMS = [
+    { id: "rose-agate", name: "Розовый агат", size: "около 6 см", price: 2600, img: "stone-n1.jpg", stock: 1,
+      text: "Срез розового агата с мягкими кольцами — каждое складывалось тысячелетиями. Подходит для режима Love: каждый день новое послание любимому человеку." },
+    { id: "geode-agate", name: "Розовый агат с жеодой", size: "около 8 см", price: 4300, img: "stone-n2.jpg", stock: 1,
+      text: "Крупный срез с насыщенным малиновым рисунком и сквозной жеодой в центре. Самый яркий камень коллекции." },
+    { id: "crystal-pendant", name: "Агат-кулон с кристаллами", size: "4 × 5 см", price: 3700, img: "stone-n3.jpg", stock: 1,
+      text: "Прямоугольная пластина с гранёными краями и розовыми кристаллами внутри, с отверстием для шнурка или цепочки." }
+  ];
+  var SHOP_DELIVERY = { pickup: "Самовывоз, Москва", cdek: "СДЭК по России (оплата доставки при получении)" };
+  function shopEsc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]); }
+  function shopRub(n) { return n.toLocaleString("ru-RU").replace(/ /g, " ") + " ₽"; }
+  function shopHtml(title, body) {
+    return new Response(`<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>${shopEsc(title)}</title><meta name="theme-color" content="#ffffff"><link rel="icon" href="https://jadekey.tech/icons/icon-180.png">
+<style>
+@font-face{font-family:"PT Serif";font-weight:400;font-display:swap;src:url(https://jadekey.tech/fonts/pt-serif-cyrillic-400-normal.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+2116}
+@font-face{font-family:"PT Serif";font-weight:400;font-display:swap;src:url(https://jadekey.tech/fonts/pt-serif-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Manrope;font-weight:500;font-display:swap;src:url(https://jadekey.tech/fonts/manrope-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+2116}
+@font-face{font-family:Manrope;font-weight:500;font-display:swap;src:url(https://jadekey.tech/fonts/manrope-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Cormorant Garamond";font-weight:400;font-display:swap;src:url(https://jadekey.tech/fonts/cormorant-garamond-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF}
+:root{--ink:#141414;--mute:#6f6760;--line:#e4ded6;--stone:#f5f2ee;--red:#a5192f;--jade:#3fd8a2;--serif:"PT Serif",Georgia,serif;--cap:Manrope,-apple-system,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}body{background:#fff;color:var(--ink);font:400 15px/1.7 var(--serif);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+.cap{font:500 13px/1.4 var(--cap);letter-spacing:.14em;text-transform:uppercase}
+.top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
+.top div{max-width:1200px;margin:auto;height:58px;padding:0 18px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.mark{font:400 21px/1 "Cormorant Garamond",var(--serif);letter-spacing:.36em;padding-left:.36em}.mark b{font-weight:400;color:var(--jade)}
+.top .r{justify-self:end;color:var(--red)}.top .l{color:var(--mute)}
+.intro{text-align:center;padding:56px 24px 40px;max-width:640px;margin:auto}
+.intro h1{font:500 clamp(18px,2.4vw,24px)/1.4 var(--cap);letter-spacing:.16em;text-transform:uppercase}
+.intro p{color:var(--mute);margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;max-width:1200px;margin:auto}
+.card{text-align:center;padding-bottom:36px}
+.ph{aspect-ratio:1;background:#1a1a1c;overflow:hidden}.ph img{width:100%;height:100%;object-fit:contain}
+.card h2{margin:20px 12px 4px}.card p{color:var(--mute);font-size:14px}.card .pr{color:var(--ink);margin-top:6px;font-size:16px}
+.ul{display:inline-block;border-bottom:1px solid currentColor;padding-bottom:3px;margin-top:14px;font-size:14px}
+.sold{color:var(--red)}
+.how{background:var(--stone);text-align:center;padding:56px 24px;margin-top:40px}
+.how ol{list-style:none;display:grid;gap:26px;max-width:960px;margin:30px auto 0}
+.how li p{color:var(--mute);max-width:32ch;margin:6px auto 0}
+.how .n{display:block;font:400 24px/1 "Cormorant Garamond",var(--serif);color:var(--red);margin-bottom:8px}
+@media(min-width:800px){.how ol{grid-template-columns:repeat(3,1fr)}}
+.prod{max-width:1100px;margin:auto;display:grid;gap:0}
+@media(min-width:860px){.prod{grid-template-columns:1.1fr 1fr;align-items:start;padding:32px 18px;gap:48px}}
+.info{padding:30px 24px 60px}
+.info h1{font:500 20px/1.4 var(--cap);letter-spacing:.14em;text-transform:uppercase}
+.info .pr{font-size:22px;margin-top:10px}.info .sz{color:var(--mute);font-size:14px}
+.info .tx{margin-top:18px;color:#3b3632}
+.inc{margin-top:22px;border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--mute)}
+.inc li{margin:4px 0 0 18px}
+form{margin-top:28px;display:grid;gap:12px}
+label{display:grid;gap:5px;font:500 11px/1.3 var(--cap);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+input,select,textarea{font:400 16px/1.4 var(--serif);color:var(--ink);border:1px solid var(--line);border-radius:0;padding:12px;background:#fff;width:100%;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{outline:1.5px solid var(--ink);outline-offset:-1px}
+.btn{margin-top:8px;background:var(--ink);color:#fff;border:0;font:500 13px/1 var(--cap);letter-spacing:.14em;text-transform:uppercase;padding:18px;cursor:pointer;width:100%}
+.btn[disabled]{opacity:.5}
+.agree{font-size:12.5px;color:var(--mute);text-transform:none;letter-spacing:0;font-family:var(--serif)}
+.agree a{border-bottom:1px solid currentColor}
+.err{color:var(--red);font-size:14px;min-height:1em}
+.page{max-width:720px;margin:auto;padding:48px 24px 72px}
+.page h1{font:500 18px/1.4 var(--cap);letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px}
+.page h2{font:500 13px/1.4 var(--cap);letter-spacing:.12em;text-transform:uppercase;margin:26px 0 8px}
+.page p,.page li{color:#3b3632;margin-top:8px}.page ul{margin-left:20px}
+footer{background:var(--red);color:#fff;padding:36px 24px calc(40px + env(safe-area-inset-bottom))}
+footer div{max-width:1100px;margin:auto;display:flex;flex-wrap:wrap;gap:10px 24px;font:500 11px/1.5 var(--cap);letter-spacing:.12em;text-transform:uppercase}
+footer small{display:block;max-width:1100px;margin:18px auto 0;font:400 12px/1.6 var(--serif);opacity:.85}
+</style></head><body>
+<header class="top"><div><a class="cap l" href="${SHOP_BASE}/">Каталог</a><a class="mark" href="${SHOP_BASE}/">JADE<b>KEY</b></a><a class="cap r" href="https://jadekey.tech/scan.html">Сканер</a></div></header>
+${body}
+<footer><div><a href="${SHOP_BASE}/">Каталог</a><a href="${SHOP_BASE}/delivery">Доставка и возврат</a><a href="${SHOP_BASE}/oferta">Оферта</a><a href="https://jadekey.tech/privacy.html">Конфиденциальность</a><a href="https://jadekey.tech">jadekey.tech</a><a href="mailto:jadekey1965@gmail.com">jadekey1965@gmail.com</a></div>
+<small>ИП Панин Сергей Николаевич · ИНН 771501067019</small></footer>
+</body></html>`, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
+  }
+  var SHOP_BASE = "";
+  function shopCatalog() {
+    const cards = SHOP_ITEMS.map((p) => `<a class="card" href="${SHOP_BASE}/p/${p.id}"><div class="ph"><img src="${SHOP_IMG + p.img}" alt="${shopEsc(p.name)}" loading="lazy"></div>
+<h2 class="cap">${shopEsc(p.name)}</h2><p>${shopEsc(p.size)}</p><p class="pr">${p.stock > 0 ? shopRub(p.price) : '<span class="sold">Продан</span>'}</p><span class="ul">Подробнее</span></a>`).join("");
+    return shopHtml("JadeKey — магазин живых камней", `
+<section class="intro"><h1>Живые камни</h1><p>Каждый камень — в единственном экземпляре: второго такого рисунка в природе нет. После покупки вы сами оживите его в приложении JadeKey — и камень начнёт каждый день открывать послание тому, кому вы его подарите.</p></section>
+<section class="grid">${cards}</section>
+<section class="how"><h2 class="cap">Как это работает</h2><ol>
+<li><span class="n">I</span><h3 class="cap">Выберите камень</h3><p>Оплатите онлайн картой или через СБП.</p></li>
+<li><span class="n">II</span><h3 class="cap">Получите посылку</h3><p>Внутри камень и карточка с QR-кодом.</p></li>
+<li><span class="n">III</span><h3 class="cap">Оживите камень</h3><p>Наведите телефон на QR, снимите камень, выберите послания и отправьте ссылку.</p></li>
+</ol></section>`);
+  }
+  function shopProduct(id) {
+    const p = SHOP_ITEMS.find((x) => x.id === id);
+    if (!p) return shopHtml("Не найдено — JadeKey", `<section class="page"><h1>Камень не найден</h1><p><a class="ul" href="${SHOP_BASE}/">Вернуться в каталог</a></p></section>`);
+    const opts = Object.entries(SHOP_DELIVERY).map(([k, v]) => `<option value="${k}">${shopEsc(v)}</option>`).join("");
+    const buy = p.stock > 0 ? `
+<form id="f" novalidate>
+  <label>Имя<input name="name" autocomplete="name" required></label>
+  <label>Телефон<input name="phone" type="tel" autocomplete="tel" required></label>
+  <label>Эл. почта — для чека<input name="email" type="email" autocomplete="email" required></label>
+  <label>Доставка<select name="delivery">${opts}</select></label>
+  <label id="adr">Адрес или пункт СДЭК<textarea name="address" rows="2" autocomplete="street-address"></textarea></label>
+  <label>Комментарий<textarea name="comment" rows="2"></textarea></label>
+  <p class="agree">Нажимая «Оплатить», вы принимаете условия <a href="${SHOP_BASE}/oferta">оферты</a> и <a href="${SHOP_BASE}/delivery">доставки и возврата</a>.</p>
+  <p class="err" id="err" role="alert"></p>
+  <button class="btn" id="go" type="submit">Оплатить ${shopRub(p.price)}</button>
+</form>
+<script>
+(() => {
+  const f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go'), adr = document.getElementById('adr');
+  const sync = () => { adr.style.display = f.delivery.value === 'pickup' ? 'none' : ''; };
+  f.delivery.onchange = sync; sync();
+  f.onsubmit = async (e) => {
+    e.preventDefault(); err.textContent = '';
+    const d = Object.fromEntries(new FormData(f)); d.id = ${JSON.stringify(p.id)};
+    if (!d.name.trim() || !d.phone.trim() || !/^\\S+@\\S+\\.\\S+$/.test(d.email)) { err.textContent = 'Заполните имя, телефон и почту.'; return; }
+    if (d.delivery !== 'pickup' && !d.address.trim()) { err.textContent = 'Укажите адрес или пункт СДЭК.'; return; }
+    go.disabled = true; go.textContent = 'Переходим к оплате…';
+    try {
+      const r = await fetch('${SHOP_BASE}/api/pay', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) });
+      const j = await r.json();
+      if (j.paymentUrl) { location.href = j.paymentUrl; return; }
+      err.textContent = j.message || 'Не удалось создать платёж. Попробуйте ещё раз или напишите нам.';
+    } catch (x) { err.textContent = 'Нет связи. Попробуйте ещё раз.'; }
+    go.disabled = false; go.textContent = ${JSON.stringify("Оплатить " + shopRub(p.price))};
+  };
+})();
+</script>` : `<p class="pr sold" style="margin-top:24px">Этот камень уже продан.</p><a class="ul" href="${SHOP_BASE}/">Посмотреть другие</a>`;
+    return shopHtml(p.name + " — JadeKey", `
+<section class="prod"><div class="ph"><img src="${SHOP_IMG + p.img}" alt="${shopEsc(p.name)}"></div>
+<div class="info"><h1>${shopEsc(p.name)}</h1><p class="sz">${shopEsc(p.size)} · в единственном экземпляре</p><p class="pr">${shopRub(p.price)}</p>
+<p class="tx">${shopEsc(p.text)}</p>
+<ul class="inc"><li>Камень, тот самый, что на фото</li><li>Карточка с QR-кодом: оживить камень за пару минут</li><li>Послания: Love, Новый год, Талисман или Печенье с предсказанием — выбираете сами</li></ul>
+${buy}</div></section>`);
+  }
+  async function shopPay(req, origin) {
+    const J = (o, s) => new Response(JSON.stringify(o), { status: s || 200, headers: { "Content-Type": "application/json" } });
+    try {
+      const b = await req.json();
+      const p = SHOP_ITEMS.find((x) => x.id === b.id);
+      if (!p || p.stock < 1) return J({ message: "Этот камень уже продан." }, 400);
+      const name = String(b.name || "").trim().slice(0, 80), phone = String(b.phone || "").trim().slice(0, 30), email = String(b.email || "").trim().slice(0, 100);
+      const delivery = SHOP_DELIVERY[b.delivery] ? b.delivery : "cdek";
+      const address = String(b.address || "").trim().slice(0, 300), comment = String(b.comment || "").trim().slice(0, 300);
+      if (!name || !phone || !/^\S+@\S+\.\S+$/.test(email)) return J({ message: "Заполните имя, телефон и почту." }, 400);
+      if (delivery !== "pickup" && !address) return J({ message: "Укажите адрес или пункт СДЭК." }, 400);
+      const value = p.price.toFixed(2); // price is always taken from the server, never from the form
+      const r = await fetch("https://api.yookassa.ru/v3/payments", {
+        method: "POST",
+        headers: { "Authorization": "Basic " + btoa(YOOKASSA_SHOP_ID + ":" + YOOKASSA_SECRET_KEY), "Content-Type": "application/json", "Idempotence-Key": crypto.randomUUID() },
+        body: JSON.stringify({
+          amount: { value, currency: "RUB" },
+          confirmation: { type: "redirect", return_url: origin + SHOP_BASE + "/thanks" },
+          capture: true,
+          description: "JadeKey Shop: " + p.name,
+          metadata: { shop: "1", package: "SHOP " + p.id, name, email, phone, delivery, address: address.slice(0, 200), comment: comment.slice(0, 200) },
+          receipt: { customer: { email }, items: [{ description: p.name, quantity: "1.00", amount: { value, currency: "RUB" }, vat_code: 1, payment_subject: "commodity", payment_mode: "full_payment" }] }
+        })
+      });
+      const d = await r.json();
+      if (d.confirmation && d.confirmation.confirmation_url) return J({ paymentUrl: d.confirmation.confirmation_url });
+      return J({ message: "Платёжная система не приняла заказ. Напишите нам: jadekey1965@gmail.com" }, 502);
+    } catch (e) {
+      return J({ message: "Ошибка сервера. Попробуйте ещё раз." }, 500);
+    }
+  }
+  function shopThanks() {
+    return shopHtml("Спасибо — JadeKey", `<section class="page" style="text-align:center"><h1>Спасибо за заказ</h1>
+<p>Как только оплата пройдёт, на почту придёт чек, а мы свяжемся с вами по телефону, чтобы договориться о доставке.</p>
+<p>Пока камень в пути, можно поставить приложение JadeKey: <a class="ul" href="https://apps.apple.com/app/id6769250226">App Store</a> · <a class="ul" href="https://jadekey.tech/scan.html">сканер в браузере</a></p>
+<p style="margin-top:24px"><a class="ul" href="${SHOP_BASE}/">Вернуться в каталог</a></p></section>`);
+  }
+  function shopDelivery() {
+    return shopHtml("Доставка и возврат — JadeKey", `<section class="page"><h1>Доставка и возврат</h1>
+<h2>Доставка</h2>
+<ul><li>Самовывоз в Москве — бесплатно, место и время согласуем по телефону.</li>
+<li>СДЭК по России — до пункта выдачи или курьером. Стоимость доставки по тарифу СДЭК оплачивается при получении.</li></ul>
+<p>Отправляем в течение 3 рабочих дней после оплаты и присылаем трек-номер.</p>
+<h2>Оплата</h2><p>Онлайн через ЮKassa: банковская карта или СБП. Чек приходит на указанную почту.</p>
+<h2>Возврат</h2>
+<p>Вы можете отказаться от товара в любое время до его получения, а после получения — в течение 7 дней, если сохранены его товарный вид и упаковка. Деньги за товар вернём в течение 10 дней после получения возврата; обратную пересылку оплачивает покупатель.</p>
+<p>Если камень пришёл повреждённым, напишите нам в день получения с фото — заменим или вернём деньги полностью, включая доставку.</p>
+<h2>Контакты</h2><p>ИП Панин Сергей Николаевич, ИНН 771501067019<br>Эл. почта: <a class="ul" href="mailto:jadekey1965@gmail.com">jadekey1965@gmail.com</a></p>
+</section>`);
+  }
+  function shopOferta() {
+    return shopHtml("Оферта — JadeKey", `<section class="page"><h1>Публичная оферта</h1>
+<p>Индивидуальный предприниматель Панин Сергей Николаевич (ИНН 771501067019), далее — Продавец, предлагает любому лицу (Покупателю) купить товары, представленные на сайте jadekey.shop, на условиях ниже.</p>
+<h2>1. Предмет</h2><p>Продавец передаёт Покупателю природный камень, выбранный на сайте, а Покупатель оплачивает его. Каждый камень существует в единственном экземпляре; фотография на сайте — фотография этого камня.</p>
+<h2>2. Акцепт</h2><p>Оферта считается принятой с момента оплаты заказа на сайте.</p>
+<h2>3. Цена и оплата</h2><p>Цена указана на странице товара в рублях. Оплата — онлайн через ЮKassa. Стоимость доставки СДЭК в цену не входит и оплачивается при получении.</p>
+<h2>4. Доставка</h2><p>Сроки и способы доставки указаны на странице «Доставка и возврат».</p>
+<h2>5. Возврат</h2><p>Возврат товара надлежащего качества — в течение 7 дней после получения при сохранении товарного вида, в соответствии с законом «О защите прав потребителей» и правилами дистанционной торговли. Подробно — на странице «Доставка и возврат».</p>
+<h2>6. Приложение JadeKey</h2><p>Приложение и сканер JadeKey для оживления камня предоставляются бесплатно и не являются предметом купли-продажи. Продавец не гарантирует распознавание камня при плохом освещении или повреждении поверхности.</p>
+<h2>7. Персональные данные</h2><p>Имя, телефон, почта и адрес используются только для выполнения заказа. Подробнее — в политике конфиденциальности.</p>
+<h2>8. Реквизиты</h2><p>ИП Панин Сергей Николаевич, ИНН 771501067019, эл. почта jadekey1965@gmail.com</p>
+</section>`);
+  }
+  async function handleShop(req, path, base) {
+    SHOP_BASE = base;
+    const url = new URL(req.url);
+    if (path === "/api/pay" && req.method === "POST") return shopPay(req, url.origin);
+    if (path === "/" ) return shopCatalog();
+    const m = path.match(/^\/p\/([a-z0-9-]+)$/);
+    if (m) return shopProduct(m[1]);
+    if (path === "/thanks") return shopThanks();
+    if (path === "/delivery") return shopDelivery();
+    if (path === "/oferta") return shopOferta();
+    return shopHtml("Не найдено — JadeKey", `<section class="page"><h1>Страница не найдена</h1><p><a class="ul" href="${base}/">В каталог</a></p></section>`);
+  }
+  __name(handleShop, "handleShop");
 })();
 //# sourceMappingURL=worker.js.map
